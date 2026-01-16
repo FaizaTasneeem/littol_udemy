@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Env files
+./littol_backend/.env
+./littol_frontend/.env
