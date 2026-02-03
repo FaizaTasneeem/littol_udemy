@@ -10,19 +10,19 @@ const router = express.Router();
 
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
-  //   if (!email || !password) {
-  //     return res.status(400).json({ message: "Email and password required" });
-  //   }
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email and password required" });
+    }
 
   const user = users.find((u) => u.email === email);
-  // if (!user) {
-  //     return res.status(401).json({ message: "Invalid credentials" });
-  // }
+  if (!user) {
+      return res.status(401).json({ message: "Invalid credentials" });
+  }
 
-  // const isValidCredentials = await bcrypt.compare(password, user.passwordHash);
-  // if (!isValidCredentials) {
-  //     return res.status(401).json({ message: "Invalid credentials" });
-  // }
+  const isValidCredentials = await bcrypt.compare(password, user.passwordHash);
+  if (!isValidCredentials) {
+      return res.status(401).json({ message: "Invalid credentials" });
+  }
 
   const accessToken = generateAccessToken(user.id);
   const refreshToken = generateRefreshToken(user.id);
@@ -31,8 +31,8 @@ router.post("/login", async (req, res) => {
 
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    secure: false, // true in production (HTTPS)
-    sameSite: "strict",
+    secure: false, 
+    sameSite: "strict", // different ports (3000 & 5000) are also considered same site, hence strict doesn't have any effects 
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 
