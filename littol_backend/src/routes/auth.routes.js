@@ -5,8 +5,27 @@ import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import { generateAccessToken, generateRefreshToken } from "../auth/token.js";
 import { authenticateToken } from "../middleware/auth.middleware.js";
+import user from "../models/User.js";
 
 const router = express.Router();
+
+
+router.post("/signin", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    //verify email & password
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email and Password required" });
+    }
+
+    
+  }
+  catch (error) {
+    console.log(error);
+  }
+})
+
 
 router.post("/login", async (req, res) => {
   try {
@@ -102,7 +121,7 @@ router.post("/logout", async (req, res) => {
 
 
 router.get("/profile", authenticateToken, (req, res) => {
-
+  return res.status(200).json({message: `Authorization Successful for ${user.email}`});
 })
 
 
