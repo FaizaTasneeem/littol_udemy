@@ -43,6 +43,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
+
 router.post("/refresh", async (req, res) => {
   try {
     const token = req.cookies.refreshToken;
@@ -75,6 +76,7 @@ router.post("/refresh", async (req, res) => {
   }
 });
 
+
 router.post("/logout", async (req, res) => {
   try {
     const token = req.cookies.refreshToken;
@@ -97,6 +99,12 @@ router.post("/logout", async (req, res) => {
     return res.status(403).json({ error: error.message });
   }
 });
+
+
+router.get("/profile", authenticateToken, (req, res) => {
+
+})
+
 
 async function generateTokens(user) {
   const accessToken = generateAccessToken(user._id);
