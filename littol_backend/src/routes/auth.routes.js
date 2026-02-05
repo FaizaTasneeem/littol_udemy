@@ -10,7 +10,7 @@ import user from "../models/User.js";
 const router = express.Router();
 
 
-router.post("/signin", async (req, res) => {
+router.post("/signup", async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -18,11 +18,19 @@ router.post("/signin", async (req, res) => {
     if (!email || !password) {
       return res.status(400).json({ message: "Email and Password required" });
     }
+    const user = await User.findOne({ email });
+    if (user) {
+      return res.status(401).json({ message: "User already exists" });
+    }
 
-    
+    //insert a user in db
+    const newUser = new User({email: email, passwordHash: password, refreshToken: null});
+    await newUser.save();
+    return res.status(201).json({message: "User created successfully"});
   }
   catch (error) {
     console.log(error);
+    return res.status(400).json({ error: error.message });
   }
 })
 
