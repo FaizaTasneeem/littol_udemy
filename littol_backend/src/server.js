@@ -2,11 +2,13 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import connectToMongoDB from "./database/mongo.js";
 import authRoutes from "./routes/auth.routes.js";
 
-dotenv.config();
-
 const app = express();
+
+dotenv.config();
+await connectToMongoDB();
 
 app.use(
   cors({

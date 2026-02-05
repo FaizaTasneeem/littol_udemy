@@ -2,84 +2,113 @@ import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-import { users } from "../data/users.js";
+import User from "../models/User.js";
 import { generateAccessToken, generateRefreshToken } from "../auth/token.js";
 import { authenticateToken } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
+
+router.post("/login", async (req, res ) => {
+  try {
+    const { email, password } = req.body;
+
+    //verify email & password
     if (!email || !password) {
-      return res.status(400).json({ message: "Email and password required" });
+      return res.status(400).json({ message: "Email and Password required" });
     }
-
-  const user = users.find((u) => u.email === email);
-  if (!user) {
+    const user = await User.findOne({ email });
+    if (!user) {
       return res.status(401).json({ message: "Invalid credentials" });
-  }
-
-  const isValidCredentials = await bcrypt.compare(password, user.passwordHash);
-  if (!isValidCredentials) {
-      return res.status(401).json({ message: "Invalid credentials" });
-  }
-
-  const accessToken = generateAccessToken(user.id);
-  const refreshToken = generateRefreshToken(user.id);
-
-  user.refreshToken = refreshToken;
-
-  res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,
-    secure: false, 
-    sameSite: "strict", // different ports (3000 & 5000) are also considered same site, hence strict doesn't have any effects 
-    maxAge: 7 * 24 * 60 * 60 * 1000,
-  });
-
-  res.json({ accessToken });
-});
-
-router.post("/refresh", (req, res) => {
-  const token = req.cookies.refreshToken;
-
-  if (!token) {
-    return res.status(401).json({ message: "Refresh token missing" });
-  }
-
-  const user = users.find((u) => u.refreshToken === token);
-  // if (!user) {
-  //   return res.status(403).json({ message: "Invalid refresh token" });
-  // }
-
-  jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, payload) => {
-    if (err) {
-      return res.status(403).json({ message: "Invalid refresh token" });
     }
+    // const isValidCredentials = await bcrypt.compare(password, user.passwordHash);
+    // if (!isValidCredentials) {
+    //     return res.status(401).json({ message: "Invalid credentials" });
+    // }
 
-    const newAccessToken = generateAccessToken(payload.userId);
-    const newRefreshToken = generateRefreshToken(payload.userId);
+    //generate access + refresh tokens & set cookie
+    const {accessToken, refreshToken} = await generateTokens(user);
 
-    user.refreshToken = newRefreshToken;
-
-    res.cookie("refreshToken", newRefreshToken, {
+    res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: false,
       sameSite: "strict",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.json({ accessToken: newAccessToken });
-  });
+    res.status(200).json({ accessToken });
+  }
+  catch (error) {
+    console.error("Login error: ", error);
+    return res.status(500).json({ message: "Something went wrong. Please try again." });
+  }
 });
 
-router.get("/check-cookie", (req, res) => {
-  console.log(req.cookies.refreshToken);
-  res.json({ refreshToken: req.cookies.refreshToken });
+
+router.post("/refresh", async (req, res) => {
+  try {
+    const token = req.cookies.refreshToken;
+
+    //find user by refresh token
+    if (!token) {
+      return res.status(401).json({ message: "Refresh token missing" });
+    }
+    const user = await User.findOne({ refreshToken: token });
+    if (!user) {
+      return res.status(403).json({ message: "Invalid refresh token" });
+    }
+
+    //validate refresh token & generate access & refresh tokens again
+    jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, async (err, payload) => {
+      if (err) {
+        return res.status(403).json({message: "Invalid refresh token"});
+      }
+
+      //generate access & refresh tokens
+      const {accessToken, refreshToken} = await generateTokens(payload);
+
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "strict",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      });
+
+      res.status(200).json({ accessToken });
+    });
+  }
+  catch (error) {
+
+  }
 });
 
-router.post("/check-cookie", (req, res) => {
-  console.log(req.cookies.refreshToken);
-  res.json({ refreshToken: req.cookies.refreshToken });
-});
+
+router.post("/logout", async (req, res) => {
+  const token = req.cookies.refreshToken;
+
+  if (!token) {
+    return res.status(401).json({ message: "Refresh token missing" });
+  }
+  const user = await User.findOne({refreshtoken: token});
+  if (!user) {
+    return res.status(403).json({ message: "Invalid refresh token" });
+  }
+
+  user.refreshToken = null;
+  await user.save();
+
+  res.clearCookie("refreshToken");
+})
+
+
+async function generateTokens(user){
+  const accessToken = generateAccessToken(user._id);
+  const refreshToken = generateRefreshToken(user._id);
+
+  user.refreshToken = refreshToken;
+  await user.save();
+
+  return {accessToken, refreshToken};
+}
 
 export default router;
