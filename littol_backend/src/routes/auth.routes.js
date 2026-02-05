@@ -8,8 +8,7 @@ import { authenticateToken } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-
-router.post("/login", async (req, res ) => {
+router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -27,8 +26,7 @@ router.post("/login", async (req, res ) => {
     // }
 
     //generate access + refresh tokens & set cookie
-    const {accessToken, refreshToken} = await generateTokens(user);
-
+    const { accessToken, refreshToken } = await generateTokens(user);
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: false,
@@ -37,13 +35,13 @@ router.post("/login", async (req, res ) => {
     });
 
     res.status(200).json({ accessToken });
-  }
-  catch (error) {
+  } catch (error) {
     console.error("Login error: ", error);
-    return res.status(500).json({ message: "Something went wrong. Please try again." });
+    return res
+      .status(500)
+      .json({ message: "Something went wrong. Please try again." });
   }
 });
-
 
 router.post("/refresh", async (req, res) => {
   try {
@@ -58,57 +56,56 @@ router.post("/refresh", async (req, res) => {
       return res.status(403).json({ message: "Invalid refresh token" });
     }
 
-    //validate refresh token & generate access & refresh tokens again
-    jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, async (err, payload) => {
-      if (err) {
-        return res.status(403).json({message: "Invalid refresh token"});
-      }
+    //verify refresh token sent in cookies
+    const decoded_payload = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
 
-      //generate access & refresh tokens
-      const {accessToken, refreshToken} = await generateTokens(payload);
-
-      res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        secure: false,
-        sameSite: "strict",
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-      });
-
-      res.status(200).json({ accessToken });
+    //generate new access + refresh tokens & set cookie
+    const { accessToken, refreshToken } = await generateTokens(user);
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-  }
-  catch (error) {
 
+    res.status(200).json({ accessToken });
+  } catch (error) {
+    console.log("Refresh error: ", error);
+    return res.status(403).json({ error: error.message });
   }
 });
 
-
 router.post("/logout", async (req, res) => {
-  const token = req.cookies.refreshToken;
+  try {
+    const token = req.cookies.refreshToken;
 
-  if (!token) {
-    return res.status(401).json({ message: "Refresh token missing" });
+    //find user by refresh token
+    if (!token) {
+      return res.status(401).json({ message: "Refresh token missing" });
+    }
+    const user = await User.findOne({ refreshToken: token });
+    if (!user) {
+      return res.status(403).json({ message: "Invalid refresh token" });
+    }
+
+    //clear refresh token in user + cookie
+    user.refreshToken = null;
+    await user.save();
+    res.clearCookie("refreshToken");
+  } catch (error) {
+    console.log("Logout error: ", error);
+    return res.status(403).json({ error: error.message });
   }
-  const user = await User.findOne({refreshtoken: token});
-  if (!user) {
-    return res.status(403).json({ message: "Invalid refresh token" });
-  }
+});
 
-  user.refreshToken = null;
-  await user.save();
-
-  res.clearCookie("refreshToken");
-})
-
-
-async function generateTokens(user){
+async function generateTokens(user) {
   const accessToken = generateAccessToken(user._id);
   const refreshToken = generateRefreshToken(user._id);
 
   user.refreshToken = refreshToken;
   await user.save();
 
-  return {accessToken, refreshToken};
+  return { accessToken, refreshToken };
 }
 
 export default router;
