@@ -9,7 +9,6 @@ import user from "../models/User.js";
 
 const router = express.Router();
 
-
 router.post("/signup", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -24,16 +23,18 @@ router.post("/signup", async (req, res) => {
     }
 
     //insert a user in db
-    const newUser = new User({email: email, passwordHash: password, refreshToken: null});
+    const newUser = new User({
+      email: email,
+      passwordHash: password,
+      refreshToken: null,
+    });
     await newUser.save();
-    return res.status(201).json({message: "User created successfully"});
-  }
-  catch (error) {
+    return res.status(201).json({ message: "User created successfully" });
+  } catch (error) {
     console.log(error);
     return res.status(400).json({ error: error.message });
   }
-})
-
+});
 
 router.post("/login", async (req, res) => {
   try {
@@ -70,7 +71,6 @@ router.post("/login", async (req, res) => {
   }
 });
 
-
 router.post("/refresh", async (req, res) => {
   try {
     const token = req.cookies.refreshToken;
@@ -103,7 +103,6 @@ router.post("/refresh", async (req, res) => {
   }
 });
 
-
 router.post("/logout", async (req, res) => {
   try {
     const token = req.cookies.refreshToken;
@@ -127,15 +126,18 @@ router.post("/logout", async (req, res) => {
   }
 });
 
+router.get("/profile", authenticateToken, async (req, res) => {
+  const user = await User.findOne({ email: req.user.email });
+  console.log(user);
 
-router.get("/profile", authenticateToken, (req, res) => {
-  return res.status(200).json({message: `Authorization Successful for ${user.email}`});
-})
-
+  return res
+    .status(200)
+    .json({ message: `Authorization Successful for ${user.email}` });
+});
 
 async function generateTokens(user) {
-  const accessToken = generateAccessToken(user._id);
-  const refreshToken = generateRefreshToken(user._id);
+  const accessToken = generateAccessToken(user.email);
+  const refreshToken = generateRefreshToken(user.email);
 
   user.refreshToken = refreshToken;
   await user.save();
