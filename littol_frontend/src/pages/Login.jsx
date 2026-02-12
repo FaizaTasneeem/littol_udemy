@@ -21,11 +21,11 @@ function Login() {
         <div className={`flex flex-col items-center justify-center h-full w-full rounded-tr-2xl rounded-br-2xl`}>
           <div className={`flex flex-col items-center justify-center ${signInClicked ? '' : 'hidden'}`}>
             <div className="text-2xl font-bold">Sign In</div>
-            <button className="flex flex-row mt-4 rounded-lg py-2 px-8 bg-gray-300 cursor-pointer">
+            <button className="flex flex-row mt-4 rounded-lg py-2 px-8 border border-gray-400 cursor-pointer">
               <img src="/icons8-google.svg" alt="google-icon" className="w-6 h-6"/>
-              <span className="pl-2">Sign in with Google</span>
+              <span className="pl-2 text-gray-600">Sign in with Google</span>
             </button>
-            <div className="mt-4 text-gray-500">or use your account</div>
+            <div className="mt-4 mb-4 text-gray-500">or use your account</div>
             <input type="text" className="m-2 py-2 px-4 pr-14 bg-gray-200 rounded-lg" placeholder="Email Address"/>
             <input type="text" className="m-2 py-2 px-4 pr-14 bg-gray-200 rounded-lg" placeholder="Password"/>
             <button className="bg-[linear-gradient(to_right,#6860e8,#817aeb)] px-12 py-2 mt-8 rounded-3xl text-white cursor-pointer">SIGN IN</button>
@@ -36,9 +36,9 @@ function Login() {
         <div className={`flex flex-col items-center justify-center h-full w-full rounded-tr-2xl rounded-br-2xl`}>
           <div className={`flex flex-col items-center justify-center ${signInClicked ? 'hidden' : ''}`}>
             <div className="text-2xl font-bold">Create Account</div>
-            <button className="flex flex-row mt-4 rounded-lg py-2 px-8 bg-gray-300 cursor-pointer">
+            <button className="flex flex-row mt-4 rounded-lg py-2 px-8 border border-gray-400 cursor-pointer">
               <img src="/icons8-google.svg" alt="google-icon" className="w-6 h-6"/>
-              <span className="pl-2">Sign up with Google</span>
+              <span className="pl-2 text-gray-600">Sign up with Google</span>
             </button>
             <div className="mt-4 text-gray-500">or use your email for registration</div>
             <input type="text" className="m-2 py-2 px-4 pr-14 bg-gray-200 rounded-lg" placeholder="Full Name"/>
