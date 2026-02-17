@@ -1,17 +1,7 @@
-import { useState, useEffect } from "react";
-
+import { useFormHandler } from "../hooks/useForm";
 
 function Login() {
-  const [signInClicked, setSignInClicked] = useState(false);
-
-  function handleSignInClick() {
-    setSignInClicked((prev) => !prev);
-  }
-
-  useEffect(() => {
-    console.log(signInClicked);
-  }, [signInClicked]);
-
+  const {signInClicked, handleSignInClick} = useFormHandler();
 
   return (
     <div className="bg-blue-50 h-screen flex items-center justify-center">
