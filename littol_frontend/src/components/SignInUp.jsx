@@ -1,7 +1,7 @@
 import { useFormHandler } from "../hooks/useForm"
 
 function SignInUp({ signInClicked }) {
-  const {formValues, handleInputChange, handleSubmit} = useFormHandler({fullname:"", email:"", password:""});
+  const {formValues, error, handleInputChange, handleSubmit} = useFormHandler({fullname:"", email:"", password:""});
 
   return (
     <div className={`flex flex-col items-center justify-center h-full w-full rounded-tr-2xl rounded-br-2xl`}>
@@ -19,7 +19,10 @@ function SignInUp({ signInClicked }) {
         <input type="text" onChange={handleInputChange} className="m-2 py-2 px-4 pr-14 bg-gray-200 rounded-lg focus:outline-gray-400" name="email" value={formValues.email} placeholder="Email Address"/>
         <input type="text" onChange={handleInputChange} className="m-2 py-2 px-4 pr-14 bg-gray-200 rounded-lg focus:outline-gray-400" name="password" value={formValues.password} placeholder="Password"/>
 
-        <button onClick={handleSubmit} className="bg-[linear-gradient(to_right,#6860e8,#817aeb)] px-12 py-2 mt-8 rounded-3xl text-white cursor-pointer">SIGN IN</button>
+        {error && (<div className="text-sm text-red-500">Email & Password Required !</div>)}
+
+        <button onClick={handleSubmit} className="bg-[linear-gradient(to_right,#6860e8,#817aeb)] px-12 py-2 mt-8 rounded-3xl text-white cursor-pointer">{signInClicked ? 'SIGN IN' : 'SIGN UP'}</button>
+
       </div>
     </div>
   )

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 export function useFormHandler(userInput) {
     const [signInClicked, setSignInClicked] = useState(false);
     const [formValues, setFormValues] = useState(userInput);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         console.log(signInClicked);
@@ -30,9 +31,11 @@ export function useFormHandler(userInput) {
 
     function validateCredentials () {
         if(!formValues.email || !formValues.password) {
+            setError(true);
             console.log("Email & Password Required");
         }
+        else{setError(false)};
     }
 
-    return {signInClicked, formValues, handleSignInClick, handleInputChange, handleSubmit};
+    return {signInClicked, formValues, error, handleSignInClick, handleInputChange, handleSubmit};
 }
