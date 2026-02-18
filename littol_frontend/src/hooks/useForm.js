@@ -17,12 +17,16 @@ export function useFormHandler(userInput) {
         setSignInClicked((prev) => !prev);
     }
 
-    function handleInputChange() {
+    function handleInputChange(e) {
+        const {name, value} = e.target;
+        setFormValues((prev) => ({...prev, [name]: value}));
     }
 
-    function handleSubmit() {
+    function handleSubmit(e) {
+        e.preventDefault();
+        console.log(formValues);
     }
 
 
-    return {signInClicked, formValues, handleSignInClick, handleSubmit, handleInputChange};
+    return {signInClicked, formValues, handleSignInClick, handleInputChange, handleSubmit};
 }
