@@ -8,9 +8,9 @@ export function useFormHandler(userInput) {
         console.log(signInClicked);
     }, [signInClicked]);
 
-    useEffect(() => {
-        console.log(formValues);
-    }, [formValues]);
+    // useEffect(() => {
+    //     console.log(formValues);
+    // }, [formValues]);
 
 
     function handleSignInClick() {
