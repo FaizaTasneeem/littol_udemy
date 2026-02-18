@@ -1,7 +1,7 @@
 import { useFormHandler } from "../hooks/useForm";
 
 function Login() {
-  const {signInClicked, handleSignInClick} = useFormHandler();
+  const {signInClicked, formValues, handleSignInClick, handleSubmit, handleInputChange} = useFormHandler({email:"", password:""});
 
   return (
     <div className="bg-blue-50 h-screen flex items-center justify-center">

@@ -9,19 +9,20 @@ export function useFormHandler(userInput) {
     }, [signInClicked]);
 
     useEffect(() => {
-        console.log(password);
+        console.log(formValues);
     }, [formValues]);
 
 
     function handleSignInClick() {
         setSignInClicked((prev) => !prev);
     }
-    
-    function handleSubmit() {
-    }
-    
+
     function handleInputChange() {
     }
+
+    function handleSubmit() {
+    }
+
 
     return {signInClicked, formValues, handleSignInClick, handleSubmit, handleInputChange};
 }
