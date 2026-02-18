@@ -24,9 +24,15 @@ export function useFormHandler(userInput) {
 
     function handleSubmit(e) {
         e.preventDefault();
+        validateCredentials();
         console.log(formValues);
     }
 
+    function validateCredentials () {
+        if(!formValues.email || !formValues.password) {
+            console.log("Email & Password Required");
+        }
+    }
 
     return {signInClicked, formValues, handleSignInClick, handleInputChange, handleSubmit};
 }
