@@ -1,4 +1,7 @@
+import axios from "axios";
 import { useState, useEffect } from "react";
+
+const server = process.env.BACKEND_SERVER || 'http://localhost:5500';
 
 export function useFormHandler(userInput) {
     const [signInClicked, setSignInClicked] = useState(false);
@@ -25,8 +28,11 @@ export function useFormHandler(userInput) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        validateCredentials();
         console.log(formValues);
+        
+        validateCredentials();
+
+
     }
 
     function validateCredentials () {
@@ -36,6 +42,12 @@ export function useFormHandler(userInput) {
         }
         else{setError(false)};
     }
+
+    async function sendLoginRequest() {
+        const response = await axios.post();
+    }
+
+
 
     return {signInClicked, formValues, error, handleSignInClick, handleInputChange, handleSubmit};
 }
