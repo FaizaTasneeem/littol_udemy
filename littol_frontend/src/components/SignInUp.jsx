@@ -19,9 +19,9 @@ function SignInUp({ signInClicked }) {
         <input type="text" onChange={handleInputChange} className="m-2 py-2 px-4 pr-14 bg-gray-200 rounded-lg focus:outline-gray-400" name="email" value={formValues.email} placeholder="Email Address"/>
         <input type="text" onChange={handleInputChange} className="m-2 py-2 px-4 pr-14 bg-gray-200 rounded-lg focus:outline-gray-400" name="password" value={formValues.password} placeholder="Password"/>
 
-        {error && (<div className="text-sm text-red-500">Email & Password Required !</div>)}
+        {error && (<div className="text-sm text-red-500">{signInClicked ? 'Email & Password Required !' : 'All fields are Required !'}</div>)}
 
-        <button onClick={handleSubmit} className="bg-[linear-gradient(to_right,#6860e8,#817aeb)] px-12 py-2 mt-8 rounded-3xl text-white cursor-pointer">{signInClicked ? 'SIGN IN' : 'SIGN UP'}</button>
+        <button onClick={() => handleSubmit(signInClicked)} className="bg-[linear-gradient(to_right,#6860e8,#817aeb)] px-12 py-2 mt-8 rounded-3xl text-white cursor-pointer">{signInClicked ? 'SIGN IN' : 'SIGN UP'}</button>
 
       </div>
     </div>

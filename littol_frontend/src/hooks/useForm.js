@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-const server = process.env.BACKEND_SERVER || 'http://localhost:5500';
+const server = import.meta.env.VITE_BACKEND_SERVER || 'http://localhost:5000/api/auth/';
 
 export function useFormHandler(userInput) {
     const [signInClicked, setSignInClicked] = useState(false);
@@ -26,28 +26,45 @@ export function useFormHandler(userInput) {
         setFormValues((prev) => ({...prev, [name]: value}));
     }
 
-    function handleSubmit(e) {
-        e.preventDefault();
+    async function handleSubmit(signInStatus) {
+        // e.preventDefault();
+        const authMode = signInStatus ? 'login' : 'signup' ;
+
+        console.log(authMode);
         console.log(formValues);
         
-        validateCredentials();
+        if (!validateCredentials(authMode)) return;
 
-
+        try {
+            const serverResponse = await sendAuthRequest(authMode);
+            console.log("Success", serverResponse);
+        }
+        catch (err) {
+            console.log(err.response.data.message);
+        }
     }
 
-    function validateCredentials () {
-        if(!formValues.email || !formValues.password) {
+    function validateCredentials (authMode) {
+        if(authMode === 'login' && (!formValues.email || !formValues.password)) {
             setError(true);
             console.log("Email & Password Required");
+            return false;
         }
-        else{setError(false)};
+        else if (authMode === 'signup' && (!formValues.fullname || !formValues.email || !formValues.password)) {
+            setError(true);
+            console.log("All fields are required");
+            return false;
+        }
+        else{
+            setError(false);
+            return true;
+        };
     }
 
-    async function sendLoginRequest() {
-        const response = await axios.post();
+    async function sendAuthRequest(authMode) {
+        const response = await axios.post(`${server}/${authMode}`, formValues);
+        return response;
     }
-
-
 
     return {signInClicked, formValues, error, handleSignInClick, handleInputChange, handleSubmit};
 }

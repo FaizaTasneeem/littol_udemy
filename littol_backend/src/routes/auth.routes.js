@@ -5,36 +5,40 @@ import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import { generateAccessToken, generateRefreshToken } from "../auth/token.js";
 import { authenticateToken } from "../middleware/auth.middleware.js";
-import user from "../models/User.js";
 
 const router = express.Router();
 
+
 router.post("/signup", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { fullname, email, password } = req.body;
 
     //verify email & password
-    if (!email || !password) {
+    if (!fullname || !email || !password) {
       return res.status(400).json({ message: "Email and Password required" });
     }
     const user = await User.findOne({ email });
     if (user) {
       return res.status(401).json({ message: "User already exists" });
     }
+    console.log("input register data - ", fullname, email, password);
 
     //insert a user in db
     const newUser = new User({
+      fullname: fullname,
       email: email,
       passwordHash: password,
       refreshToken: null,
     });
     await newUser.save();
     return res.status(201).json({ message: "User created successfully" });
-  } catch (error) {
+  } 
+  catch (error) {
     console.log(error);
     return res.status(400).json({ error: error.message });
   }
 });
+
 
 router.post("/login", async (req, res) => {
   try {
@@ -52,6 +56,7 @@ router.post("/login", async (req, res) => {
     // if (!isValidCredentials) {
     //     return res.status(401).json({ message: "Invalid credentials" });
     // }
+    console.log("input login data - ", email, password);
 
     //generate access + refresh tokens & set cookie
     const { accessToken, refreshToken } = await generateTokens(user);
@@ -62,14 +67,16 @@ router.post("/login", async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.status(200).json({ accessToken });
-  } catch (error) {
+    res.status(200).json({ accessToken, user });
+  } 
+  catch (error) {
     console.error("Login error: ", error);
     return res
       .status(500)
       .json({ message: "Something went wrong. Please try again." });
   }
 });
+
 
 router.post("/refresh", async (req, res) => {
   try {
@@ -97,11 +104,13 @@ router.post("/refresh", async (req, res) => {
     });
 
     res.status(200).json({ accessToken });
-  } catch (error) {
+  } 
+  catch (error) {
     console.log("Refresh error: ", error);
     return res.status(403).json({ error: error.message });
   }
 });
+
 
 router.post("/logout", async (req, res) => {
   try {
@@ -120,11 +129,13 @@ router.post("/logout", async (req, res) => {
     user.refreshToken = null;
     await user.save();
     res.clearCookie("refreshToken");
-  } catch (error) {
+  } 
+  catch (error) {
     console.log("Logout error: ", error);
     return res.status(403).json({ error: error.message });
   }
 });
+
 
 router.get("/profile", authenticateToken, async (req, res) => {
   const user = await User.findOne({ email: req.user.email });
@@ -134,6 +145,7 @@ router.get("/profile", authenticateToken, async (req, res) => {
     .status(200)
     .json({ message: `Authorization Successful for ${user.email}` });
 });
+
 
 async function generateTokens(user) {
   const accessToken = generateAccessToken(user.email);
