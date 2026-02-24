@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-const server = import.meta.env.VITE_BACKEND_SERVER || 'http://localhost:5000/api/auth/';
+const server = import.meta.env.VITE_BACKEND_SERVER || 'http://localhost:5000/api/auth';
 
 export function useFormHandler(userInput) {
     const [signInClicked, setSignInClicked] = useState(false);
