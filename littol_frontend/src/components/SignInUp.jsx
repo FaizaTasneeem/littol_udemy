@@ -6,7 +6,7 @@ function SignInUp({ signInClicked }) {
   return (
     <div className={`flex flex-col items-center justify-center h-full w-1/2 rounded-tr-2xl rounded-br-2xl`}>
       <div className={`flex flex-col items-center justify-center`}>
-        <div className="text-2xl font-bold">{signInClicked ? 'Sign up' : 'Create Account'}</div>
+        <div className="text-2xl font-bold">{signInClicked ? 'Login' : 'Create Account'}</div>
 
         <button className="flex flex-row mt-4 rounded-lg py-2 px-8 border border-gray-400 cursor-pointer">
           <img src="/icons8-google.svg" alt="google-icon" className="w-6 h-6"/>
