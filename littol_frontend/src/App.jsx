@@ -1,9 +1,10 @@
-import Login from "./pages/Login";
+import { RouterProvider } from "react-router-dom";
+import router from "./Router";
 
 function App() {
   return (
     <>
-      <Login />
+      <RouterProvider router={router} />
     </>
   );
 }
