@@ -4,7 +4,7 @@ function SignInUp({ signInClicked }) {
   const {formValues, error, handleInputChange, handleSubmit} = useFormHandler({fullname:"", email:"", password:""});
 
   return (
-    <div className={`flex flex-col items-center justify-center h-full w-full rounded-tr-2xl rounded-br-2xl`}>
+    <div className={`flex flex-col items-center justify-center h-full w-1/2 rounded-tr-2xl rounded-br-2xl`}>
       <div className={`flex flex-col items-center justify-center`}>
         <div className="text-2xl font-bold">{signInClicked ? 'Sign up' : 'Create Account'}</div>
 
