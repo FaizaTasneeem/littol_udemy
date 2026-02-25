@@ -5,7 +5,8 @@ function SignInUp({ signInClicked }) {
 
   return (
     <div className={`flex flex-col items-center justify-center h-full w-1/2 rounded-tr-2xl rounded-br-2xl`}>
-      <div className={`flex flex-col items-center justify-center`}>
+      <div className={`flex flex-col items-center justify-center ${signInClicked ? 'animate-[slideRegister_0.9s_ease-out_forwards]' : 'animate-[slideLogin_0.9s_ease-out_forwards]'}`}>
+ 
         <div className="text-2xl font-bold">{signInClicked ? 'Login' : 'Create Account'}</div>
 
         <button className="flex flex-row mt-4 rounded-lg py-2 px-8 border border-gray-400 cursor-pointer">
