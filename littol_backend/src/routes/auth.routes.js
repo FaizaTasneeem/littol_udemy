@@ -15,11 +15,11 @@ router.post("/signup", async (req, res) => {
 
     //verify email & password
     if (!fullname || !email || !password) {
-      return res.status(400).json({ message: "Email and Password required" });
+      return res.status(400).json({ message: "Email and Password required !" });
     }
     const user = await User.findOne({ email });
     if (user) {
-      return res.status(401).json({ message: "User already exists" });
+      return res.status(401).json({ message: "User already exists !" });
     }
     console.log("input register data - ", fullname, email, password);
 
@@ -31,7 +31,7 @@ router.post("/signup", async (req, res) => {
       refreshToken: null,
     });
     await newUser.save();
-    return res.status(201).json({ message: "User created successfully" });
+    return res.status(201).json({ message: "User created successfully !" });
   } 
   catch (error) {
     console.log(error);
@@ -46,11 +46,11 @@ router.post("/login", async (req, res) => {
 
     //verify email & password
     if (!email || !password) {
-      return res.status(400).json({ message: "Email and Password required" });
+      return res.status(400).json({ message: "Email and Password required !" });
     }
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(401).json({ message: "Invalid credentials !" });
     }
     // const isValidCredentials = await bcrypt.compare(password, user.passwordHash);
     // if (!isValidCredentials) {
@@ -84,11 +84,11 @@ router.post("/refresh", async (req, res) => {
 
     //find user by refresh token
     if (!token) {
-      return res.status(401).json({ message: "Refresh token missing" });
+      return res.status(401).json({ message: "Refresh token missing !" });
     }
     const user = await User.findOne({ refreshToken: token });
     if (!user) {
-      return res.status(403).json({ message: "Invalid refresh token" });
+      return res.status(403).json({ message: "Invalid refresh token !" });
     }
 
     //verify refresh token sent in cookies
@@ -118,11 +118,11 @@ router.post("/logout", async (req, res) => {
 
     //find user by refresh token
     if (!token) {
-      return res.status(401).json({ message: "Refresh token missing" });
+      return res.status(401).json({ message: "Refresh token missing !" });
     }
     const user = await User.findOne({ refreshToken: token });
     if (!user) {
-      return res.status(403).json({ message: "Invalid refresh token" });
+      return res.status(403).json({ message: "Invalid refresh token !" });
     }
 
     //clear refresh token in user + cookie

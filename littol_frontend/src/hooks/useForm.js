@@ -6,7 +6,7 @@ const server = import.meta.env.VITE_BACKEND_SERVER || 'http://localhost:5000/api
 export function useFormHandler(userInput) {
     const [signInClicked, setSignInClicked] = useState(false);
     const [formValues, setFormValues] = useState(userInput);
-    const [error, setError] = useState(false);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         console.log(signInClicked);
@@ -40,23 +40,24 @@ export function useFormHandler(userInput) {
             console.log("Success", serverResponse);
         }
         catch (err) {
+            setError({msg: err.response.data.message })
             console.log(err.response.data.message);
         }
     }
 
     function validateCredentials (authMode) {
         if(authMode === 'login' && (!formValues.email || !formValues.password)) {
-            setError(true);
-            console.log("Email & Password Required");
+            setError({msg:'Email & Password Required !'});
+            console.log("Email & Password Required !");
             return false;
         }
         else if (authMode === 'signup' && (!formValues.fullname || !formValues.email || !formValues.password)) {
-            setError(true);
-            console.log("All fields are required");
+            setError({msg:'All fields are required !'});
+            console.log("All fields are required !");
             return false;
         }
         else{
-            setError(false);
+            setError(null);
             return true;
         };
     }
