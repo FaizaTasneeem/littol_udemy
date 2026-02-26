@@ -1,9 +1,12 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const server = import.meta.env.VITE_BACKEND_SERVER || 'http://localhost:5000/api/auth';
 
 export function useFormHandler(userInput) {
+    const navigate = useNavigate();
+
     const [signInClicked, setSignInClicked] = useState(false);
     const [formValues, setFormValues] = useState(userInput);
     const [error, setError] = useState(null);
@@ -38,6 +41,11 @@ export function useFormHandler(userInput) {
         try {
             const serverResponse = await sendAuthRequest(authMode);
             console.log("Success", serverResponse);
+
+            localStorage.setItem("accessToken", serverResponse.data.accessToken);
+            localStorage.setItem("refreshToken", serverResponse.data.user.refreshToken);
+
+            navigate("/home");
         }
         catch (err) {
             setError({msg: err.response.data.message })
