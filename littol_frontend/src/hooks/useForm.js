@@ -43,7 +43,6 @@ export function useFormHandler(userInput) {
             console.log("Success", serverResponse);
 
             localStorage.setItem("accessToken", serverResponse.data.accessToken);
-            localStorage.setItem("refreshToken", serverResponse.data.user.refreshToken);
 
             navigate("/home");
         }
@@ -51,6 +50,19 @@ export function useFormHandler(userInput) {
             setError({msg: err.response.data.message })
             console.log(err.response.data.message);
         }
+    }
+
+    async function handleLogout() {
+        try {
+            const response = await axios.post(`${server}/logout`);
+            console.log("Success", response);
+            navigate("/");
+        }
+        catch (err) {
+            setError({msg: err.response.data.message })
+            console.log(err.response.data.message);
+        }
+        
     }
 
     function validateCredentials (authMode) {
@@ -75,5 +87,5 @@ export function useFormHandler(userInput) {
         return response;
     }
 
-    return {signInClicked, formValues, error, handleSignInClick, handleInputChange, handleSubmit};
+    return {signInClicked, formValues, error, handleSignInClick, handleInputChange, handleSubmit, handleLogout};
 }
