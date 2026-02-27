@@ -56,6 +56,7 @@ export function useFormHandler(userInput) {
         try {
             const response = await axios.post(`${server}/logout`);
             console.log("Success", response);
+            localStorage.removeItem("accessToken");
             navigate("/");
         }
         catch (err) {
