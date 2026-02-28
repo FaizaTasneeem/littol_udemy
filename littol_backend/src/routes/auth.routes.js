@@ -31,7 +31,17 @@ router.post("/signup", async (req, res) => {
       refreshToken: null,
     });
     await newUser.save();
-    return res.status(201).json({ message: "User created successfully !" });
+    
+    //generate access + refresh tokens & set cookie
+    const { accessToken, refreshToken } = await generateTokens(newUser);
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    return res.status(201).json({ accessToken, user: newUser, message: "User created successfully !" });
   } 
   catch (error) {
     console.log(error);
@@ -67,7 +77,7 @@ router.post("/login", async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.status(200).json({ accessToken, user });
+    res.status(200).json({ accessToken, user, message: "User logged in successfully !" });
   } 
   catch (error) {
     console.error("Login error: ", error);
