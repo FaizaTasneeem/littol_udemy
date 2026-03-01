@@ -1,8 +1,9 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { sendAuthRequest, sendLogoutRequest } from "../services/authService";
+import { validateCredentials } from "../utils/authValidation";
+import { setAccessToken, clearAccessToken } from "../utils/authStore";
 
-const server = import.meta.env.VITE_BACKEND_SERVER || 'http://localhost:5000/api/auth';
 
 export function useFormHandler(userInput) {
     const navigate = useNavigate();
@@ -37,56 +38,42 @@ export function useFormHandler(userInput) {
         console.log(authMode);
         console.log(formValues);
         
-        if (!validateCredentials(authMode)) return;
+        const validationError = validateCredentials(authMode, formValues);
+        if(validationError) {
+            setError({msg: validationError});
+            return;
+        }
 
         try {
-            const serverResponse = await sendAuthRequest(authMode);
+            const serverResponse = await sendAuthRequest(authMode, formValues);
             console.log("Success", serverResponse);
 
-            localStorage.setItem("accessToken", serverResponse.data.accessToken);
+            // localStorage.setItem("accessToken", serverResponse.data.accessToken);
+            setAccessToken(serverResponse.data.accessToken);
 
             navigate("/home");
         }
         catch (err) {
-            setError({msg: err.response.data.message })
-            console.log(err.response.data.message);
+            setError({msg: err?.response?.data?.message ?? err.message })
+            console.log(err?.response?.data?.message ?? err.message);
         }
     }
 
     async function handleLogout() {
         try {
-            const response = await axios.post(`${server}/logout`);
+            const response = await sendLogoutRequest();
             console.log("Success", response);
-            localStorage.removeItem("accessToken");
+
+            // localStorage.removeItem("accessToken");
+            clearAccessToken();
+            
             navigate("/");
         }
         catch (err) {
-            setError({msg: err.response.data.message })
-            console.log(err.response.data.message);
+            setError({msg: err?.response?.data?.message ?? err.message })
+            console.log(err?.response?.data?.message ?? err.message);
         }
         
-    }
-
-    function validateCredentials (authMode) {
-        if(authMode === 'login' && (!formValues.email || !formValues.password)) {
-            setError({msg:'Email & Password Required !'});
-            console.log("Email & Password Required !");
-            return false;
-        }
-        else if (authMode === 'signup' && (!formValues.fullname || !formValues.email || !formValues.password)) {
-            setError({msg:'All fields are required !'});
-            console.log("All fields are required !");
-            return false;
-        }
-        else{
-            setError(null);
-            return true;
-        };
-    }
-
-    async function sendAuthRequest(authMode) {
-        const response = await axios.post(`${server}/${authMode}`, formValues);
-        return response;
     }
 
     return {signInClicked, formValues, error, handleSignInClick, handleInputChange, handleSubmit, handleLogout};
