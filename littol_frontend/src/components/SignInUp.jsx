@@ -1,7 +1,4 @@
-import { useFormHandler } from "../hooks/useForm"
-
-function SignInUp({ signInClicked }) {
-  const {formValues, error, handleInputChange, handleSubmit} = useFormHandler({fullname:"", email:"", password:""});
+function SignInUp({ signInClicked, formValues, error, handleInputChange, handleSubmit }) {
 
   return (
     <div className={`flex flex-col items-center justify-center h-full w-1/2 rounded-tr-2xl rounded-br-2xl`}>
@@ -27,6 +24,7 @@ function SignInUp({ signInClicked }) {
       </div>
     </div>
   )
+
 }
 
 export default SignInUp

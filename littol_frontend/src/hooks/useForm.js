@@ -12,7 +12,7 @@ export function useFormHandler(userInput) {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        console.log(signInClicked);
+        console.log("Sign In Clicked - ", signInClicked);
     }, [signInClicked]);
 
     // useEffect(() => {
@@ -21,6 +21,7 @@ export function useFormHandler(userInput) {
 
 
     function handleSignInClick() {
+        setError(null);
         setSignInClicked((prev) => !prev);
     }
 
