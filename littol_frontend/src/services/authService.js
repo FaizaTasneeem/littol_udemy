@@ -7,6 +7,11 @@ export async function sendAuthRequest(authMode, formValues) {
     return response;
 }
 
+export async function sendRefreshRequest() {
+    const response = await axios.post(`${server}/refresh`);
+    return response;
+}
+
 export async function sendLogoutRequest() {
     const response = await axios.post(`${server}/logout`);
     return response;
