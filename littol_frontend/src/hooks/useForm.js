@@ -31,7 +31,7 @@ export function useFormHandler(userInput) {
         setFormValues((prev) => ({...prev, [name]: value}));
     }
 
-    async function handleSubmit(signInStatus) {
+    async function handleLogin(signInStatus) {
         // e.preventDefault();
         const authMode = signInStatus ? 'login' : 'signup' ;
 
@@ -76,5 +76,5 @@ export function useFormHandler(userInput) {
         
     }
 
-    return {signInClicked, formValues, error, handleSignInClick, handleInputChange, handleSubmit, handleLogout};
+    return {signInClicked, formValues, error, handleSignInClick, handleInputChange, handleLogin, handleLogout};
 }

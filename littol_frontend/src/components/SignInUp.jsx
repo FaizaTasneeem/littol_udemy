@@ -1,4 +1,4 @@
-function SignInUp({ signInClicked, formValues, error, handleInputChange, handleSubmit }) {
+function SignInUp({ signInClicked, formValues, error, handleInputChange, handleLogin }) {
 
   return (
     <div className={`flex flex-col items-center justify-center h-full w-1/2 rounded-tr-2xl rounded-br-2xl`}>
@@ -19,7 +19,7 @@ function SignInUp({ signInClicked, formValues, error, handleInputChange, handleS
 
         {error && (<div className="text-sm text-red-500">{error.msg}</div>)}
 
-        <button onClick={() => handleSubmit(signInClicked)} className="bg-[linear-gradient(to_right,#6860e8,#817aeb)] px-12 py-2 mt-8 rounded-3xl text-white cursor-pointer">{signInClicked ? 'SIGN IN' : 'SIGN UP'}</button>
+        <button onClick={() => handleLogin(signInClicked)} className="bg-[linear-gradient(to_right,#6860e8,#817aeb)] px-12 py-2 mt-8 rounded-3xl text-white cursor-pointer">{signInClicked ? 'SIGN IN' : 'SIGN UP'}</button>
 
       </div>
     </div>
