@@ -7,7 +7,6 @@ import { sendRefreshRequest } from '../services/authService';
 function ProtectedRoute({children}) {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
-    const [isAuthorized, setIsAuthorized] = useState(false);
     // const accessToken = localStorage.getItem("accessToken");
     const accessToken = getAccessToken();
 
@@ -15,7 +14,6 @@ function ProtectedRoute({children}) {
         async function checkAuth() {
             if (accessToken) {
                 setIsLoading(false);
-                setIsAuthorized(true);
                 return;
             }
                     
@@ -24,7 +22,6 @@ function ProtectedRoute({children}) {
                 console.log("Token refreshed successfully !!!", response);
                 setAccessToken(response.data.accessToken);
                 setIsLoading(false);
-                setIsAuthorized(true);
             }
             catch (err) {
                 console.log("Token refresh failed. Redirecting to login...", err);
@@ -37,7 +34,6 @@ function ProtectedRoute({children}) {
     }, []);
 
     if(isLoading) return <>Loading...</>;
-    if(!isAuthorized) return null;
     
     return children;
 }
