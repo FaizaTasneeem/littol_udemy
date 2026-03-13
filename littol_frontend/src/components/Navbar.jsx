@@ -2,14 +2,14 @@ import { NavLink, Outlet } from "react-router-dom"
 
 function Navbar() {
   return (
-    <>
-        <div className='flex flex-col m-8 bg-gray-200 rounded-lg min-h-full w-20 shadow-2xl shadow'>
-            <NavLink to='/home'>Home</NavLink>
-            <NavLink to='/courses'>Courses</NavLink>
-        </div>
+    <div className="flex flex-row min-h-screen">
+      <div className='flex flex-col mx-8 py-4 bg-gray-200 rounded-lg w-[15%] shadow-2xl shadow'>
+          <NavLink to='/home' className='px-4 py-2'>Home</NavLink>
+          <NavLink to='/courses' className='px-4 py-2'>Courses</NavLink>
+      </div>
 
-        <Outlet/>
-    </>
+      <Outlet/>
+    </div>
 
   )
 }
