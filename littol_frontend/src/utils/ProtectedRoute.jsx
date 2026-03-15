@@ -1,11 +1,14 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 import { setAccessToken, getAccessToken } from './authStore';
 import { sendRefreshRequest } from '../services/authService';
+import { UserContext } from "../context/AppContext";
 
 
 function ProtectedRoute() {
     const navigate = useNavigate();
+    const {setUser} = useContext(UserContext);
+    
     const [isLoading, setIsLoading] = useState(true);
     const isRefreshingRef = useRef(false);
     const accessToken = getAccessToken();
@@ -29,6 +32,7 @@ function ProtectedRoute() {
                 const response = await sendRefreshRequest();
                 console.log("✅ Token refreshed successfully !!!", response);
                 setAccessToken(response.data.accessToken);
+                setUser(response.data.user);
                 setIsLoading(false);
             }
             catch (err) {

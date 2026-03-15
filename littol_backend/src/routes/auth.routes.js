@@ -158,7 +158,7 @@ router.get("/profile", authenticateToken, async (req, res) => {
 });
 
 
-router.put("/editprofile", authenticateToken, async (req, res) => {
+router.put("/edit-profile", authenticateToken, async (req, res) => {
   const user = await User.findOne({ email: req.user.email });
   user.fullname = req.body.fullname ;
   await user.save();

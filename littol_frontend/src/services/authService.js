@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getAccessToken } from "../utils/authStore";
 
 const server = import.meta.env.VITE_BACKEND_SERVER || 'http://localhost:5000/api/auth';
 
@@ -14,5 +15,10 @@ export async function sendRefreshRequest() {
 
 export async function sendLogoutRequest() {
     const response = await axios.post(`${server}/logout`);
+    return response;
+}
+
+export async function sendEditProfileRequest(formValues) {
+    const response = await axios.put(`${server}/edit-profile`, formValues, {headers: { 'authorization': `Bearer ${getAccessToken()}`}});
     return response;
 }

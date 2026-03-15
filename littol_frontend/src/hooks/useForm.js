@@ -1,12 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { sendAuthRequest, sendLogoutRequest } from "../services/authService";
 import { validateCredentials } from "../utils/authValidation";
 import { setAccessToken, clearAccessToken } from "../utils/authStore";
+import { UserContext } from "../context/AppContext";
 
 
 export function useFormHandler(userInput) {
     const navigate = useNavigate();
+    const {setUser} = useContext(UserContext);
 
     const [signInClicked, setSignInClicked] = useState(false);
     const [formValues, setFormValues] = useState(userInput);
@@ -50,6 +52,7 @@ export function useFormHandler(userInput) {
 
             // localStorage.setItem("accessToken", serverResponse.data.accessToken);
             setAccessToken(serverResponse.data.accessToken);
+            setUser(serverResponse.data.user);
 
             navigate("/home");
         }
@@ -66,6 +69,7 @@ export function useFormHandler(userInput) {
 
             // localStorage.removeItem("accessToken");
             clearAccessToken();
+            setUser(null);
             
             navigate("/");
         }

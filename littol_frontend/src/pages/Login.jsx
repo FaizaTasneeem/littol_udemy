@@ -1,5 +1,5 @@
 import { useFormHandler } from "../hooks/useForm";
-import SignInUp from "../components/signInUp";
+import SignInUp from "../components/SignInUp";
 
 function Login() {
   const {signInClicked, formValues, error, handleSignInClick, handleInputChange, handleLogin} = useFormHandler({fullname:"", email:"", password:""});
