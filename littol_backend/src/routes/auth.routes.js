@@ -113,7 +113,7 @@ router.post("/refresh", async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.status(200).json({ accessToken });
+    res.status(200).json({ accessToken, user });
   } 
   catch (error) {
     console.log("Refresh error: ", error);
@@ -155,6 +155,15 @@ router.get("/profile", authenticateToken, async (req, res) => {
   return res
     .status(200)
     .json({ message: `Authorization Successful for ${user.email}` });
+});
+
+
+router.put("/editprofile", authenticateToken, async (req, res) => {
+  const user = await User.findOne({ email: req.user.email });
+  user.fullname = req.body.fullname ;
+  await user.save();
+  
+  return res.status(200).json({ message: "User name updated !" });
 });
 
 

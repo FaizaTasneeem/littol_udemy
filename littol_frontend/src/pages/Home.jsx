@@ -5,18 +5,7 @@ import { useFormHandler } from "../hooks/useForm";
 function Home() {
   const {handleLogout} = useFormHandler({fullname:"", email:"", password:""});
   const [name, setName] = useState("Faiza");
-  const [inputValue, setInputValue] = useState("Faiza"); // Separate state for input
-
-  // Debounce effect - updates name after user stops typing for 500ms
-  // useEffect(() => {
-  //   const timeoutId = setTimeout(() => {
-  //     setName(inputValue);
-  //   }, 500); // 500ms delay
-
-  //   // Clean up timeout if inputValue changes before delay completes
-  //   return () => clearTimeout(timeoutId);
-  // }, [inputValue]);
-
+  const [inputValue, setInputValue] = useState("Faiza"); 
 
   return (
     <div className="p-14 flex flex-col items-center justify-center">
