@@ -34,7 +34,7 @@ export async function login(req, res){
     try {
         const { email, password } = req.body;
 
-        const {user, accessToken, refreshToken, message} = await authService.loginUser({ fullname, email, password });
+        const {user, accessToken, refreshToken, message} = await authService.loginUser({ email, password });
 
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,

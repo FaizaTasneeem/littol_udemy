@@ -83,7 +83,7 @@ export const authService = {
         const decoded_payload = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
 
         //check if user exists
-        const user = await authRepository.findByUserProperty({ token });
+        const user = await authRepository.findByUserProperty({ refreshToken: token });
         if (!user) {
             const error = new Error("Invalid refresh token !");
             error.code = "UNAUTHORIZED";
@@ -105,7 +105,7 @@ export const authService = {
         }  
 
         //check if user exists
-        const user = await authRepository.findByUserProperty({ token });
+        const user = await authRepository.findByUserProperty({ refreshToken: token });
         if (!user) {
             const error = new Error("Invalid refresh token !");
             error.code = "UNAUTHORIZED";
