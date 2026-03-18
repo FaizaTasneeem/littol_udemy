@@ -1,8 +1,7 @@
-import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-import { authRepository } from "../repositories/authRepository.js";
+import { userRepository } from "../repositories/userRepository.js";
 import { generateAccessToken, generateRefreshToken } from "../auth/token.js";
 
 export const authService = {
@@ -15,7 +14,7 @@ export const authService = {
         }
 
         //check if user already exists
-        const oldUser = await authRepository.findByUserProperty({ email });
+        const oldUser = await userRepository.findByUserProperty({ email });
         if (oldUser) {
             const error = new Error("User already exists !");
             error.code = "CONFLICT_ERROR";
@@ -25,7 +24,7 @@ export const authService = {
         console.log("input register data - ", fullname, email, password);
 
         //create user in db
-        const user = await authRepository.create({
+        const user = await userRepository.create({
             fullname: fullname,
             email: email,
             passwordHash: password,
@@ -48,7 +47,7 @@ export const authService = {
         }
         
         //check if user exists
-        const user = await authRepository.findByUserProperty({ email });
+        const user = await userRepository.findByUserProperty({ email });
         if (!user) {
             const error = new Error("Invalid credentials !");
             error.code = "UNAUTHORIZED";
@@ -83,7 +82,7 @@ export const authService = {
         const decoded_payload = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
 
         //check if user exists
-        const user = await authRepository.findByUserProperty({ refreshToken: token });
+        const user = await userRepository.findByUserProperty({ refreshToken: token });
         if (!user) {
             const error = new Error("Invalid refresh token !");
             error.code = "UNAUTHORIZED";
@@ -105,7 +104,7 @@ export const authService = {
         }  
 
         //check if user exists
-        const user = await authRepository.findByUserProperty({ refreshToken: token });
+        const user = await userRepository.findByUserProperty({ refreshToken: token });
         if (!user) {
             const error = new Error("Invalid refresh token !");
             error.code = "UNAUTHORIZED";

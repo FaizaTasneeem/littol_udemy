@@ -1,6 +1,6 @@
 import User from "../models/User.js";
 
-export const authRepository = {
+export const userRepository = {
     async create(userData) {
         const newUser = new User({...userData});
         await newUser.save();
