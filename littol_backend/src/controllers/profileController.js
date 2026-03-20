@@ -11,7 +11,7 @@ export async function profile(req, res) {
     try{
         const { email } = req.user.email;
         const { user, message } = await profileService.profile({email});
-        return res.status(200).json({ user, message })
+        return res.status(200).json({ user, message });
     }
     catch(error){
         const error_status_code = errorMap[err.code] || 500;
@@ -23,7 +23,9 @@ export async function profile(req, res) {
 
 export async function editProfile(req, res) {
     try{
-
+        const { email } = req.user.email;
+        const { user, message } = await profileService.editProfile({email});
+        return res.status(200).json({ user, message });
     }
     catch(error){
         const error_status_code = errorMap[err.code] || 500;
