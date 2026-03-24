@@ -1,5 +1,5 @@
 import express from "express";
-import { authenticateToken } from "../middleware/auth.middleware.js";
+import { authenticateToken } from "../middlewares/auth.middleware.js";
 import { register, login, refresh, logout } from "../controllers/authController.js";
 import { profile, editProfile } from "../controllers/profileController.js";
 
