@@ -112,7 +112,7 @@ export const authService = {
         }
 
         //clear refresh token in user
-        await userRepository.update({email:user.email, refreshToken: null});
+        await userRepository.update({ email: user.email },{ refreshToken: null });
 
         return {user, message: "Logged out successfully !"};
 
@@ -123,7 +123,7 @@ async function generateTokens(user) {
   const accessToken = generateAccessToken(user.email);
   const refreshToken = generateRefreshToken(user.email);
 
-  await userRepository.update({email:user.email, refreshToken});
+  await userRepository.update({ email: user.email }, { refreshToken: refreshToken });
 
   return { accessToken, refreshToken };
 }

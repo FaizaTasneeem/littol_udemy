@@ -31,7 +31,7 @@ export const profileService = {
             throw error;
         }
 
-        const updatedUser = await userRepository.update({email, fullname});
+        const updatedUser = await userRepository.update({ email },{ fullname });
 
         return {updatedUser, message: `User profile updated successfully for ${updatedUser.email} !`};
     }
