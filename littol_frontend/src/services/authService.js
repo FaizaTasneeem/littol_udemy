@@ -1,5 +1,4 @@
 import axios from "axios";
-import { getAccessToken } from "../utils/authStore";
 
 const server = import.meta.env.VITE_BACKEND_SERVER || 'http://localhost:5000/api/auth';
 
@@ -18,7 +17,7 @@ export async function sendLogoutRequest() {
     return response;
 }
 
-export async function sendEditProfileRequest(formValues) {
-    const response = await axios.put(`${server}/edit-profile`, formValues, {headers: { 'authorization': `Bearer ${getAccessToken()}`}});
+export async function sendEditProfileRequest(user, accessToken) {
+    const response = await axios.put(`${server}/edit-profile`, user, {headers: { 'authorization': `Bearer ${accessToken}`}});
     return response;
 }

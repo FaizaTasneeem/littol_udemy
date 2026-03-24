@@ -18,8 +18,8 @@ export const profileService = {
     },
     
     async editProfile({email, fullname}) {
-        if(!email){
-            const error = new Error("Email is required !");
+        if(!email || !fullname){
+            const error = new Error("Email & Fullname is required !");
             error.code = "VALIDATION_ERROR";
             throw error;
         }

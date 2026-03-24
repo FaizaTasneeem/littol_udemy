@@ -10,7 +10,7 @@ export default function UserProvider({ children }) {
     async function updateProfile() {
       if (user){
         try {
-            const response = await sendEditProfileRequest(user);
+            const response = await sendEditProfileRequest(user, accessToken);
             console.log("✅ User updated successfully !!!", response);
         }
         catch (err) {
@@ -19,7 +19,7 @@ export default function UserProvider({ children }) {
       } 
     };
     updateProfile();
-  }, [user]);
+  }, [user, accessToken]);
 
   return (
     <UserContext.Provider value={{ user, accessToken, setUser, setAccessToken }}>
