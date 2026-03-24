@@ -4,6 +4,7 @@ import { sendEditProfileRequest } from '../services/authService';
 
 export default function UserProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [accessToken, setAccessToken] = useState(null);
 
   useEffect(() => {
     async function updateProfile() {
@@ -21,7 +22,7 @@ export default function UserProvider({ children }) {
   }, [user]);
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, accessToken, setUser, setAccessToken }}>
       {children}
     </UserContext.Provider>
   );
