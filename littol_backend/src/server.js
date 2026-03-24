@@ -1,18 +1,17 @@
 import express from "express";
-import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import connectToMongoDB from "./database/mongo.js";
 import authRoutes from "./routes/auth.routes.js";
+import env from "./config/env.js";
 
 const app = express();
 
-dotenv.config();
 await connectToMongoDB();
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: env.frontendOrigin,
     credentials: true,
   }),
 );
@@ -21,6 +20,6 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server started at port ${process.env.PORT}...`);
+app.listen(env.port, () => {
+  console.log(`Server started at port ${env.port}...`);
 });

@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import env from "../config/env.js";
 
 export const authenticateToken = (req, res, next) => {
   try {
@@ -9,7 +10,7 @@ export const authenticateToken = (req, res, next) => {
       return res.status(401).json({ message: "Access token missing" });
     }
 
-    req.user = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    req.user = jwt.verify(token, env.accessTokenSecret);
     next();
   } catch (err) {
     console.log("Authorization error ", err);

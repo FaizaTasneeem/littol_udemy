@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
+import env from '../config/env.js';
 
-const mongoURI = process.env.MONGO_URL || 'mongodb://localhost:27017/littol_db';
+const mongoURI = env.mongoUrl;
 
 const connectToMongoDB = async () => {
     try {

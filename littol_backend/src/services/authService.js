@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 
 import { userRepository } from "../repositories/userRepository.js";
 import { generateAccessToken, generateRefreshToken } from "../auth/token.js";
+import env from "../config/env.js";
 
 export const authService = {
     async createUser ({ fullname, email, password }) {
@@ -79,7 +80,7 @@ export const authService = {
         }  
 
         //verify refresh token sent in cookies
-        const decoded_payload = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+        const decoded_payload = jwt.verify(token, env.refreshTokenSecret);
 
         //check if user exists
         const user = await userRepository.findByUserProperty({ refreshToken: token });
