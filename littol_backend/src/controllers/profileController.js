@@ -1,36 +1,15 @@
+import { catchAsync } from "../middlewares/catchAsync.js";
 import { profileService } from "../services/profileService.js";
 
-const errorMap = {
-    VALIDATION_ERROR: 400,
-    UNAUTHORIZED: 401,
-    NOT_FOUND: 404,
-    CONFLICT_ERROR: 409,
-};
+export const profile = catchAsync(async (req,res) => {
+    const email = req.user.email;
+    const { user, message } = await profileService.profile({email});
+    return res.status(200).json({ user, message });
+});
 
-export async function profile(req, res) {
-    try{
-        const { email } = req.user.email;
-        const { user, message } = await profileService.profile({email});
-        return res.status(200).json({ user, message });
-    }
-    catch(error){
-        const error_status_code = errorMap[err.code] || 500;
-        const message = err.message || 'Internal server error';
-
-        return res.status(error_status_code).json({message});
-    }
-}
-
-export async function editProfile(req, res) {
-    try{
-        const { email } = req.user.email;
-        const { user, message } = await profileService.editProfile({email});
-        return res.status(200).json({ user, message });
-    }
-    catch(error){
-        const error_status_code = errorMap[err.code] || 500;
-        const message = err.message || 'Internal server error';
-
-        return res.status(error_status_code).json({message});
-    }
-}
+export const editProfile = catchAsync(async (req,res) => {
+    const email = req.user.email;
+    const { fullname } = req.body;
+    const { updatedUser, message } = await profileService.editProfile({email, fullname});
+    return res.status(200).json({ updatedUser, message });
+});

@@ -10,5 +10,12 @@ export const userRepository = {
     async findByUserProperty(propertyObj) {
         const user = await User.findOne(propertyObj) || null;
         return user;
+    },
+
+    async update(propertyObj, fullname) {
+        const user = await User.findOne(propertyObj);
+        user.fullname = fullname;
+        await user.save();
+        return user;
     }
 }
