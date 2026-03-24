@@ -1,17 +1,15 @@
 import { useState, useEffect, useRef, useContext } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
-import { setAccessToken, getAccessToken } from './authStore';
 import { sendRefreshRequest } from '../services/authService';
 import { UserContext } from "../context/AppContext";
 
 
 function ProtectedRoute() {
     const navigate = useNavigate();
-    const {setUser} = useContext(UserContext);
+    const {accessToken, setAccessToken, setUser} = useContext(UserContext);
     
     const [isLoading, setIsLoading] = useState(true);
     const isRefreshingRef = useRef(false);
-    const accessToken = getAccessToken();
 
     useEffect(() => {
         async function checkAuth() {

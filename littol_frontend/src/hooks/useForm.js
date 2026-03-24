@@ -2,13 +2,12 @@ import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { sendAuthRequest, sendLogoutRequest } from "../services/authService";
 import { validateCredentials } from "../utils/authValidation";
-import { setAccessToken, clearAccessToken } from "../utils/authStore";
 import { UserContext } from "../context/AppContext";
 
 
 export function useFormHandler(userInput) {
     const navigate = useNavigate();
-    const {setUser} = useContext(UserContext);
+    const {setUser, setAccessToken} = useContext(UserContext);
 
     const [signInClicked, setSignInClicked] = useState(false);
     const [formValues, setFormValues] = useState(userInput);
@@ -68,7 +67,7 @@ export function useFormHandler(userInput) {
             console.log("Success", response);
 
             // localStorage.removeItem("accessToken");
-            clearAccessToken();
+            setAccessToken(null);
             setUser(null);
             
             navigate("/");
