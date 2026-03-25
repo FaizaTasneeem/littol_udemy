@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import connectToMongoDB from "./database/mongo.js";
 import authRoutes from "./routes/auth.routes.js";
+import profileRoutes from "./routes/profile.routes.js";
 import env from "./config/env.js";
 
 const app = express();
@@ -17,6 +18,8 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/profile", profileRoutes);
+
 
 async function bootstrap() {
   try {
