@@ -15,7 +15,7 @@ function SignInUp({ signInClicked, formValues, error, handleInputChange, handleL
 
         {!signInClicked && (<input type="text" onChange={handleInputChange} className="m-2 py-2 px-4 pr-14 bg-gray-200 rounded-lg focus:outline-gray-400" name="fullname" value={formValues.fullname} placeholder="Full Name"/>)}
         <input type="text" onChange={handleInputChange} className="m-2 py-2 px-4 pr-14 bg-gray-200 rounded-lg focus:outline-gray-400" name="email" value={formValues.email} placeholder="Email Address"/>
-        <input type="text" onChange={handleInputChange} className="m-2 py-2 px-4 pr-14 bg-gray-200 rounded-lg focus:outline-gray-400" name="password" value={formValues.password} placeholder="Password"/>
+        <input type="password" onChange={handleInputChange} className="m-2 py-2 px-4 pr-14 bg-gray-200 rounded-lg focus:outline-gray-400" name="password" value={formValues.password} placeholder="Password"/>
 
         {error && (<div className="text-sm text-red-500">{error.msg}</div>)}
 
