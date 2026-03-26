@@ -4,7 +4,7 @@ import { UserContext } from "../context/AppContext";
 import { sendEditProfileRequest } from '../services/authService';
 
 
-function Home() {
+function Profile() {
   const {handleLogout} = useFormHandler({fullname:"", email:"", password:""});
   const {accessToken, user, setUser} = useContext(UserContext);
   const [inputValue, setInputValue] = useState(""); 
@@ -23,7 +23,7 @@ function Home() {
   
   return (
     <div className="p-14 flex flex-col items-center justify-center">
-      <h2>Home</h2>
+      <h2>Profile</h2>
       <div>Welcome {user?.fullname}!</div>
       <input className="p-2 mt-8 border rounded cursor-pointer" type="text" value={inputValue} onChange={e => setInputValue(e.target.value)} />
       <button className="p-2 mt-8 bg-blue-500 rounded cursor-pointer" onClick={updateProfile}>Update Profile</button>
@@ -32,4 +32,4 @@ function Home() {
   )
 }
 
-export default Home
+export default Profile

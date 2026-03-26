@@ -53,7 +53,7 @@ export function useFormHandler(userInput) {
             setAccessToken(serverResponse.data.accessToken);
             setUser(serverResponse.data.user);
 
-            navigate("/home");
+            navigate("/dashboard");
         }
         catch (err) {
             setError({msg: err?.response?.data?.message ?? err.message })
