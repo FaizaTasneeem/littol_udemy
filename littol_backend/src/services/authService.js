@@ -22,7 +22,7 @@ export const authService = {
             throw error;
         }
 
-        console.log("input register data - ", fullname, email, password);
+        // console.log("input register data - ", fullname, email, password);
 
         //create user in db
         const user = await userRepository.create({
@@ -63,7 +63,7 @@ export const authService = {
                 // throw error;
         // }
 
-        console.log("input login data - ", email, password);
+        // console.log("input login data - ", email, password);
 
         const { accessToken, refreshToken } = await generateTokens(user);
 
