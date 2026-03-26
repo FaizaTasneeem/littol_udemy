@@ -1,11 +1,11 @@
 import { useState, useContext } from "react";
-import { useFormHandler } from "../hooks/useForm";
+import { useLogout } from "../hooks/useLogout";
 import { UserContext } from "../context/AppContext";
 import { sendEditProfileRequest } from '../services/authService';
 
 
 function Dashboard() {
-  const {handleLogout} = useFormHandler({fullname:"", email:"", password:""});
+  const {handleLogout} = useLogout();
   const {accessToken, user, setUser} = useContext(UserContext);
   const [inputValue, setInputValue] = useState(""); 
  
