@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { sendAuthRequest, sendLogoutRequest } from "../services/authService";
+import { sendAuthRequest } from "../services/authService";
 import { validateCredentials } from "../utils/authValidation";
 import { UserContext } from "../context/AppContext";
 
@@ -53,7 +53,7 @@ export function useFormHandler(userInput) {
             setAccessToken(serverResponse.data.accessToken);
             setUser(serverResponse.data.user);
 
-            navigate("/home");
+            navigate("/dashboard");
         }
         catch (err) {
             setError({msg: err?.response?.data?.message ?? err.message })
@@ -61,23 +61,5 @@ export function useFormHandler(userInput) {
         }
     }
 
-    async function handleLogout() {
-        try {
-            const response = await sendLogoutRequest();
-            console.log("Success", response);
-
-            // localStorage.removeItem("accessToken");
-            setAccessToken(null);
-            setUser(null);
-            
-            navigate("/");
-        }
-        catch (err) {
-            setError({msg: err?.response?.data?.message ?? err.message })
-            console.log(err?.response?.data?.message ?? err.message);
-        }
-        
-    }
-
-    return {signInClicked, formValues, error, handleSignInClick, handleInputChange, handleLogin, handleLogout};
+    return {signInClicked, formValues, error, handleSignInClick, handleInputChange, handleLogin};
 }
