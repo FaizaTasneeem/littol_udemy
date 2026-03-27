@@ -21,12 +21,12 @@ export const createCourse = catchAsync(async (req, res) => {
 export const updateCourse = catchAsync(async (req, res) => {
     const courseId = req.params.id;
     const updates = req.body
-    const { course, message } = await courseService.updateCourse({ courseId, updates });
-    return res.status(200).json({ course, message });
+    const { updatedCourse, message } = await courseService.updateCourse({ courseId, updates });
+    return res.status(200).json({ updatedCourse, message });
 });
 
 export const deleteCourse = catchAsync(async (req, res) => {
     const courseId = req.params.id;
-    const { course, message } = await courseService.deleteCourse({ courseId });
-    return res.status(200).json({ course, message });
+    const { deletedCourse, message } = await courseService.deleteCourse({ courseId });
+    return res.status(200).json({ deletedCourse, message });
 });
