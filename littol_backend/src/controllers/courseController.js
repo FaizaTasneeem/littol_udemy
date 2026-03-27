@@ -1,5 +1,5 @@
-import { catchAsync } from "../middlewares/catchAsync";
-import { courseService } from "../services/courseService";
+import { catchAsync } from "../middlewares/catchAsync.js";
+import { courseService } from "../services/courseService.js";
 
 export const getCourses = catchAsync(async (req, res) => {
     const { courses, message } = await courseService.getCourses();

@@ -24,7 +24,7 @@ export const courseService = {
     async createCourse(courseObj){
         if (!courseObj) {
             const error = new Error("All Course fields are required !");
-            error.code = "";
+            error.code = "VALIDATION_ERROR";
             throw error;
         }
         const oldCourse = await courseRepository.findOneCourse({ _id: courseObj._id });
@@ -50,7 +50,7 @@ export const courseService = {
             throw error;
         }
         const updatedCourse = await courseRepository.update({ _id: courseId }, updates);
-        return { course, message:`Course with ID - ${updatedCourse._id} updated successfully !` }
+        return { updatedCourse, message:`Course with ID - ${updatedCourse._id} updated successfully !` }
     },
 
     async deleteCourse({ courseId }){
@@ -65,7 +65,8 @@ export const courseService = {
             error.code = "NOT_FOUND";
             throw error;
         }
-
+        const deletedCourse = await courseRepository.delete({ _id: courseId });
+        return { deletedCourse, message:`Course with ID - ${deletedCourse._id} deleted successfully !`}
     }
 
 };

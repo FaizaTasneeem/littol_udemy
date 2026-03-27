@@ -1,4 +1,4 @@
-import express from express;
+import express from "express";
 import { authenticateToken } from "../middlewares/auth.middleware.js";
 import { getCourses, getCourse, createCourse, updateCourse, deleteCourse } from "../controllers/courseController.js";
 
