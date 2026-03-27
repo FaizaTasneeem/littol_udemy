@@ -20,8 +20,20 @@ export const courseService = {
         return { course, message:`Course with ID - ${course._id} fetched successfully !` };
     },
 
-    async createCourse(){
-        
+    async createCourse(courseObj){
+        if (!courseObj) {
+            const error = new Error("All Course fields are required !");
+            error.code = "";
+            throw error;
+        }
+        const oldCourse = await courseRepository.findOneCourse({ _id: courseObj._id });
+        if (oldCourse) {
+            const error = new Error("Course already exists !");
+            error.code = "CONFLICT_ERROR";
+            throw error;
+        }
+        const course = await courseRepository.create({...courseObj});
+        return {course, message: "Course created successfully !"};
     },
 
     async updateCourse({ courseId, updates }){

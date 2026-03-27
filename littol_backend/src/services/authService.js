@@ -9,7 +9,7 @@ export const authService = {
     async createUser ({ fullname, email, password }) {
         //check if fullname, email & password exist
         if (!fullname || !email || !password) {
-            const error = new Error("Email and Password required !");
+            const error = new Error("Fullname, Email and Password required !");
             error.code = "VALIDATION_ERROR";
             throw error;
         }
