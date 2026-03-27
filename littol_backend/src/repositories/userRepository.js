@@ -7,11 +7,6 @@ export const userRepository = {
         return newUser;
     },
 
-    async findByUserProperty(filter) {
-        const user = await User.findOne(filter) || null;
-        return user;
-    },
-
     async update(filter, updates) {
         const user = await User.findOneAndUpdate(
             filter,
@@ -19,5 +14,10 @@ export const userRepository = {
             { new: true, runValidators: true }
         );
         return user;
-    }
+    },
+    
+    async findByUserProperty(filter) {
+        const user = await User.findOne(filter) || null;
+        return user;
+    },
 }
