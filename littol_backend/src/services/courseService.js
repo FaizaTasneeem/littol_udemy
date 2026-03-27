@@ -2,7 +2,8 @@ import { courseRepository } from "../repositories/courseRepository.js";
 
 export const courseService = {
     async getCourses(){
-        
+        const courses = await courseRepository.findCourses();
+        return { courses, message: "All Courses fetched successfully !" };
     },
 
     async getCourse({ courseId }){
