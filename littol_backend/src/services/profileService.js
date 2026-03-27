@@ -35,4 +35,4 @@ export const profileService = {
 
         return {updatedUser, message: `User profile updated successfully for ${updatedUser.email} !`};
     }
-}
+};

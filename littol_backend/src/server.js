@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import connectToMongoDB from "./database/mongo.js";
 import authRoutes from "./routes/auth.routes.js";
 import profileRoutes from "./routes/profile.routes.js";
+import courseRoutes from "../routes/course.routes.js";
 import env from "./config/env.js";
 
 const app = express();
@@ -19,6 +20,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
+app.use("/api/course", courseRoutes);
 
 
 async function bootstrap() {
