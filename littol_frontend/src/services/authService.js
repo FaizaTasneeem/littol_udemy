@@ -16,8 +16,3 @@ export async function sendLogoutRequest() {
     const response = await axios.post(`${server}/logout`);
     return response;
 }
-
-export async function sendEditProfileRequest(user, accessToken) {
-    const response = await axios.put(`${server}/edit-profile`, user, {headers: { 'authorization': `Bearer ${accessToken}`}});
-    return response;
-}

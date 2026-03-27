@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { useLogout } from "../hooks/useLogout";
 import { UserContext } from "../context/AppContext";
-import { sendEditProfileRequest } from '../services/authService';
+import { sendEditProfileRequest } from '../services/profileService';
 
 
 function Dashboard() {

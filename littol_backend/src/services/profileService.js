@@ -17,9 +17,9 @@ export const profileService = {
         return {user, message: `User profile fetched successfully for ${user.email} !`};
     },
     
-    async editProfile({ userId, fullname }) {
-        if(!userId || !fullname){
-            const error = new Error("User id & Fullname is required !");
+    async editProfile({ userId, updates }) {
+        if(!userId || !updates){
+            const error = new Error("User id & Updates are required !");
             error.code = "VALIDATION_ERROR";
             throw error;
         }
@@ -31,7 +31,7 @@ export const profileService = {
             throw error;
         }
 
-        const updatedUser = await userRepository.update({ _id: userId }, { fullname });
+        const updatedUser = await userRepository.update({ _id: userId }, updates);
 
         return {updatedUser, message: `User profile updated successfully for ${updatedUser.email} !`};
     }
