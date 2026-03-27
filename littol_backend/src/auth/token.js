@@ -1,14 +1,14 @@
 import jwt from "jsonwebtoken";
 import env from "../config/env.js";
 
-export const generateAccessToken = (email) => {
-  return jwt.sign({ email: email }, env.accessTokenSecret, {
+export const generateAccessToken = (userId) => {
+  return jwt.sign({ id: String(userId) }, env.accessTokenSecret, {
     expiresIn: "1m",
   });
 };
 
-export const generateRefreshToken = (email) => {
-  return jwt.sign({ email: email }, env.refreshTokenSecret, {
+export const generateRefreshToken = (userId) => {
+  return jwt.sign({ id: String(userId) }, env.refreshTokenSecret, {
     expiresIn: "7d",
   });
 };

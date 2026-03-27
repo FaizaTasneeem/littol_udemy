@@ -1,13 +1,13 @@
 import { userRepository } from "../repositories/userRepository.js";
 
 export const profileService = {
-    async profile({email}){
-        if(!email){
-            const error = new Error("Email is required !");
+    async profile({ userId }){
+        if(!userId){
+            const error = new Error("User id is required !");
             error.code = "VALIDATION_ERROR";
             throw error;
         }
-        const user = await userRepository.findByUserProperty({email});
+        const user = await userRepository.findByUserProperty({ _id: userId });
         if(!user){
             const error = new Error("User not found !");
             error.code = "NOT_FOUND";
@@ -17,21 +17,21 @@ export const profileService = {
         return {user, message: `User profile fetched successfully for ${user.email} !`};
     },
     
-    async editProfile({email, fullname}) {
-        if(!email || !fullname){
-            const error = new Error("Email & Fullname is required !");
+    async editProfile({ userId, fullname }) {
+        if(!userId || !fullname){
+            const error = new Error("User id & Fullname is required !");
             error.code = "VALIDATION_ERROR";
             throw error;
         }
         
-        const user = await userRepository.findByUserProperty({email});
+        const user = await userRepository.findByUserProperty({ _id: userId });
         if(!user){
             const error = new Error("User not found !");
             error.code = "NOT_FOUND";
             throw error;
         }
 
-        const updatedUser = await userRepository.update({ email },{ fullname });
+        const updatedUser = await userRepository.update({ _id: userId }, { fullname });
 
         return {updatedUser, message: `User profile updated successfully for ${updatedUser.email} !`};
     }

@@ -121,10 +121,18 @@ export const authService = {
 }
 
 async function generateTokens(user) {
-  const accessToken = generateAccessToken(user.email);
-  const refreshToken = generateRefreshToken(user.email);
+    const userId = user?.id || user?._id?.toString();
 
-  await userRepository.update({ email: user.email }, { refreshToken: refreshToken });
+    if (!userId) {
+        const error = new Error("User id is required to generate tokens !");
+        error.code = "VALIDATION_ERROR";
+        throw error;
+    }
+
+    const accessToken = generateAccessToken(userId);
+    const refreshToken = generateRefreshToken(userId);
+
+    await userRepository.update({ _id: userId }, { refreshToken: refreshToken });
 
   return { accessToken, refreshToken };
 }
