@@ -5,7 +5,8 @@ import { sendEditProfileRequest } from '../services/profileService';
 
 function Profile() {
   const {accessToken, user, setUser} = useContext(UserContext);
-  const [inputValue, setInputValue] = useState(""); 
+  const [inputValue, setInputValue] = useState("");
+  const [previewUrl, setPreviewUrl] = useState("");
  
   async function updateProfile() {
     try {
@@ -18,15 +19,21 @@ function Profile() {
         console.log("❌ User update failed. Please try again...", err);
     }
   };
+
+  function handleImageChange(e) {
+    if (e.target.files?.[0]) {
+      setPreviewUrl(URL.createObjectURL(e.target.files[0]));
+    }
+  }
   
   return (
     <div className="w-full p-14 flex flex-col items-start justify-start">
       <div className="w-full flex flex-row items-start justify-start rounded-lg p-4 bg-gray-100">
         
-        <input type="file" id="profile-pic" hidden/>
         <label htmlFor="profile-pic" className="relative cursor-pointer">
-          <div className="w-full absolute top-[40%] left-[20%] text-gray-500">Upload Image</div>
-          <img src="" alt="" className="w-50 h-50 border-6 border-white rounded-full mr-10 " />
+          {!previewUrl && <div className="w-full absolute top-[40%] left-[20%] text-gray-500">Upload Image</div>}
+          <img src={previewUrl} alt="" className="w-50 h-50 border-6 border-white rounded-full mr-10 " />
+          <input type="file" id="profile-pic" onChange={handleImageChange} accept="image/*" hidden/>
         </label>
 
         <div className="w-full h-full ml-8 flex flex-col items-between justify-evenly">
