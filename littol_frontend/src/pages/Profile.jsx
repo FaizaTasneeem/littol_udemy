@@ -22,9 +22,13 @@ function Profile() {
   };
   
   return (
-    <div className="p-14 flex flex-col items-center justify-center">
-      <h2>Profile</h2>
-      <div>Welcome {user?.fullname}!</div>
+    <div className="w-full p-14 flex flex-col items-start justify-start">
+      <div className="w-full flex flex-row items-start justify-start rounded-lg p-4 bg-gray-100">
+        <img src="" alt="" className="w-50 h-50 border border-gray-300 rounded-full mr-10" />
+        <h1 className="w-1/2 font-medium text-3xl">{user?.fullname}!</h1>
+
+      </div>
+
       <input className="p-2 mt-8 border rounded cursor-pointer" type="text" value={inputValue} onChange={e => setInputValue(e.target.value)} />
       <button className="p-2 mt-8 bg-blue-500 rounded cursor-pointer" onClick={updateProfile}>Update Profile</button>
       <button className="p-2 mt-8 bg-violet-500 rounded cursor-pointer" onClick={handleLogout}>Logout</button>
