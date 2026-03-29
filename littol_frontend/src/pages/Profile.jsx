@@ -22,7 +22,14 @@ function Profile() {
   return (
     <div className="w-full p-14 flex flex-col items-start justify-start">
       <div className="w-full flex flex-row items-start justify-start rounded-lg p-4 bg-gray-100">
-        <img src="" alt="" className="w-50 h-50 border border-gray-300 rounded-full mr-10 cursor-pointer" />
+        
+        <input type="file" id="profile-pic" hidden/>
+        <label htmlFor="profile-pic" className="relative cursor-pointer">
+          <div className="w-full absolute top-[40%] left-[20%]">Upload Image</div>
+          <img src="" alt="" className="w-50 h-50 border border-gray-300 rounded-full mr-10 " />
+        </label>
+
+        
         <h1 className="w-1/2 font-medium text-3xl">{user?.fullname}!</h1>
 
       </div>
