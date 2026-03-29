@@ -25,8 +25,8 @@ function Profile() {
         
         <input type="file" id="profile-pic" hidden/>
         <label htmlFor="profile-pic" className="relative cursor-pointer">
-          <div className="w-full absolute top-[40%] left-[20%]">Upload Image</div>
-          <img src="" alt="" className="w-50 h-50 border border-gray-300 rounded-full mr-10 " />
+          <div className="w-full absolute top-[40%] left-[20%] text-gray-500">Upload Image</div>
+          <img src="" alt="" className="w-50 h-50 border-6 border-white rounded-full mr-10 " />
         </label>
 
         <div className="w-full h-full ml-8 flex flex-col items-between justify-evenly">

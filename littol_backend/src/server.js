@@ -23,18 +23,13 @@ app.use("/api/profile", profileRoutes);
 app.use("/api/course", courseRoutes);
 
 
-async function bootstrap() {
+app.listen(env.port, async () => {
   try {
     await connectToMongoDB();
-
-    app.listen(env.port, () => {
-      console.log(`Server started at port ${env.port}...`);
-    });
-  } 
+    console.log(`Server started at port ${env.port}...`);
+  }
   catch (error) {
     console.error("Failed to start server:", error);
     process.exit(1);
   }
-};
-
-bootstrap();
+});
