@@ -29,8 +29,10 @@ function Profile() {
           <img src="" alt="" className="w-50 h-50 border border-gray-300 rounded-full mr-10 " />
         </label>
 
-        
-        <h1 className="w-1/2 font-medium text-3xl">{user?.fullname}!</h1>
+        <div className="w-full h-full ml-8 flex flex-col items-between justify-evenly">
+          <h1 className="w-1/2 font-medium text-3xl">{user?.fullname}!</h1>
+          <h1 className="w-1/2 font-small text-xl">{user?.email}!</h1>
+        </div>
 
       </div>
 
