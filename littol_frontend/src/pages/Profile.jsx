@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../context/AppContext";
 import { sendEditProfileRequest } from '../services/profileService';
 
@@ -6,7 +6,13 @@ import { sendEditProfileRequest } from '../services/profileService';
 function Profile() {
   const {accessToken, user, setUser} = useContext(UserContext);
   const [inputValue, setInputValue] = useState("");
-  const [previewUrl, setPreviewUrl] = useState("");
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [nameFocus, setNameFocus] = useState(false);
+
+  useEffect(() => {
+    // if (previewUrl)
+
+  }, [previewUrl]);
  
   async function updateProfile() {
     try {
@@ -25,6 +31,10 @@ function Profile() {
       setPreviewUrl(URL.createObjectURL(e.target.files[0]));
     }
   }
+
+  function handleNameChange() {
+    setNameFocus(!nameFocus);
+  }
   
   return (
     <div className="w-full p-14 flex flex-col items-start justify-start">
@@ -37,13 +47,13 @@ function Profile() {
         </label>
 
         <div className="w-full h-full ml-8 flex flex-col items-between justify-evenly">
-          <h1 className="w-1/2 font-medium text-3xl">{user?.fullname}!</h1>
+          {!nameFocus && <h1 className="w-1/2 font-medium text-3xl" onClick={handleNameChange}>{user?.fullname}!</h1>}
+          {nameFocus && <input className="p-2 mt-8 border rounded cursor-pointer" type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} onBlur={handleNameChange} autoFocus />}
           <h1 className="w-1/2 font-small text-xl">{user?.email}!</h1>
         </div>
 
       </div>
 
-      <input className="p-2 mt-8 border rounded cursor-pointer" type="text" value={inputValue} onChange={e => setInputValue(e.target.value)} />
       <button className="p-2 mt-8 bg-blue-500 rounded cursor-pointer" onClick={updateProfile}>Update Profile</button>
     </div>
   )
