@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { UserContext } from "../context/AppContext";
 import { sendEditProfileRequest } from '../services/profileService';
 
@@ -9,14 +9,10 @@ function Profile() {
   const [previewUrl, setPreviewUrl] = useState(null);
   const [nameFocus, setNameFocus] = useState(false);
 
-  useEffect(() => {
-    // if (previewUrl)
 
-  }, [previewUrl]);
- 
-  async function updateProfile() {
+  async function updateProfile(update) {
     try {
-        const updatedUser = {...user, fullname:inputValue};
+        const updatedUser = {...user, update};
         const response = await sendEditProfileRequest(updatedUser, accessToken);
         setUser(response.data.updatedUser);
         console.log("✅ User updated successfully !!!", response);
@@ -26,16 +22,17 @@ function Profile() {
     }
   };
 
-  function handleImageChange(e) {
+  async function handleImageChange(e) {
     if (e.target.files?.[0]) {
       setPreviewUrl(URL.createObjectURL(e.target.files[0]));
+      await updateProfile({image: e.target.files[0]});
     }
   }
 
   function handleNameChange() {
     setNameFocus(!nameFocus);
   }
-  
+   
   return (
     <div className="w-full p-14 flex flex-col items-start justify-start">
       <div className="w-full flex flex-row items-start justify-start rounded-lg p-4 bg-gray-100">
@@ -54,7 +51,7 @@ function Profile() {
 
       </div>
 
-      <button className="p-2 mt-8 bg-blue-500 rounded cursor-pointer" onClick={updateProfile}>Update Profile</button>
+      <button className="p-2 mt-8 bg-blue-500 rounded cursor-pointer" onClick={() => {updateProfile({fullname:inputValue})}}>Update Profile</button>
     </div>
   )
 }
