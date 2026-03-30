@@ -15,6 +15,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    profilePicFilePath: {
+        type: String,
+    },
     refreshToken: {
         type: String,
         default: null

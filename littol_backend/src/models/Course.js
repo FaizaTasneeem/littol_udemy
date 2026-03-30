@@ -21,7 +21,9 @@ const courseSchema = mongoose.Schema({
         required: true,
         type: String,
     },
-    thumbnail:{},
+    thumbnailFilePath:{
+        type: String
+    },
     rating:{
         type: Number,
     }
