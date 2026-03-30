@@ -18,7 +18,7 @@ function Profile() {
     try {
         const updatedUser = {...user, fullname:inputValue};
         const response = await sendEditProfileRequest(updatedUser, accessToken);
-        setUser(updatedUser);
+        setUser(response.data.updatedUser);
         console.log("✅ User updated successfully !!!", response);
     }
     catch (err) {

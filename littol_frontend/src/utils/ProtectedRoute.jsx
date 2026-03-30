@@ -30,7 +30,7 @@ function ProtectedRoute() {
                 const response = await sendRefreshRequest();
                 console.log("✅ Token refreshed successfully !!!", response);
                 setAccessToken(response.data.accessToken);
-                setUser(response.data.user);
+                setUser(response.data.updatedUser);
                 setIsLoading(false);
             }
             catch (err) {

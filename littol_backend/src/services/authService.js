@@ -33,9 +33,9 @@ export const authService = {
         });
 
         //generate access + refresh tokens 
-        const { accessToken, refreshToken } = await generateTokens(user);
+        const { updatedUser, accessToken, refreshToken } = await generateTokens(user);
 
-        return {user, accessToken, refreshToken, message: "User created successfully !"};
+        return {updatedUser, accessToken, refreshToken, message: "User created successfully !"};
 
     },
 
@@ -65,9 +65,9 @@ export const authService = {
 
         // console.log("input login data - ", email, password);
 
-        const { accessToken, refreshToken } = await generateTokens(user);
+        const { updatedUser, accessToken, refreshToken } = await generateTokens(user);
 
-        return {user, accessToken, refreshToken, message: "User logged in successfully !"};
+        return {updatedUser, accessToken, refreshToken, message: "User logged in successfully !"};
 
     },
 
@@ -90,9 +90,9 @@ export const authService = {
             throw error;
         }
 
-        const { accessToken, refreshToken } = await generateTokens(user);
+        const { updatedUser, accessToken, refreshToken } = await generateTokens(user);
 
-        return {user, accessToken, refreshToken, message: "Token refreshed successfully !"};
+        return {updatedUser, accessToken, refreshToken, message: "Token refreshed successfully !"};
 
     },
 
@@ -113,9 +113,9 @@ export const authService = {
         }
 
         //clear refresh token in user
-        await userRepository.update({ email: user.email },{ refreshToken: null });
+        const updatedUser = await userRepository.update({ email: user.email },{ refreshToken: null });
 
-        return {user, message: "Logged out successfully !"};
+        return {updatedUser, message: "Logged out successfully !"};
 
     }
 }
@@ -132,7 +132,7 @@ async function generateTokens(user) {
     const accessToken = generateAccessToken(userId);
     const refreshToken = generateRefreshToken(userId);
 
-    await userRepository.update({ _id: userId }, { refreshToken: refreshToken });
+    const updatedUser = await userRepository.update({ _id: userId }, { refreshToken: refreshToken });
 
-  return { accessToken, refreshToken };
+    return { updatedUser, accessToken, refreshToken };
 }

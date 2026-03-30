@@ -4,41 +4,41 @@ import { authService } from "../services/authService.js";
 export const register = catchAsync(async (req, res) => {
     const { fullname, email, password } = req.body;
 
-    const {user, accessToken, refreshToken, message} = await authService.createUser({ fullname, email, password });
+    const { updatedUser, accessToken, refreshToken, message } = await authService.createUser({ fullname, email, password });
 
     setRefreshTokenCookie(res, refreshToken);
 
-    return res.status(200).json({ user, accessToken, message });
+    return res.status(200).json({ updatedUser, accessToken, message });
 });
 
 export const login = catchAsync(async (req, res) => {
     const { email, password } = req.body;
 
-    const {user, accessToken, refreshToken, message} = await authService.loginUser({ email, password });
+    const { updatedUser, accessToken, refreshToken, message } = await authService.loginUser({ email, password });
 
     setRefreshTokenCookie(res, refreshToken);
 
-    return res.status(200).json({ user, accessToken, message });
+    return res.status(200).json({ updatedUser, accessToken, message });
 });
 
 export const refresh = catchAsync(async (req, res) => {
     const token = req.cookies.refreshToken;
 
-    const {user, accessToken, refreshToken, message} = await authService.refresh({ token });
+    const { updatedUser, accessToken, refreshToken, message } = await authService.refresh({ token });
 
     setRefreshTokenCookie(res, refreshToken);
 
-    return res.status(200).json({ user, accessToken, message });
+    return res.status(200).json({ updatedUser, accessToken, message });
 });
 
 export const logout = catchAsync(async (req, res) => {
     const token = req.cookies.refreshToken;
 
-    const {user, message} = await authService.logout({ token });
+    const { updatedUser, message } = await authService.logout({ token });
 
     res.clearCookie("refreshToken");
 
-    return res.status(200).json({ user, message });
+    return res.status(200).json({ updatedUser, message });
 });
 
 
