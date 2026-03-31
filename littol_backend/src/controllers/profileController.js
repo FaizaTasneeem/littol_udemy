@@ -9,10 +9,14 @@ export const getProfile = catchAsync(async (req,res) => {
 
 export const editProfile = catchAsync(async (req,res) => {
     const userId = req.user.id;
-    let updates = req.body;
-    if (req.file) {
-       updates = { ...updates, profilePicFilePath:req.file.path }; 
-    }
+    const updates = req.body;
+    const { updatedUser, message } = await profileService.editProfile({ userId, updates });
+    return res.status(200).json({ updatedUser, message });
+});
+
+export const editProfilePic = catchAsync(async (req,res) => {
+    const userId = req.user.id;
+    const updates = { profilePicFilePath: req.file.path };
     const { updatedUser, message } = await profileService.editProfile({ userId, updates });
     return res.status(200).json({ updatedUser, message });
 });

@@ -6,6 +6,7 @@ import { getProfile, editProfile } from "../controllers/profileController.js";
 const router = express.Router();
 
 router.get("/profile", authenticateToken, getProfile);
-router.put("/edit-profile", authenticateToken, upload.single('image'), editProfile);
+router.put("/edit-profile", authenticateToken, editProfile);
+router.put("/edit-profile-pic", authenticateToken, upload.single('image'), editProfile);
 
 export default router;
