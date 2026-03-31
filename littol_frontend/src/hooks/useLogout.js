@@ -6,7 +6,7 @@ import { UserContext } from "../context/AppContext";
 export function useLogout() {
     const navigate = useNavigate();
     const [, setError] = useState(null);
-    const {setUser, setAccessToken} = useContext(UserContext);
+    const {setAccessToken, setUser, setPreviewUrl} = useContext(UserContext);
     
     async function handleLogout() {
         try {
@@ -16,6 +16,7 @@ export function useLogout() {
             // localStorage.removeItem("accessToken");
             setAccessToken(null);
             setUser(null);
+            setPreviewUrl(null);
             
             navigate("/");
         }

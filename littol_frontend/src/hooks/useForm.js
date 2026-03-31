@@ -7,7 +7,7 @@ import { UserContext } from "../context/AppContext";
 
 export function useFormHandler(userInput) {
     const navigate = useNavigate();
-    const {setUser, setAccessToken} = useContext(UserContext);
+    const {setAccessToken, setUser, setPreviewUrl} = useContext(UserContext);
 
     const [signInClicked, setSignInClicked] = useState(false);
     const [formValues, setFormValues] = useState(userInput);
@@ -52,6 +52,7 @@ export function useFormHandler(userInput) {
             // localStorage.setItem("accessToken", serverResponse.data.accessToken);
             setAccessToken(serverResponse.data.accessToken);
             setUser(serverResponse.data.updatedUser);
+            setPreviewUrl(serverResponse.data.updatedUser.profilePicFilePath);
 
             navigate("/dashboard");
         }

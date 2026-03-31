@@ -14,7 +14,7 @@ function Profile() {
         const payload = update instanceof FormData ? update : {...user, ...update};
         const response = await sendEditProfileRequest(payload, accessToken);
         setUser(response.data.updatedUser);
-        console.log("Response received - ", response.data.updatedUser.profilePicFilePath);
+        // console.log("Response received - ", response.data.updatedUser.profilePicFilePath);
         setPreviewUrl(response.data.updatedUser.profilePicFilePath);
         console.log("✅ User updated successfully !!!", response);
     }

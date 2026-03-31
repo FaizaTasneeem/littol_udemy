@@ -6,7 +6,7 @@ import { UserContext } from "../context/AppContext";
 
 function ProtectedRoute() {
     const navigate = useNavigate();
-    const {accessToken, setAccessToken, setUser} = useContext(UserContext);
+    const {accessToken, setAccessToken, setUser, setPreviewUrl} = useContext(UserContext);
     
     const [isLoading, setIsLoading] = useState(true);
     const isRefreshingRef = useRef(false);
@@ -31,6 +31,7 @@ function ProtectedRoute() {
                 console.log("✅ Token refreshed successfully !!!", response);
                 setAccessToken(response.data.accessToken);
                 setUser(response.data.updatedUser);
+                setPreviewUrl(response.data.updatedUser.profilePicFilePath);
                 setIsLoading(false);
             }
             catch (err) {
