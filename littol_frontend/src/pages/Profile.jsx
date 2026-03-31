@@ -12,8 +12,9 @@ function Profile() {
 
   async function updateProfile(update) {
     try {
-        const updatedUser = {...user, update};
-        const response = await sendEditProfileRequest(updatedUser, accessToken);
+        const payload = update instanceof FormData ? update : {...user, ...update};
+        console.log(payload);
+        const response = await sendEditProfileRequest(payload, accessToken);
         setUser(response.data.updatedUser);
         console.log("✅ User updated successfully !!!", response);
     }
@@ -23,9 +24,13 @@ function Profile() {
   };
 
   async function handleImageChange(e) {
-    if (e.target.files?.[0]) {
-      setPreviewUrl(URL.createObjectURL(e.target.files[0]));
-      await updateProfile({image: e.target.files[0]});
+    const imgFile = e.target.files?.[0];
+    if (imgFile) {
+      setPreviewUrl(URL.createObjectURL(imgFile));
+
+      const formData = new FormData();
+      formData.append("image", imgFile);
+      await updateProfile(formData);
     }
   }
 
