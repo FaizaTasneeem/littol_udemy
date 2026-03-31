@@ -1,20 +1,21 @@
 import { useState, useContext } from "react";
 import { UserContext } from "../context/AppContext";
-import { sendEditProfileRequest, sendEditProfilePicRequest } from '../services/profileService';
+import { sendEditProfileRequest } from '../services/profileService';
 
 
 function Profile() {
-  const {accessToken, user, setUser} = useContext(UserContext);
+  const {accessToken, user, setUser, previewUrl, setPreviewUrl} = useContext(UserContext);
   const [inputValue, setInputValue] = useState("");
-  const [previewUrl, setPreviewUrl] = useState(null);
   const [nameFocus, setNameFocus] = useState(false);
 
 
   async function updateProfile(update) {
     try {
-        const payload = {...user, ...update};
+        const payload = update instanceof FormData ? update : {...user, ...update};
         const response = await sendEditProfileRequest(payload, accessToken);
         setUser(response.data.updatedUser);
+        console.log("Response received - ", response.data.updatedUser.profilePicFilePath);
+        setPreviewUrl(response.data.updatedUser.profilePicFilePath);
         console.log("✅ User updated successfully !!!", response);
     }
     catch (err) {
@@ -22,23 +23,16 @@ function Profile() {
     }
   };
 
-  async function updateImage(e) {
-    try {
-      const imgFile = e.target.files?.[0];
-      if (!imgFile) {
-        console.log("No image selected");
-        return;
-      }
-      
-      const formData = new FormData();
-      formData.append("image", imgFile);
-      const response = await sendEditProfilePicRequest(formData, accessToken)
-      setPreviewUrl(URL.createObjectURL(imgFile));
-      console.log("✅ Profile image updated successfully !!!", response);
+  async function handleImageChange(e) {
+    const imgFile = e.target.files?.[0];
+    if (!imgFile) {
+      console.log("No image selected");
+      return;
     }
-    catch (err) {
-      console.log("❌ Profile image update failed. Please try again...", err);
-    }
+    // console.log(imgFile);
+    const formData = new FormData();
+    formData.append("image", imgFile);
+    await updateProfile(formData);
   }
 
   function handleNameChange() {
@@ -52,7 +46,7 @@ function Profile() {
         <label htmlFor="profile-pic" className="relative cursor-pointer">
           {!previewUrl && <div className="w-full absolute top-[40%] left-[20%] text-gray-500">Upload Image</div>}
           <img src={previewUrl} alt="" className="w-50 h-50 border-6 border-white rounded-full mr-10 " />
-          <input type="file" id="profile-pic" onChange={updateImage} accept="image/*" hidden/>
+          <input type="file" id="profile-pic" onChange={handleImageChange} accept="image/*" hidden/>
         </label>
 
         <div className="w-full h-full ml-8 flex flex-col items-between justify-evenly">
