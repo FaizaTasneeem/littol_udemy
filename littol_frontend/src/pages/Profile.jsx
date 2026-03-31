@@ -50,8 +50,8 @@ function Profile() {
         </label>
 
         <div className="w-full h-full ml-8 flex flex-col items-between justify-evenly">
-          {!nameFocus && <h1 className="w-1/2 font-medium text-3xl" onClick={handleNameChange}>{user?.fullname}!</h1>}
-          {nameFocus && <input className="p-2 mt-8 border rounded cursor-pointer" type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} onBlur={handleNameChange} autoFocus />}
+          {!nameFocus && <h1 className="p-2 mt-8 w-1/2 font-medium text-3xl" onClick={handleNameChange}>{user?.fullname}!</h1>}
+          {nameFocus && <input className="p-2 mt-8 w-1/2 rounded cursor-pointer" type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} onBlur={handleNameChange} autoFocus />}
           <h1 className="w-1/2 font-small text-xl">{user?.email}!</h1>
         </div>
 
