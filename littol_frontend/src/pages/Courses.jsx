@@ -1,11 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
+import { UserContext } from "../context/AppContext";
 import SearchCourses from "../components/SearchCourses";
 import CreateCourse from "../components/CreateCourse";
 import CoursesList from "../components/CoursesList";
+import { getAllCourses } from "../services/courseService";
 
 function Courses() {
+  const {accessToken} = useContext(UserContext);
   const [createCourseClicked, setCreateCourseClicked] = useState(false);
+  const [courses, setCourses] = useState([]);
 
+  async function getCourses() {
+    try {
+      const response = await getAllCourses(accessToken);
+      setCourses([...response.data.courses]);
+      console.log(response.data.message);
+    }
+    catch(err) {
+      console.log("Error fetching all courses ", err);
+    }
+  }
+
+  useEffect(() => {
+    getCourses();
+  }, []);
 
   return (
     <div className="w-full p-14 flex flex-col items-start justify-start">
@@ -19,8 +37,15 @@ function Courses() {
       <SearchCourses />
       {createCourseClicked && <CreateCourse />}
 
-      <div className="w-full flex flex-row">
+      <div className="w-full mt-10 flex flex-row flex-wrap gap-4 bg-gray-100 rounded-lg">
         <CoursesList/>
+        <CoursesList/>
+        <CoursesList/>
+        <CoursesList/>
+        <CoursesList/>
+
+        {courses}
+
       </div>
     </div>
   )
