@@ -1,4 +1,4 @@
-function CreateCourses() {
+function CreateCourse() {
     return (
         <div className="w-full bg-gray-100 mt-16 rounded-lg flex flex-col">
             <input type="text" className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='Title' />
@@ -7,7 +7,7 @@ function CreateCourses() {
         
             <div className="pt-2 w-full flex flex-row justify-between">
                 <div className="w-1/2 flex flex-col">
-                    <label for="category" className="mx-2">Category</label>
+                    <label htmlFor="category" className="mx-2">Category</label>
                     <select id="category" className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='All'>
                         <option>All</option>
                         <option>category1</option>
@@ -16,7 +16,7 @@ function CreateCourses() {
                 </div>
             
                 <div className="w-1/2 flex flex-col">
-                    <label for="level" className="mx-2">Level</label>
+                    <label htmlFor="level" className="mx-2">Level</label>
                     <select id="level" className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='All'>
                         <option>All</option>
                         <option>Beginner</option>
@@ -33,4 +33,4 @@ function CreateCourses() {
     )
 }
 
-export default CreateCourses
+export default CreateCourse
