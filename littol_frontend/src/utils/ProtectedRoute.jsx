@@ -3,6 +3,7 @@ import { useNavigate, Outlet } from 'react-router-dom';
 import { sendRefreshRequest } from '../services/authService';
 import { UserContext } from "../context/AppContext";
 
+const server = import.meta.env.VITE_BACKEND_SERVER || 'http://localhost:5000/';
 
 function ProtectedRoute() {
     const navigate = useNavigate();
@@ -31,7 +32,8 @@ function ProtectedRoute() {
                 console.log("✅ Token refreshed successfully !!!", response);
                 setAccessToken(response.data.accessToken);
                 setUser(response.data.updatedUser);
-                setPreviewUrl(response.data.updatedUser.profilePicFilePath);
+                console.log(`${server}${response.data.updatedUser.profilePicFilePath}`);
+                setPreviewUrl(`${server}${response.data.updatedUser.profilePicFilePath}`);
                 setIsLoading(false);
             }
             catch (err) {

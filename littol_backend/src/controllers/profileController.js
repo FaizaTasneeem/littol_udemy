@@ -9,7 +9,7 @@ export const getProfile = catchAsync(async (req,res) => {
 
 export const editProfile = catchAsync(async (req,res) => {
     const userId = req.user.id;
-    const updates = req.file ? { profilePicFilePath: req.file.path } : req.body;
+    const updates = req.file ? { profilePicFilePath: req.file.path.replace(/\\/g, '/') } : req.body;
     console.log(updates);
     const { updatedUser, message } = await profileService.editProfile({ userId, updates });
     return res.status(200).json({ updatedUser, message });

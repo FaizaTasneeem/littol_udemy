@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { UserContext } from "../context/AppContext";
 import { sendEditProfileRequest } from '../services/profileService';
 
+const server = import.meta.env.VITE_BACKEND_SERVER || 'http://localhost:5000/';
 
 function Profile() {
   const {accessToken, user, setUser, previewUrl, setPreviewUrl} = useContext(UserContext);
@@ -15,7 +16,8 @@ function Profile() {
         const response = await sendEditProfileRequest(payload, accessToken);
         setUser(response.data.updatedUser);
         // console.log("Response received - ", response.data.updatedUser.profilePicFilePath);
-        setPreviewUrl(response.data.updatedUser.profilePicFilePath);
+        console.log(`${server}${response.data.updatedUser.profilePicFilePath}`);
+        setPreviewUrl(`${server}${response.data.updatedUser.profilePicFilePath}`);
         console.log("✅ User updated successfully !!!", response);
     }
     catch (err) {

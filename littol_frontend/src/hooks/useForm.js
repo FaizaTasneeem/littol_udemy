@@ -4,6 +4,7 @@ import { sendAuthRequest } from "../services/authService";
 import { validateCredentials } from "../utils/authValidation";
 import { UserContext } from "../context/AppContext";
 
+const server = import.meta.env.VITE_BACKEND_SERVER || 'http://localhost:5000/';
 
 export function useFormHandler(userInput) {
     const navigate = useNavigate();
@@ -52,7 +53,8 @@ export function useFormHandler(userInput) {
             // localStorage.setItem("accessToken", serverResponse.data.accessToken);
             setAccessToken(serverResponse.data.accessToken);
             setUser(serverResponse.data.updatedUser);
-            setPreviewUrl(serverResponse.data.updatedUser.profilePicFilePath);
+            console.log(`${server}${serverResponse.data.updatedUser.profilePicFilePath}`);
+            setPreviewUrl(`${server}${serverResponse.data.updatedUser.profilePicFilePath}`);
 
             navigate("/dashboard");
         }
