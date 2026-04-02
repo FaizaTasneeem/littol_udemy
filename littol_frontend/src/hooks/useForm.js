@@ -53,7 +53,6 @@ export function useFormHandler(userInput) {
             // localStorage.setItem("accessToken", serverResponse.data.accessToken);
             setAccessToken(serverResponse.data.accessToken);
             setUser(serverResponse.data.updatedUser);
-            console.log(`${server}${serverResponse.data.updatedUser.profilePicFilePath}`);
             setPreviewUrl(`${server}${serverResponse.data.updatedUser.profilePicFilePath}`);
 
             navigate("/dashboard");

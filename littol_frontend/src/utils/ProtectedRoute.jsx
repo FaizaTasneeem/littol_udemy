@@ -32,7 +32,6 @@ function ProtectedRoute() {
                 console.log("✅ Token refreshed successfully !!!", response);
                 setAccessToken(response.data.accessToken);
                 setUser(response.data.updatedUser);
-                console.log(`${server}${response.data.updatedUser.profilePicFilePath}`);
                 setPreviewUrl(`${server}${response.data.updatedUser.profilePicFilePath}`);
                 setIsLoading(false);
             }
