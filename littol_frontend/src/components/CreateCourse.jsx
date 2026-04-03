@@ -7,9 +7,7 @@ function CreateCourse({courseList, setCourseList}) {
 
     async function handleCourseSubmit(event) {
         event.preventDefault();
-        const formData = new FormData(event.target);
-        const course = Object.fromEntries(formData);
-        
+        const course = new FormData(event.target);
         try {
             const response = await createCourse(course, accessToken);
             setCourseList([...courseList, response.data.course]);
