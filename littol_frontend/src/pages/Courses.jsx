@@ -8,20 +8,22 @@ import { getAllCourses } from "../services/courseService";
 function Courses() {
   const {accessToken} = useContext(UserContext);
   const [createCourseClicked, setCreateCourseClicked] = useState(false);
-  const [courses, setCourses] = useState([]);
+  const [courseList, setCourseList] = useState([]);
 
-  async function getCourses() {
-    try {
-      const response = await getAllCourses(accessToken);
-      setCourses([...response.data.courses]);
-      console.log(response.data.message);
-    }
-    catch(err) {
-      console.log("Error fetching all courses ", err);
-    }
-  }
-
+  
   useEffect(() => {
+    async function getCourses() {
+      try {
+        const response = await getAllCourses(accessToken);
+        setCourseList([...response.data.courses]);
+        console.log(response.data.courses);
+        console.log(response.data.message);
+      }
+      catch(err) {
+        console.log("Error fetching all courses ", err);
+      }
+    }
+
     getCourses();
   }, []);
 
@@ -38,14 +40,13 @@ function Courses() {
       {createCourseClicked && <CreateCourse />}
 
       <div className="w-full mt-10 flex flex-row flex-wrap gap-4 bg-gray-100 rounded-lg">
+        {courseList.length !== 0 && courseList.map((val) => {
+          return <CoursesList title={val.title} description={val.description} instructor={val.instructor} category={val.category} level={val.level} thumbnailFilePath={val.thumbnailFilePath} rating={val.rating}/>
+        })}
+        {/* <CoursesList/>
         <CoursesList/>
         <CoursesList/>
-        <CoursesList/>
-        <CoursesList/>
-        <CoursesList/>
-
-        {courses}
-
+        <CoursesList/> */}
       </div>
     </div>
   )
