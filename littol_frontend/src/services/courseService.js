@@ -5,4 +5,9 @@ const server = import.meta.env.VITE_BACKEND_SERVER_COURSE || 'http://localhost:5
 export async function getAllCourses(accessToken) {
     const response = await axios.get(`${server}/getCourses`, {headers: { 'authorization': `Bearer ${accessToken}`}});
     return response;
-}
+};
+
+export async function createCourse(course, accessToken) {
+    const response = await axios.post(`${server}/createCourse`, course, {headers: { 'authorization': `Bearer ${accessToken}`}});
+    return response;
+};

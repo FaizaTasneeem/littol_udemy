@@ -37,7 +37,7 @@ function Courses() {
       <p className="pt-2 text-gray-500 text-lg">Explore our comprehensive course catalog</p>
 
       <SearchCourses />
-      {createCourseClicked && <CreateCourse />}
+      {createCourseClicked && <CreateCourse courseList={courseList} setCourseList={setCourseList}/>}
 
       <div className="w-full mt-10 flex flex-row flex-wrap gap-4 bg-gray-100 rounded-lg">
         {courseList.length !== 0 && courseList.map((val) => {
