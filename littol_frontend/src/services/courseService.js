@@ -11,3 +11,11 @@ export async function createCourse(course, accessToken) {
     const response = await axios.post(`${server}/createCourse`, course, {headers: { 'authorization': `Bearer ${accessToken}`}});
     return response;
 };
+
+export async function deleteCourse(course, accessToken) {
+    const response = await axios.delete(`${server}/deleteCourse`, {}, {
+        params: { id: course._id },
+        headers: { 'authorization': `Bearer ${accessToken}`}
+    });
+    return response;
+};

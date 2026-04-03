@@ -41,12 +41,8 @@ function Courses() {
 
       <div className="w-full mt-10 flex flex-row flex-wrap gap-8 bg-gray-100 rounded-lg">
         {courseList.length !== 0 && courseList.map((val) => {
-          return <CoursesList title={val.title} description={val.description} instructor={val.instructor} category={val.category} level={val.level} thumbnailFilePath={val.thumbnailFilePath} rating={val.rating}/>
+          return <CoursesList id={val._id} title={val.title} description={val.description} instructor={val.instructor} category={val.category} level={val.level} thumbnailFilePath={val.thumbnailFilePath} rating={val.rating}/>
         })}
-        {/* <CoursesList/>
-        <CoursesList/>
-        <CoursesList/>
-        <CoursesList/> */}
       </div>
     </div>
   )

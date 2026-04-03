@@ -3,13 +3,13 @@ import CourseDeleteButton from "./CourseDeleteButton";
 
 const server = import.meta.env.VITE_BACKEND_SERVER || 'http://localhost:5000';
 
-function CoursesList({title, description, instructor, category, level, thumbnailFilePath, rating}) {
+function CoursesList({id, title, description, instructor, category, level, thumbnailFilePath, rating}) {
   // console.log(thumbnailFilePath);
   return (
     <div className="w-[50%] md:w-[30%] border flex flex-col rounded-xl">
       <div className="w-full h-40 border rounded-t-xl relative">
         <img src={`${server}${thumbnailFilePath}`} alt="" className="w-full h-full object-cover rounded-t-xl" />
-        <CourseDeleteButton />    
+        <CourseDeleteButton id={id} />    
       </div>
       
       <div className="mt-2 text-gray-500 flex flex-row justify-start">
