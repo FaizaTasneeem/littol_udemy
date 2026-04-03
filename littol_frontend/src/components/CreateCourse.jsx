@@ -23,14 +23,14 @@ function CreateCourse({courseList, setCourseList}) {
 
     return (
         <form onSubmit={handleCourseSubmit} className="w-full bg-gray-100 mt-16 rounded-lg flex flex-col">
-            <input name="title" type="text" className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='Title' />
-            <input name="description" type="text" className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='Description...' />
-            <input name="instructor" type="text" className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='Instructor' />
+            <input name="title" type="text" className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='Title' required/>
+            <input name="description" type="text" className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='Description...' required/>
+            <input name="instructor" type="text" className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='Instructor' required/>
         
             <div className="pt-2 w-full flex flex-row justify-between">
                 <div className="w-1/2 flex flex-col">
                     <label htmlFor="category" className="mx-2">Category</label>
-                    <select name="category" id="category" className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='All'>
+                    <select name="category" id="category" className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='All' required>
                         <option>All</option>
                         <option>category1</option>
                         <option>category2</option>
@@ -39,7 +39,7 @@ function CreateCourse({courseList, setCourseList}) {
             
                 <div className="w-1/2 flex flex-col">
                     <label htmlFor="level" className="mx-2">Level</label>
-                    <select name="level" id="level" className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='All'>
+                    <select name="level" id="level" className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='All' required>
                         <option>All</option>
                         <option>Beginner</option>
                         <option>Intermediate</option>

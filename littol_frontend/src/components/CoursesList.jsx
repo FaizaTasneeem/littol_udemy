@@ -3,7 +3,7 @@ import React from 'react'
 function CoursesList({title, description, instructor, category, level, thumbnailFilePath, rating}) {
   return (
     <div className="w-[50%] md:w-[30%] border flex flex-col rounded-xl">
-      <div className="w-full border rounded-t-xl">
+      <div className="w-full h-40 border rounded-t-xl">
         {thumbnailFilePath}
       </div>
       
