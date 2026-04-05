@@ -66,6 +66,7 @@ export const courseService = {
             throw error;
         }
         const deletedCourse = await courseRepository.delete({ _id: courseId });
+        console.log(deletedCourse);
         return { deletedCourse, message:`Course with ID - ${deletedCourse._id} deleted successfully !`}
     }
 

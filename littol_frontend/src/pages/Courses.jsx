@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { UserContext } from "../context/AppContext";
+import { CourseContext, UserContext } from "../context/AppContext";
 import SearchCourses from "../components/SearchCourses";
 import CreateCourse from "../components/CreateCourse";
 import CoursesList from "../components/CoursesList";
@@ -7,10 +7,9 @@ import { getAllCourses } from "../services/courseService";
 
 function Courses() {
   const {accessToken} = useContext(UserContext);
+  const {courseList, setCourseList} = useContext(CourseContext);
   const [createCourseClicked, setCreateCourseClicked] = useState(false);
-  const [courseList, setCourseList] = useState([]);
 
-  
   useEffect(() => {
     async function getCourses() {
       try {
@@ -39,9 +38,9 @@ function Courses() {
       <SearchCourses />
       {createCourseClicked && <CreateCourse courseList={courseList} setCourseList={setCourseList}/>}
 
-      <div className="w-full mt-10 flex flex-row flex-wrap gap-8 bg-gray-100 rounded-lg">
+      <div className="w-full mt-10 flex flex-row justify-center flex-wrap gap-10 bg-gray-100 rounded-lg">
         {courseList.length !== 0 && courseList.map((val) => {
-          return <CoursesList id={val._id} title={val.title} description={val.description} instructor={val.instructor} category={val.category} level={val.level} thumbnailFilePath={val.thumbnailFilePath} rating={val.rating}/>
+          return <CoursesList courseList={courseList} setCourseList={setCourseList} id={val._id} title={val.title} description={val.description} instructor={val.instructor} category={val.category} level={val.level} thumbnailFilePath={val.thumbnailFilePath} rating={val.rating}/>
         })}
       </div>
     </div>

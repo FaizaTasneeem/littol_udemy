@@ -1,13 +1,17 @@
 import { useContext } from "react";
 import { deleteCourse } from "../services/courseService";
-import { UserContext } from "../context/AppContext";
+import { CourseContext, UserContext } from "../context/AppContext";
 
 function CourseDeleteButton({id}) {
   const {accessToken} = useContext(UserContext);
+  const {courseList, setCourseList} = useContext(CourseContext);
 
   async function handleCourseDelete() {
     try {
       const response = await deleteCourse(id, accessToken);
+      console.log(response.data.deletedCourse);
+      const courseListAfterDelete = courseList.filter(item => item._id !== id);
+      setCourseList(courseListAfterDelete);
       console.log("Course deleted successfully", response.data.message);
     }
     catch (err) {
