@@ -1,12 +1,12 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { sendLogoutRequest } from "../services/authService";
-import { UserContext } from "../context/AppContext";
+import { userStore } from "../store/AppStore";
 
 export function useLogout() {
     const navigate = useNavigate();
     const [, setError] = useState(null);
-    const {setAccessToken, setUser, setPreviewUrl} = useContext(UserContext);
+    const {setAccessToken, setUser, setPreviewUrl} = userStore();
     
     async function handleLogout() {
         try {

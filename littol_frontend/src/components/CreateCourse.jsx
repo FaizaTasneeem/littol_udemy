@@ -1,10 +1,10 @@
-import { useContext } from "react";
-import { UserContext } from "../context/AppContext";
+import { userStore, courseStore } from "../store/AppStore";
 import { createCourse } from "../services/courseService";
 
-function CreateCourse({courseList, setCourseList}) {
-    const {accessToken} = useContext(UserContext);
-
+function CreateCourse() {
+    const {accessToken} = userStore();
+    const {courseList, setCourseList} = courseStore();
+    
     async function handleCourseSubmit(event) {
         event.preventDefault();
         const course = new FormData(event.target);

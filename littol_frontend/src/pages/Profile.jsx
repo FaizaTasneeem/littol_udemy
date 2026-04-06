@@ -1,11 +1,11 @@
-import { useState, useContext } from "react";
-import { UserContext } from "../context/AppContext";
+import { useState } from "react";
+import { userStore } from "../store/AppStore";
 import { sendEditProfileRequest } from '../services/profileService';
 
 const server = import.meta.env.VITE_BACKEND_SERVER || 'http://localhost:5000/';
 
 function Profile() {
-  const {accessToken, user, setUser, previewUrl, setPreviewUrl} = useContext(UserContext);
+  const {accessToken, user, setUser, previewUrl, setPreviewUrl} = userStore();
   const [inputValue, setInputValue] = useState("");
   const [nameFocus, setNameFocus] = useState(false);
 

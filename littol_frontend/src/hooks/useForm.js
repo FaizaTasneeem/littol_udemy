@@ -1,14 +1,14 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { sendAuthRequest } from "../services/authService";
 import { validateCredentials } from "../utils/authValidation";
-import { UserContext } from "../context/AppContext";
+import { userStore } from "../store/AppStore";
 
 const server = import.meta.env.VITE_BACKEND_SERVER || 'http://localhost:5000/';
 
 export function useFormHandler(userInput) {
     const navigate = useNavigate();
-    const {setAccessToken, setUser, setPreviewUrl} = useContext(UserContext);
+    const {setAccessToken, setUser, setPreviewUrl} = userStore();
 
     const [signInClicked, setSignInClicked] = useState(false);
     const [formValues, setFormValues] = useState(userInput);

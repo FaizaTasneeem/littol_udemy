@@ -1,10 +1,9 @@
-import { useContext } from "react";
 import { deleteCourse } from "../services/courseService";
-import { CourseContext, UserContext } from "../context/AppContext";
+import { courseStore, userStore } from "../store/AppStore";
 
 function CourseDeleteButton({id}) {
-  const {accessToken} = useContext(UserContext);
-  const {courseList, setCourseList} = useContext(CourseContext);
+  const {accessToken} = userStore();
+  const {courseList, setCourseList} = courseStore();
 
   async function handleCourseDelete() {
     try {

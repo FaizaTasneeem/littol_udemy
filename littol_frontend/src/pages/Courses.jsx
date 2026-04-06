@@ -1,13 +1,13 @@
-import { useState, useEffect, useContext } from "react";
-import { CourseContext, UserContext } from "../context/AppContext";
+import { useState, useEffect } from "react";
+import { courseStore, userStore } from "../store/AppStore";
 import SearchCourses from "../components/SearchCourses";
 import CreateCourse from "../components/CreateCourse";
 import CoursesList from "../components/CoursesList";
 import { getAllCourses } from "../services/courseService";
 
 function Courses() {
-  const {accessToken} = useContext(UserContext);
-  const {courseList, setCourseList} = useContext(CourseContext);
+  const {accessToken} = userStore();
+  const {courseList, setCourseList} = courseStore();
   const [createCourseClicked, setCreateCourseClicked] = useState(false);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ function Courses() {
       <p className="pt-2 text-gray-500 text-lg">Explore our comprehensive course catalog</p>
 
       <SearchCourses />
-      {createCourseClicked && <CreateCourse courseList={courseList} setCourseList={setCourseList}/>}
+      {createCourseClicked && <CreateCourse />}
 
       <div className="w-full mt-10 flex flex-row justify-center flex-wrap gap-10 bg-gray-100 rounded-lg">
         {courseList.length !== 0 && courseList.map((val) => {

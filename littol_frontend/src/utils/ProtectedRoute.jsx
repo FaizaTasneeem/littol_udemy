@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef, useContext } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 import { sendRefreshRequest } from '../services/authService';
-import { UserContext } from "../context/AppContext";
+import { userStore } from "../store/AppStore";
 
 const server = import.meta.env.VITE_BACKEND_SERVER || 'http://localhost:5000/';
 
 function ProtectedRoute() {
     const navigate = useNavigate();
-    const {accessToken, setAccessToken, setUser, setPreviewUrl} = useContext(UserContext);
+    const {accessToken, setAccessToken, setUser, setPreviewUrl} = userStore();
     
     const [isLoading, setIsLoading] = useState(true);
     const isRefreshingRef = useRef(false);
