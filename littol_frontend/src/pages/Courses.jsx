@@ -40,7 +40,7 @@ function Courses() {
 
       <div className="w-full mt-10 flex flex-row justify-center flex-wrap gap-10 bg-gray-100 rounded-lg">
         {courseList.length !== 0 && courseList.map((val) => {
-          return <CoursesList courseList={courseList} setCourseList={setCourseList} id={val._id} title={val.title} description={val.description} instructor={val.instructor} category={val.category} level={val.level} thumbnailFilePath={val.thumbnailFilePath} rating={val.rating}/>
+          return <CoursesList key={val._id} courseList={courseList} setCourseList={setCourseList} id={val._id} title={val.title} description={val.description} instructor={val.instructor} category={val.category} level={val.level} thumbnailFilePath={val.thumbnailFilePath} rating={val.rating}/>
         })}
       </div>
     </div>

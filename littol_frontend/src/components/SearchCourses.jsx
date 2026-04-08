@@ -1,9 +1,32 @@
-import React from 'react'
+import { useState, useEffect } from 'react';
 
 function SearchCourses() {
+    const [query, setQuery] = useState(null);
+    const [debouncedQuery, setDebouncedQuery] = useState(null);
+
+    useEffect(() => {
+        const handleTimer = setTimeout(() => {
+            setDebouncedQuery(query);
+        }, 500)
+
+        return () => {
+            clearTimeout(handleTimer);
+        }
+    }, [query]);
+
+    useEffect(() => {
+        if (debouncedQuery) {
+            console.log(debouncedQuery);
+        }
+    }, [debouncedQuery]);
+    
+    function handleSearchInputChange(event) {
+        setQuery(event.target.value);
+    }
+
     return (
         <div className="w-full bg-gray-100 mt-10 rounded-lg flex flex-col">
-            <input type="text" className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='Search Courses...' />
+            <input type="text" onChange={handleSearchInputChange} className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='Search courses by title, description and instructor...' />
         
             <div className="pt-2 w-full flex flex-row justify-between">
                 <div className="w-1/2 flex flex-col">
