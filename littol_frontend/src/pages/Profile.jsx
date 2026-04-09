@@ -12,14 +12,14 @@ function Profile() {
 
   async function updateProfile(update) {
     try {
-        const payload = update instanceof FormData ? update : {...user, ...update};
-        const response = await sendEditProfileRequest(payload, accessToken);
-        setUser(response.data.updatedUser);
-        setPreviewUrl(`${server}${response.data.updatedUser.profilePicFilePath}`);
-        console.log("✅ User updated successfully !!!", response);
+      const payload = update instanceof FormData ? update : {...user, ...update};
+      const response = await sendEditProfileRequest(payload, accessToken);
+      setUser(response.data.updatedUser);
+      setPreviewUrl(`${server}${response.data.updatedUser.profilePicFilePath}`);
+      console.log("✅ User updated successfully !!!", response);
     }
     catch (err) {
-        console.log("❌ User update failed. Please try again...", err);
+      console.log("❌ User update failed. Please try again...", err);
     }
   };
 

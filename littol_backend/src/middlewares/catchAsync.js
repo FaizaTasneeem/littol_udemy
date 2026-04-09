@@ -1,5 +1,6 @@
 const errorMap = {
     VALIDATION_ERROR: 400,
+    BAD_REQUEST: 400,
     UNAUTHORIZED: 401,
     NOT_FOUND: 404,
     CONFLICT_ERROR: 409,

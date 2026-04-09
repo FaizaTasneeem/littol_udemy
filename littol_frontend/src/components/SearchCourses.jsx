@@ -1,22 +1,18 @@
 import { useState, useEffect } from 'react';
+import useDebounce from '../hooks/useDebounce';
+import { searchCourse } from '../services/courseService';
+import { userStore } from '../store/AppStore';
 
 function SearchCourses() {
+    const {accessToken} = userStore();
+    const [searchResultsSuggestion, setSearchResultsSuggestion] = useState([]);
     const [query, setQuery] = useState(null);
-    const [debouncedQuery, setDebouncedQuery] = useState(null);
-
-    useEffect(() => {
-        const handleTimer = setTimeout(() => {
-            setDebouncedQuery(query);
-        }, 500)
-
-        return () => {
-            clearTimeout(handleTimer);
-        }
-    }, [query]);
+    const debouncedQuery = useDebounce(query, 500);
 
     useEffect(() => {
         if (debouncedQuery) {
             console.log(debouncedQuery);
+            sendSearchCourseRequest();
         }
     }, [debouncedQuery]);
     
@@ -24,9 +20,23 @@ function SearchCourses() {
         setQuery(event.target.value);
     }
 
+    async function sendSearchCourseRequest() {
+        try {
+            const response = await searchCourse(debouncedQuery, accessToken);
+            console.log(response.data);
+            setSearchResultsSuggestion(response.data.searchResultsSuggestion);
+        }
+        catch(error) {
+            console.log("❌ Course search failed. Please try again...", error);
+        }
+    };
+
     return (
         <div className="w-full bg-gray-100 mt-10 rounded-lg flex flex-col">
             <input type="text" onChange={handleSearchInputChange} className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='Search courses by title, description and instructor...' />
+            {/* {searchResultsSuggestion.length !== 0 && searchResultsSuggestion.map(result => (
+                <div>{result}</div>
+            ))} */}
         
             <div className="pt-2 w-full flex flex-row justify-between">
                 <div className="w-1/2 flex flex-col">

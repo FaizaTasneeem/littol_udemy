@@ -68,6 +68,17 @@ export const courseService = {
         const deletedCourse = await courseRepository.delete({ _id: courseId });
         console.log(deletedCourse);
         return { deletedCourse, message:`Course with ID - ${deletedCourse._id} deleted successfully !`}
+    },
+
+    async searchCourse({ query }){
+        if(!query) {
+            const error = new Error("Query is required !");
+            error.code = "BAD_REQUEST";
+            throw error;
+        }
+        const searchResultsSuggestion = await courseRepository.searchCourse({ query });
+        console.log(searchResultsSuggestion);
+        return { searchResultsSuggestion, message:`Search Results Suggestions sent successfully !`}
     }
 
 };

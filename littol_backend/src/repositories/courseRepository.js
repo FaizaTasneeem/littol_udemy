@@ -29,5 +29,13 @@ export const courseRepository = {
     async delete(filter) {
         const deletedCourse = await Course.findOneAndDelete(filter);
         return deletedCourse;
+    },
+
+    async searchCourse({query}) {
+        const searchResultsSuggestion = await Course.find(
+            { $text: { $search: query } },
+            { score: { $meta: "textScore" } }
+        ).sort({ score: { $meta: "textScore" } });
+        return searchResultsSuggestion;
     }
 }

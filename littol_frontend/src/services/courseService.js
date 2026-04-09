@@ -21,3 +21,12 @@ export async function deleteCourse(id, accessToken) {
     const response = await axios.delete(`${server}/deleteCourse/${id}`, {headers: { 'authorization': `Bearer ${accessToken}`}});
     return response;
 };
+
+export async function searchCourse(queryInput, accessToken) {
+    const response = await axios.get(`${server}/searchCourse`, 
+        {
+            params: { 'q': queryInput }, 
+            headers: { 'authorization': `Bearer ${accessToken}`}
+        });
+    return response;
+}

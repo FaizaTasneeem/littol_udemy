@@ -3,7 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { fileURLToPath } from "url";
 import path from "path";
-import connectToMongoDB from "./database/mongo.js";
+import { connectToMongoDB, createMongoDBIndex } from "./database/mongo.js";
 import authRoutes from "./routes/auth.routes.js";
 import profileRoutes from "./routes/profile.routes.js";
 import courseRoutes from "./routes/course.routes.js";
@@ -33,6 +33,7 @@ app.use("/api/course", courseRoutes);
 app.listen(env.port, async () => {
   try {
     await connectToMongoDB();
+    await createMongoDBIndex();
     console.log(`Server started at port ${env.port}...`);
   }
   catch (error) {

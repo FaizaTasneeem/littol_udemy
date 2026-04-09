@@ -30,3 +30,9 @@ export const deleteCourse = catchAsync(async (req, res) => {
     const { deletedCourse, message } = await courseService.deleteCourse({ courseId });
     return res.status(200).json({ deletedCourse, message });
 });
+
+export const searchCourse = catchAsync(async (req, res) => {
+    const query = req.query.q;
+    const { searchResultsSuggestion, message } = await courseService.searchCourse({ query });
+    return res.status(200).json({ searchResultsSuggestion, message });
+});
