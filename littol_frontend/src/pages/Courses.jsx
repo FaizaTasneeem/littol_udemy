@@ -2,12 +2,13 @@ import { useState, useEffect } from "react";
 import { courseStore, userStore } from "../store/AppStore";
 import SearchCourses from "../components/SearchCourses";
 import CreateCourse from "../components/CreateCourse";
-import CoursesList from "../components/CoursesList";
+import Course from "../components/Course";
 import { getAllCourses } from "../services/courseService";
 
 function Courses() {
   const {accessToken} = userStore();
   const {courseList, setCourseList} = courseStore();
+  const [filteredCourseList, setFilteredCourseList] = useState(courseList);
   const [createCourseClicked, setCreateCourseClicked] = useState(false);
 
   useEffect(() => {
@@ -15,6 +16,7 @@ function Courses() {
       try {
         const response = await getAllCourses(accessToken);
         setCourseList([...response.data.courses]);
+        setFilteredCourseList([...response.data.courses]);
         console.log(response.data.courses);
         console.log(response.data.message);
       }
@@ -26,6 +28,10 @@ function Courses() {
     getCourses();
   }, []);
 
+  useEffect(() => {
+    setFilteredCourseList(courseList);
+  }, [courseList]);
+
   return (
     <div className="w-full p-14 flex flex-col items-start justify-start">
       
@@ -35,12 +41,12 @@ function Courses() {
       </div>
       <p className="pt-2 text-gray-500 text-lg">Explore our comprehensive course catalog</p>
 
-      <SearchCourses />
+      <SearchCourses setFilteredCourseList={setFilteredCourseList} />
       {createCourseClicked && <CreateCourse />}
 
       <div className="w-full mt-10 flex flex-row justify-center flex-wrap gap-10 bg-gray-100 rounded-lg">
-        {courseList.length !== 0 && courseList.map((val) => {
-          return <CoursesList key={val._id} courseList={courseList} setCourseList={setCourseList} id={val._id} title={val.title} description={val.description} instructor={val.instructor} category={val.category} level={val.level} thumbnailFilePath={val.thumbnailFilePath} rating={val.rating}/>
+        {filteredCourseList.length !== 0 && filteredCourseList.map((val) => {
+          return <Course key={val._id} id={val._id} title={val.title} description={val.description} instructor={val.instructor} category={val.category} level={val.level} thumbnailFilePath={val.thumbnailFilePath} rating={val.rating}/>
         })}
       </div>
     </div>
