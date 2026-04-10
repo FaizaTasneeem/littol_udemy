@@ -20,6 +20,7 @@ const courseSchema = mongoose.Schema({
     level:{
         required: true,
         type: String,
+        enum: ['Beginner', 'Intermediate', 'Advanced']
     },
     thumbnailFilePath:{
         type: String
