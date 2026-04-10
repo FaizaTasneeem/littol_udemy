@@ -7,8 +7,7 @@ import { getAllCourses } from "../services/courseService";
 
 function Courses() {
   const {accessToken} = userStore();
-  const {courseList, setCourseList} = courseStore();
-  const [filteredCourseList, setFilteredCourseList] = useState(courseList);
+  const {courseList, setCourseList, filteredCourseList, setFilteredCourseList} = courseStore();
   const [createCourseClicked, setCreateCourseClicked] = useState(false);
 
   useEffect(() => {
@@ -41,7 +40,7 @@ function Courses() {
       </div>
       <p className="pt-2 text-gray-500 text-lg">Explore our comprehensive course catalog</p>
 
-      <SearchCourses setFilteredCourseList={setFilteredCourseList} />
+      <SearchCourses />
       {createCourseClicked && <CreateCourse />}
 
       <div className="w-full mt-10 flex flex-row justify-center flex-wrap gap-10 bg-gray-100 rounded-lg">

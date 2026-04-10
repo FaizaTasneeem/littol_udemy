@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react';
 import useDebounce from '../hooks/useDebounce';
 import { searchCourse } from '../services/courseService';
 import { userStore, courseStore } from '../store/AppStore';
+import SearchResult from './SearchResult';
 
-function SearchCourses({ setFilteredCourseList }) {
+function SearchCourses() {
     const {accessToken} = userStore();
-    const {courseList} = courseStore();
+    const {courseList, setFilteredCourseList} = courseStore();
     const [selectInput, setSelectInput] = useState({category:"All", level:"All"});
     const [searchResultsSuggestion, setSearchResultsSuggestion] = useState([]);
     const [query, setQuery] = useState(null);
@@ -49,9 +50,12 @@ function SearchCourses({ setFilteredCourseList }) {
     return (
         <div className="w-full bg-gray-100 mt-10 rounded-lg flex flex-col">
             <input type="text" onChange={handleSearchInputChange} className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='Search courses by title, description and instructor...' />
-            {/* {searchResultsSuggestion.length !== 0 && searchResultsSuggestion.map(result => (
-                <div>{result}</div>
-            ))} */}
+            
+            {searchResultsSuggestion.length !== 0 && 
+                <div className="m-2 border border-gray-300 rounded-lg">
+                    {searchResultsSuggestion.map(result => (<SearchResult key={result._id} result={result}/>))}
+                </div>
+            }
         
             <div className="pt-2 w-full flex flex-row justify-between">
                 <div className="w-1/2 flex flex-col">
