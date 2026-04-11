@@ -11,13 +11,6 @@ function SearchCourses() {
     const [searchResultsSuggestion, setSearchResultsSuggestion] = useState([]);
     const [query, setQuery] = useState(null);
     const debouncedQuery = useDebounce(query, 500);
-
-    useEffect(() => {
-        if (debouncedQuery) {
-            console.log(debouncedQuery);
-            sendSearchCourseRequest();
-        }
-    }, [debouncedQuery]);
     
     function handleSearchInputChange(event) {
         setQuery(event.target.value);
@@ -47,12 +40,19 @@ function SearchCourses() {
         }
     };
 
+    useEffect(() => {
+        if (debouncedQuery) {
+            console.log(debouncedQuery);
+            sendSearchCourseRequest();
+        }
+    }, [debouncedQuery]);
+
     return (
         <div className="w-full bg-gray-100 mt-10 rounded-lg flex flex-col">
             <input type="text" onChange={handleSearchInputChange} className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='Search courses by title, description and instructor...' />
             
             {searchResultsSuggestion.length !== 0 && 
-                <div className="m-2 border border-gray-300 rounded-lg">
+                <div className="bg-white m-2 border border-gray-300 rounded-lg">
                     {searchResultsSuggestion.map(result => (<SearchResult key={result._id} result={result}/>))}
                 </div>
             }

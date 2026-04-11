@@ -52,7 +52,7 @@ function CreateCourse() {
                     <div className="w-full absolute text-gray-700">Upload Thumbnail</div>
                     <input name="thumbnail" id="thumbnail" type="file" hidden />
                 </label>
-                <button type="submit" className="bg-[linear-gradient(to_right,#6860e8,#817aeb)] rounded-lg py-2 px-4 text-white my-4 mx-2 mb-4">Submit</button>
+                <button type="submit" className="bg-[linear-gradient(to_right,#6860e8,#817aeb)] rounded-lg py-2 px-4 text-white my-4 mx-2 mb-4 cursor-pointer">Submit</button>
             </div>
         </form>
     )
