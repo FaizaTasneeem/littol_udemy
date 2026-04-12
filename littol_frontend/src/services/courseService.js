@@ -12,8 +12,8 @@ export async function createCourse(course, accessToken) {
     return response;
 };
 
-export async function updateCourse(id, accessToken) {
-    const response = await axios.put(`${server}/updateCourse/${id}`, {headers: { 'authorization': `Bearer ${accessToken}`}});
+export async function updateCourse(id, course, accessToken) {
+    const response = await axios.put(`${server}/updateCourse/${id}`, course, {headers: { 'authorization': `Bearer ${accessToken}`}});
     return response;
 };
 

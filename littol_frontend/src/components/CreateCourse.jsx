@@ -20,7 +20,7 @@ function CreateCourse() {
 
 
     return (
-        <form onSubmit={handleCourseSubmit} className="w-full bg-gray-100 mt-16 rounded-lg flex flex-col">
+        <form onSubmit={handleCourseSubmit} className="w-full bg-gray-100 rounded-lg flex flex-col">
             <input name="title" type="text" className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='Title' required/>
             <input name="description" type="text" className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='Description...' required/>
             <input name="instructor" type="text" className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='Instructor' required/>
