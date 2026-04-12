@@ -4,7 +4,7 @@ import SearchCourses from "../components/SearchCourses";
 import CreateCourse from "../components/CreateCourse";
 import Course from "../components/Course";
 import { getAllCourses } from "../services/courseService";
-import Modal from "../components/Modal";
+import CourseUpdateModal from "../components/CourseUpdateModal";
 
 function Courses() {
   const {accessToken} = userStore();
@@ -55,7 +55,7 @@ function Courses() {
           })}
         </div>
         
-        {showModal && <Modal/>}
+        {showModal && <CourseUpdateModal/>}
 
       </div>
     </div>
