@@ -9,7 +9,7 @@ function SearchCourses() {
     const {courseList, setFilteredCourseList} = courseStore();
     const [selectInput, setSelectInput] = useState({category:"All", level:"All"});
     const [searchResultsSuggestion, setSearchResultsSuggestion] = useState([]);
-    const [query, setQuery] = useState(null);
+    const [query, setQuery] = useState("");
     const debouncedQuery = useDebounce(query, 500);
     
     function handleSearchInputChange(event) {
@@ -54,6 +54,12 @@ function SearchCourses() {
             {searchResultsSuggestion.length !== 0 && 
                 <div className="bg-white m-2 border border-gray-300 rounded-lg">
                     {searchResultsSuggestion.map(result => (<SearchResult key={result._id} result={result}/>))}
+                </div>
+            }
+
+            {debouncedQuery && searchResultsSuggestion.length === 0 && 
+                <div className="bg-white m-2 border border-gray-300 rounded-lg">
+                    No results found !
                 </div>
             }
         

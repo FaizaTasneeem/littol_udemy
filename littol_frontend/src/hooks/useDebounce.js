@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 
 function useDebounce(query, timer) {
-    const [debouncedQuery, setdebouncedQuery] = useState(null);
+    const [debouncedQuery, setDebouncedQuery] = useState(null);
 
     useEffect(() => {
         const handleTimer = setTimeout(() => {
-            setdebouncedQuery(query);
+            setDebouncedQuery(query);
         }, timer);
 
         return () => {
