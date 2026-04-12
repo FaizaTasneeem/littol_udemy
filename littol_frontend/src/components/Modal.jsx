@@ -4,21 +4,21 @@ import { updateCourse, getAllCourses } from "../services/courseService";
 function Modal() {
   const {accessToken} = userStore();
   const {setCourseList} = courseStore();
-  const {courseToUpdate, showModal, setShowModal} = updateCourseModalStore();
+  const {courseToUpdate, setShowModal} = updateCourseModalStore();
 
-  function handleCourseUpdateSubmit(event) {
+  async function handleCourseUpdateSubmit(event) {
     event.preventDefault();
     const course = new FormData(event.target);
-    sendCourseUpdateRequest(course);
-    setShowModal(!showModal);
+    await sendCourseUpdateRequest(course);
+    setShowModal(false);
   }
   
   async function sendCourseUpdateRequest(course) {
     try {
       const response = await updateCourse(courseToUpdate._id, course, accessToken);
       console.log(response.data.updatedCourse);
-      const response_after_update = await getAllCourses(accessToken);
-      setCourseList(response_after_update.data.courses);
+      const responseAfterUpdate = await getAllCourses(accessToken);
+      setCourseList(responseAfterUpdate.data.courses);
       console.log("Course updated successfully", response.data.message);
     }
     catch (err) {
@@ -29,7 +29,7 @@ function Modal() {
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
         <form onSubmit={handleCourseUpdateSubmit} key={courseToUpdate?._id} className="w-1/2 p-6 border border-gray-400 bg-gray-100 mt-16 rounded-xl flex flex-col relative">
-            <div onClick={() => setShowModal(!showModal)} className="absolute px-2 border rounded top-2 right-4 cursor-pointer">X</div>
+            <div onClick={() => setShowModal(false)} className="absolute px-2 border rounded top-2 right-4 cursor-pointer">X</div>
             
             <input name="title" type="text" defaultValue={courseToUpdate?.title} className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='Title' required/>
             <input name="description" type="text" defaultValue={courseToUpdate?.description} className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='Description...' required/>

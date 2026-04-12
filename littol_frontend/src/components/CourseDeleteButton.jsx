@@ -9,8 +9,8 @@ function CourseDeleteButton({id}) {
     try {
       const response = await deleteCourse(id, accessToken);
       console.log(response.data.deletedCourse);
-      const response_after_delete = await getAllCourses(accessToken);
-      setCourseList(response_after_delete.data.courses);
+      const responseAfterDelete = await getAllCourses(accessToken);
+      setCourseList(responseAfterDelete.data.courses);
       console.log("Course deleted successfully", response.data.message);
     }
     catch (err) {
