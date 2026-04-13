@@ -17,16 +17,16 @@ function Course({id, title, description, instructor, category, level, thumbnailF
         <h3 className="pr-2">{level}</h3>
       </div>
       
-      <div className="font-medium text-xl">{title}</div>
+      <div className="font-medium text-xl truncate">{title}</div>
       
-      <p className="mt-2 text-gray-500">{description}</p>
+      <p className="mt-2 text-gray-500 truncate">{description}</p>
       
-      <div className="mt-2 text-gray-500 flex flex-row justify-between">
+      <div className="mt-2 text-gray-500 flex flex-row justify-between truncate">
         <h3>{instructor}</h3>
         <h3>Duration</h3>
       </div>
       
-      <div className="mt-2 text-gray-500 flex flex-row justify-between">
+      <div className="mt-2 text-gray-500 flex flex-row justify-between truncate">
         <h3>{rating}</h3>
         <h3>Number enrolled</h3>
       </div>
