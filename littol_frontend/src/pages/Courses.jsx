@@ -39,18 +39,17 @@ function Courses() {
 
         <div className="w-full flex flex-row justify-between">
           <h1 className="font-medium text-3xl">All Courses</h1>
-          <button className="bg-[linear-gradient(to_right,#6860e8,#817aeb)] rounded-lg px-4 text-white cursor-pointer" onClick={() => {setCreateCourseClicked(!createCourseClicked)}}>+ Create Course</button>
+          <button className="bg-[linear-gradient(to_right,#6860e8,#817aeb)] rounded-lg px-4 text-white cursor-pointer" onClick={() => {setCreateCourseClicked(!createCourseClicked)}} aria-expanded={createCourseClicked} aria-controls="create-course-panel">+ Create Course</button>
         </div>
         <p className="pt-2 text-gray-500 text-lg">Explore our comprehensive course catalog</p>
 
         <SearchCourses />
 
-        <div className={`w-full bg-gray-100 rounded-lg duration-700 ${showModal ? 'blur-sm' : '' } ${createCourseClicked ? 'mt-10 opacity-100' : '-mt-10 opacity-0'}`}>
-          {/* {createCourseClicked && <CreateCourse />} */}
-            <CreateCourse />
+        <div id="create-course-panel" className={`w-full overflow-hidden bg-gray-100 rounded-lg transition-all duration-700 ${showModal ? 'blur-sm' : '' } ${createCourseClicked ? 'mt-10 max-h-[700px] opacity-100' : 'mt-0 max-h-0 opacity-0 pointer-events-none'}`}>
+          <CreateCourse />
         </div>
 
-        <div className={`w-full mt-10 flex flex-row justify-center flex-wrap gap-10 bg-gray-100 rounded-lg duration-700 ${showModal ? 'blur-sm' : '' } ${createCourseClicked ? 'translate-y-8' : '-translate-y-60'}`}>
+        <div className={`w-full mt-10 flex flex-row justify-center flex-wrap gap-10 bg-gray-100 rounded-lg transition-all duration-700 ${showModal ? 'blur-sm' : '' } ${createCourseClicked ? 'translate-y-2' : 'translate-y-0'}`}>
           {filteredCourseList.length !== 0 && filteredCourseList.map((val) => {
             return <Course key={val._id} id={val._id} title={val.title} description={val.description} instructor={val.instructor} category={val.category} level={val.level} thumbnailFilePath={val.thumbnailFilePath} rating={val.rating}/>
           })}
