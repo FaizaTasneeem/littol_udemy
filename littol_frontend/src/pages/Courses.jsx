@@ -45,11 +45,12 @@ function Courses() {
 
         <SearchCourses />
 
-        <div className={`w-full mt-10 bg-gray-100 rounded-lg ${showModal ? 'blur-sm' : '' }`}>
-          {createCourseClicked && <CreateCourse />}
+        <div className={`w-full bg-gray-100 rounded-lg duration-700 ${showModal ? 'blur-sm' : '' } ${createCourseClicked ? 'mt-10 opacity-100' : '-mt-10 opacity-0'}`}>
+          {/* {createCourseClicked && <CreateCourse />} */}
+            <CreateCourse />
         </div>
 
-        <div className={`w-full mt-10 flex flex-row justify-center flex-wrap gap-10 bg-gray-100 rounded-lg ${showModal ? 'blur-sm' : '' }`}>
+        <div className={`w-full mt-10 flex flex-row justify-center flex-wrap gap-10 bg-gray-100 rounded-lg duration-700 ${showModal ? 'blur-sm' : '' } ${createCourseClicked ? 'translate-y-8' : '-translate-y-60'}`}>
           {filteredCourseList.length !== 0 && filteredCourseList.map((val) => {
             return <Course key={val._id} id={val._id} title={val.title} description={val.description} instructor={val.instructor} category={val.category} level={val.level} thumbnailFilePath={val.thumbnailFilePath} rating={val.rating}/>
           })}
