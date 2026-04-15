@@ -2,8 +2,13 @@ import axios from "axios";
 
 const server = import.meta.env.VITE_BACKEND_SERVER_COURSE || 'http://localhost:5000/api/course';
 
-export async function getAllCourses(page, limit, accessToken) {
-    const response = await axios.get(`${server}/getCourses`, 
+export async function getAllCourses(accessToken) {
+    const response = await axios.get(`${server}/getAllCourses`, {headers: { 'authorization': `Bearer ${accessToken}`}});
+    return response;
+};
+
+export async function getCoursesFiltered(page, limit, accessToken) {
+    const response = await axios.get(`${server}/getCoursesFiltered`, 
         {
             params: { 
                 page,

@@ -1,7 +1,12 @@
 import { courseRepository } from "../repositories/courseRepository.js";
 
 export const courseService = {
-    async getCourses(page, limit){
+    async getAllCourses(){
+        const courses = await courseRepository.findAllCourses({});
+        return { courses, message: `All Courses fetched successfully !` };
+    },
+
+    async getCoursesFiltered(page, limit){
         if(!page || !limit) {
             const error = new Error("Page number and limit is required !");
             error.code = "VALIDATION_ERROR";

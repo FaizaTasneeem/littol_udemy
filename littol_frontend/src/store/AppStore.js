@@ -12,6 +12,8 @@ export const userStore = create((set) => ({
 export const courseStore = create((set) => ({
     courseList: [],
     filteredCourseList: [],
+    page: 1,
+    setPage: (page) => set({page}),
     setCourseList: (courseList) => set({courseList}),
     setFilteredCourseList: (filteredCourseList) => set({filteredCourseList}),
 }));

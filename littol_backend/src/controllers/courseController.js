@@ -1,9 +1,14 @@
 import { catchAsync } from "../middlewares/catchAsync.js";
 import { courseService } from "../services/courseService.js";
 
-export const getCourses = catchAsync(async (req, res) => {
+export const getAllCourses = catchAsync(async (req, res) => {
+    const { courses, message } = await courseService.getAllCourses();
+    return res.status(200).json({ courses, message });
+});
+
+export const getCoursesFiltered = catchAsync(async (req, res) => {
     const { page, limit } = req.query;
-    const { courses, totalPages, message } = await courseService.getCourses(page, limit);
+    const { courses, totalPages, message } = await courseService.getCoursesFiltered(page, limit);
     return res.status(200).json({ courses, totalPages, message });
 });
 

@@ -1,10 +1,10 @@
 import { userStore, courseStore, updateCourseModalStore } from '../store/AppStore'
-import { updateCourse, getAllCourses } from "../services/courseService";
+import { updateCourse, getCoursesFiltered } from "../services/courseService";
 import CourseForm from './CourseForm';
 
 function CourseUpdateModal() {
   const {accessToken} = userStore();
-  const {setCourseList} = courseStore();
+  const {page, setCourseList, setFilteredCourseList} = courseStore();
   const {courseToUpdate, setShowModal} = updateCourseModalStore();
 
   async function handleCourseUpdateSubmit(event) {
@@ -18,8 +18,9 @@ function CourseUpdateModal() {
     try {
       const response = await updateCourse(courseToUpdate._id, course, accessToken);
       console.log(response.data.updatedCourse);
-      const responseAfterUpdate = await getAllCourses(accessToken);
+      const responseAfterUpdate = await getCoursesFiltered(page, 3, accessToken);
       setCourseList(responseAfterUpdate.data.courses);
+      setFilteredCourseList(responseAfterUpdate.data.courses);
       console.log("Course updated successfully", response.data.message);
     }
     catch (err) {

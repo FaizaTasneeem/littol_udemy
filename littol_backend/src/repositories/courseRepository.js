@@ -1,6 +1,11 @@
 import Course from "../models/Course.js";
 
 export const courseRepository = {
+    async findAllCourses() {
+        const courses = await Course.find({});
+        return courses;
+    },
+
     async findCourses(skip, limit) {
         const [courses, totalCourses] = await Promise.all([
             Course.find().skip(skip).limit(limit),

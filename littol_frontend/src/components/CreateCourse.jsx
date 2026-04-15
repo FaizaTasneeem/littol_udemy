@@ -1,10 +1,10 @@
 import { userStore, courseStore } from "../store/AppStore";
-import { createCourse } from "../services/courseService";
+import { createCourse, getCoursesFiltered } from "../services/courseService";
 import CourseForm from "./CourseForm";
 
 function CreateCourse() {
     const {accessToken} = userStore();
-    const {courseList, setCourseList} = courseStore();
+    const {page, courseList, setCourseList, setFilteredCourseList} = courseStore();
     
     async function handleCourseSubmit(event) {
         event.preventDefault();
@@ -12,6 +12,8 @@ function CreateCourse() {
         try {
             const response = await createCourse(course, accessToken);
             setCourseList([...courseList, response.data.course]);
+            const responseAfterCreate = await getCoursesFiltered(page, 3, accessToken);
+            setFilteredCourseList(responseAfterCreate.data.courses);
             console.log("Course created successfully", response.data.message);
         }
         catch(err) {
