@@ -2,8 +2,9 @@ import { catchAsync } from "../middlewares/catchAsync.js";
 import { courseService } from "../services/courseService.js";
 
 export const getCourses = catchAsync(async (req, res) => {
-    const { courses, message } = await courseService.getCourses();
-    return res.status(200).json({ courses, message });
+    const { page, limit } = req.query;
+    const { courses, totalPages, message } = await courseService.getCourses(page, limit);
+    return res.status(200).json({ courses, totalPages, message });
 });
 
 export const getCourse = catchAsync(async (req, res) => {

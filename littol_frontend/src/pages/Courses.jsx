@@ -11,14 +11,18 @@ function Courses() {
   const {courseList, setCourseList, filteredCourseList, setFilteredCourseList} = courseStore();
   const {showModal} = updateCourseModalStore();
   const [createCourseClicked, setCreateCourseClicked] = useState(false);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     async function getCourses() {
       try {
-        const response = await getAllCourses(accessToken);
+        const response = await getAllCourses(page, 3, accessToken);
         setCourseList([...response.data.courses]);
         setFilteredCourseList([...response.data.courses]);
+        setTotalPages(response.data.totalPages);
         console.log(response.data.courses);
+        console.log(response.data.totalPages);
         console.log(response.data.message);
       }
       catch(err) {
@@ -27,7 +31,7 @@ function Courses() {
     }
 
     getCourses();
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     setFilteredCourseList(courseList);
@@ -49,10 +53,17 @@ function Courses() {
           <CreateCourse />
         </div>
 
-        <div className={`w-full p-4 mt-10 flex flex-row justify-center flex-wrap gap-10 bg-gray-100 rounded-lg transition-all duration-700 ${showModal ? 'blur-sm' : '' } ${createCourseClicked ? 'translate-y-2' : 'translate-y-0'}`}>
-          {filteredCourseList.length !== 0 && filteredCourseList.map((val) => {
-            return <Course key={val._id} id={val._id} title={val.title} description={val.description} instructor={val.instructor} category={val.category} level={val.level} thumbnailFilePath={val.thumbnailFilePath} rating={val.rating}/>
-          })}
+        <div className={`w-full p-4 mt-10 flex flex-col bg-gray-100 rounded-lg transition-all duration-700 ${showModal ? 'blur-sm' : '' } ${createCourseClicked ? 'translate-y-2' : 'translate-y-0'}`}>
+          <div className="flex flex-row justify-center gap-10">
+            {filteredCourseList.length !== 0 && filteredCourseList.map((val) => {
+              return <Course key={val._id} id={val._id} title={val.title} description={val.description} instructor={val.instructor} category={val.category} level={val.level} thumbnailFilePath={val.thumbnailFilePath} rating={val.rating}/>
+            })}
+          </div>
+          
+          <div className="flex flex-row justify-between">
+            <button onClick={() => setPage(page-1)} disabled={page === 1} className="shadow rounded-lg p-4 flex items-center mr-2 cursor-pointer bg-[linear-gradient(135deg,rgba(129,122,235,0.42),rgba(168,162,255,0.30))] text-gray-500">{'<<'}</button>
+            <button onClick={() => setPage(page+1)} disabled={page === totalPages} className="shadow rounded-lg p-4 flex items-center mr-2 cursor-pointer bg-[linear-gradient(135deg,rgba(104,96,232,0.52),rgba(79,70,229,0.36))] text-gray-500">{'>>'}</button>
+          </div>
         </div>
         
         {showModal && <CourseUpdateModal/>}

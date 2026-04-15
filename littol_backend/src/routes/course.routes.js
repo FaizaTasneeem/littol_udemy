@@ -5,7 +5,7 @@ import { getCourses, getCourse, createCourse, updateCourse, deleteCourse, search
 
 const router = express.Router();
 
-router.get("/getCourses", authenticateToken, getCourses);
+router.get("/getCourses", getCourses);
 router.get("/getCourse/:id", authenticateToken, getCourse);
 router.post("/createCourse/", authenticateToken, upload_courses.single('thumbnail'), createCourse);
 router.put("/updateCourse/:id", authenticateToken, upload_courses.single('thumbnail'), updateCourse);

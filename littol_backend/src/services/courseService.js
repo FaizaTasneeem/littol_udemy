@@ -1,9 +1,18 @@
 import { courseRepository } from "../repositories/courseRepository.js";
 
 export const courseService = {
-    async getCourses(){
-        const courses = await courseRepository.findCourses();
-        return { courses, message: "All Courses fetched successfully !" };
+    async getCourses(page, limit){
+        if(!page || !limit) {
+            const error = new Error("Page number and limit is required !");
+            error.code = "VALIDATION_ERROR";
+            throw error;
+        }
+        const skip = (page - 1) * limit;
+        const [courses, totalCourses] = await courseRepository.findCourses(skip, limit);
+        const totalPages = Math.ceil(totalCourses/limit);
+        console.log(courses, totalCourses);
+
+        return { courses, totalPages, message: `All Courses for page - ${page} fetched successfully !` };
     },
 
     async getCourse({ courseId }){
