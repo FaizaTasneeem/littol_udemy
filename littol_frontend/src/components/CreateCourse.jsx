@@ -4,14 +4,13 @@ import CourseForm from "./CourseForm";
 
 function CreateCourse() {
     const {accessToken} = userStore();
-    const {page, courseList, setCourseList, setFilteredCourseList} = courseStore();
+    const {page, setFilteredCourseList} = courseStore();
     
     async function handleCourseSubmit(event) {
         event.preventDefault();
         const course = new FormData(event.target);
         try {
             const response = await createCourse(course, accessToken);
-            setCourseList([...courseList, response.data.course]);
             const responseAfterCreate = await getCoursesFiltered(page, 3, accessToken);
             setFilteredCourseList(responseAfterCreate.data.courses);
             console.log("Course created successfully", response.data.message);

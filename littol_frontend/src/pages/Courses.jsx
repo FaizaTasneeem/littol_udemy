@@ -66,7 +66,7 @@ function Courses() {
         </div>
 
         <div className={`w-full p-4 mt-10 flex flex-col bg-gray-100 rounded-lg transition-all duration-700 ${showModal ? 'blur-sm' : '' } ${createCourseClicked ? 'translate-y-2' : 'translate-y-0'}`}>
-          <div className="px-12 flex flex-row flex-wrap justify-start gap-12">
+          <div className="px-8 flex flex-row flex-wrap justify-start gap-10">
             {filteredCourseList.length !== 0 && filteredCourseList.map((val) => {
               return <Course key={val._id} id={val._id} title={val.title} description={val.description} instructor={val.instructor} category={val.category} level={val.level} thumbnailFilePath={val.thumbnailFilePath} rating={val.rating}/>
             })}

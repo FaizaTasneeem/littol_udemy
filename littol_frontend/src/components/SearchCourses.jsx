@@ -11,6 +11,7 @@ function SearchCourses() {
     const [searchResultsSuggestion, setSearchResultsSuggestion] = useState([]);
     const [query, setQuery] = useState("");
     const debouncedQuery = useDebounce(query, 500);
+    const keysArray = Object.keys(selectInput);
     
     function handleSearchInputChange(event) {
         setQuery(event.target.value);
@@ -21,7 +22,6 @@ function SearchCourses() {
         const value = event.target.value;
         const newSelectInput = {...selectInput, [id]: value};
         setSelectInput(newSelectInput);
-        const keysArray = Object.keys(newSelectInput);
         
         const filteredList = keysArray.every(key => newSelectInput[key] == 'All') ? courseList : courseList.filter(course => (
             keysArray.every(key => newSelectInput[key] === course[key] || newSelectInput[key] === "All")
