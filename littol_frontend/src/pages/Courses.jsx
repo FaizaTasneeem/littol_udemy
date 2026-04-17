@@ -20,7 +20,6 @@ function Courses() {
           const response = await getCoursesFiltered(page, 3, accessToken);
           setCourseList([...courseList, response.data.courses]);
           setFilteredCourseList([...filteredCourseList, response.data.courses]);
-          setTotalPages(response.data.totalPages);
         }
       }
       catch(err) {
@@ -35,6 +34,11 @@ function Courses() {
     setFilteredCourseList(courseList);
     console.log("filteredCourseList ", filteredCourseList);
   }, [courseList]);
+
+  
+  useEffect(() => {
+    setTotalPages(filteredCourseList.length);
+  }, [filteredCourseList]);
 
   return (
     <div className="w-full">

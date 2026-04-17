@@ -12,8 +12,9 @@ function CourseDeleteButton({id}) {
       const responseAfterDelete = await getCoursesFiltered(page, 3, accessToken);
       const deleted = filteredCourseList.map((arr, idx) => 
         idx === page - 1 ? responseAfterDelete.data.courses : arr
-      );
-      setFilteredCourseList(deleted);
+      );  
+      const removeEmptyFromDeleted = deleted.filter(arr => arr.length > 0);
+      setFilteredCourseList(removeEmptyFromDeleted);
       console.log("Course deleted successfully", response.data.message);
     }
     catch (err) {
