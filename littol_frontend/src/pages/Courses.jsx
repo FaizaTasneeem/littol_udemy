@@ -16,29 +16,15 @@ function Courses() {
   useEffect(() => {
     async function getCourses() {
       try {
-        const response = await getAllCourses(accessToken);
-        setCourseList([...response.data.courses]);
-        const responseFiltered = await getCoursesFiltered(page, 3, accessToken);
-        setFilteredCourseList([...responseFiltered.data.courses]);
-        setTotalPages(responseFiltered.data.totalPages);
+        if (filteredCourseList.length < page) {
+          const response = await getCoursesFiltered(page, 3, accessToken);
+          setCourseList([...courseList, response.data.courses]);
+          setFilteredCourseList([...filteredCourseList, response.data.courses]);
+          setTotalPages(response.data.totalPages);
+        }
       }
       catch(err) {
-        console.log("Error fetching all courses ", err);
-      }
-    }
-
-    getCourses();
-  }, []);
-  
-  useEffect(() => {
-    async function getCourses() {
-      try {
-        const responseFiltered = await getCoursesFiltered(page, 3, accessToken);
-        setFilteredCourseList([...responseFiltered.data.courses]);
-        setTotalPages(responseFiltered.data.totalPages);
-      }
-      catch(err) {
-        console.log("Error fetching all courses ", err);
+        console.log("Error fetching courses ", err);
       }
     }
 
@@ -47,6 +33,7 @@ function Courses() {
 
   useEffect(() => {
     setFilteredCourseList(courseList);
+    console.log("filteredCourseList ", filteredCourseList);
   }, [courseList]);
 
   return (
@@ -66,10 +53,16 @@ function Courses() {
         </div>
 
         <div className={`w-full p-4 mt-10 flex flex-col bg-gray-100 rounded-lg transition-all duration-700 ${showModal ? 'blur-sm' : '' } ${createCourseClicked ? 'translate-y-2' : 'translate-y-0'}`}>
-          <div className="px-8 flex flex-row flex-wrap justify-start gap-10">
-            {filteredCourseList.length !== 0 && filteredCourseList.map((val) => {
-              return <Course key={val._id} id={val._id} title={val.title} description={val.description} instructor={val.instructor} category={val.category} level={val.level} thumbnailFilePath={val.thumbnailFilePath} rating={val.rating}/>
-            })}
+          <div className="px-8 flex flex-row justify-start gap-10">
+            {filteredCourseList.length !== 0 && 
+              filteredCourseList
+              .filter((_, idx) => idx === page-1)
+              .flatMap((arr) => {
+                return arr.map((val) => {
+                  return <Course key={val._id} id={val._id} title={val.title} description={val.description} instructor={val.instructor} category={val.category} level={val.level} thumbnailFilePath={val.thumbnailFilePath} rating={val.rating}/>
+                })
+              })
+            }
           </div>
           
           <div className="mt-2 flex flex-row justify-between">

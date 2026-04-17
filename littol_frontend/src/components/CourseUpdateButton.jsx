@@ -7,7 +7,7 @@ function CourseUpdateButton({id}) {
 
   function handleCourseUpdate() {
     setShowModal(true);
-    const courseToUpdate = courseList.find(course => course._id === id);
+    const courseToUpdate = courseList.flatMap(page => page.filter(course => course._id === id))?.[0];
     setCourseToUpdate(courseToUpdate);
   }
 

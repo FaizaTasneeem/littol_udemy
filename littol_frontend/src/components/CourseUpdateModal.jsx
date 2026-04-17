@@ -4,7 +4,7 @@ import CourseForm from './CourseForm';
 
 function CourseUpdateModal() {
   const {accessToken} = userStore();
-  const {page, setFilteredCourseList} = courseStore();
+  const {page, filteredCourseList, setFilteredCourseList} = courseStore();
   const {courseToUpdate, setShowModal} = updateCourseModalStore();
 
   async function handleCourseUpdateSubmit(event) {
@@ -17,9 +17,11 @@ function CourseUpdateModal() {
   async function sendCourseUpdateRequest(course) {
     try {
       const response = await updateCourse(courseToUpdate._id, course, accessToken);
-      console.log(response.data.updatedCourse);
       const responseAfterUpdate = await getCoursesFiltered(page, 3, accessToken);
-      setFilteredCourseList(responseAfterUpdate.data.courses);
+      const updated = filteredCourseList.map((arr, idx) => 
+        idx === page - 1 ? responseAfterUpdate.data.courses : arr
+      );
+      setFilteredCourseList(updated);
       console.log("Course updated successfully", response.data.message);
     }
     catch (err) {
