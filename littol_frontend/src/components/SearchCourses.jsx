@@ -6,7 +6,7 @@ import SearchResult from './SearchResult';
 
 function SearchCourses() {
     const {accessToken} = userStore();
-    const {courseList, setFilteredCourseList} = courseStore();
+    const {setPage, setTotalPages, courseList, setFilteredCourseList} = courseStore();
     const [selectInput, setSelectInput] = useState({category:"All", level:"All"});
     const [searchResultsSuggestion, setSearchResultsSuggestion] = useState([]);
     const [query, setQuery] = useState("");
@@ -20,13 +20,36 @@ function SearchCourses() {
     function handleFilterOptionsChange(event) {
         const id = event.target.id;
         const value = event.target.value;
+
+        const chunkedFilteredList = constructFilteredCourseList(id, value);
+        
+        console.log("filteredList after search - ", chunkedFilteredList);
+        setFilteredCourseList(chunkedFilteredList);
+        setTotalPages(chunkedFilteredList.length);
+        setPage(1);
+    }
+
+    function constructFilteredCourseList(id, value) {
         const newSelectInput = {...selectInput, [id]: value};
         setSelectInput(newSelectInput);
+
+        const filteredList = keysArray.every(key => newSelectInput[key] === 'All') ? 
+                courseList : courseList.flatMap(courseArr => (
+                    courseArr.filter(course => 
+                        keysArray.every(key => newSelectInput[key] === course[key] || newSelectInput[key] === "All")
+                    )
+                ));
         
-        const filteredList = keysArray.every(key => newSelectInput[key] == 'All') ? courseList : courseList.filter(course => (
-            keysArray.every(key => newSelectInput[key] === course[key] || newSelectInput[key] === "All")
-        ));
-        setFilteredCourseList(filteredList);
+        const chunkedFilteredList = chunkArray(filteredList, 3);
+        return chunkedFilteredList;
+    }
+
+    function chunkArray(arr, size) {
+        const result = [];
+        for (let i = 0; i < arr.length; i += size) {
+            result.push(arr.slice(i, i + size));
+        }
+        return result;
     }
 
     async function sendSearchCourseRequest() {
