@@ -8,10 +8,9 @@ import CourseUpdateModal from "../components/CourseUpdateModal";
 
 function Courses() {
   const {accessToken} = userStore();
-  const {page, setPage, courseList, setCourseList, filteredCourseList, setFilteredCourseList} = courseStore();
+  const {page, setPage, totalPages, setTotalPages, courseList, setCourseList, filteredCourseList, setFilteredCourseList} = courseStore();
   const {showModal} = updateCourseModalStore();
   const [createCourseClicked, setCreateCourseClicked] = useState(false);
-  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     async function getCourses() {
@@ -20,6 +19,10 @@ function Courses() {
           const response = await getCoursesFiltered(page, 3, accessToken);
           setCourseList([...courseList, response.data.courses]);
           setFilteredCourseList([...filteredCourseList, response.data.courses]);
+          setTotalPages(response.data.totalPages);
+        }
+        else {
+          setFilteredCourseList([...filteredCourseList]);
         }
       }
       catch(err) {
@@ -35,10 +38,9 @@ function Courses() {
     console.log("filteredCourseList ", filteredCourseList);
   }, [courseList]);
 
-  
   useEffect(() => {
-    setTotalPages(filteredCourseList.length);
-  }, [filteredCourseList]);
+    console.log("totalPages ", totalPages);
+  }, [totalPages]);
 
   return (
     <div className="w-full">
@@ -71,7 +73,7 @@ function Courses() {
           
           <div className="mt-2 flex flex-row justify-between">
             <button onClick={() => setPage(page-1)} disabled={page === 1} className="ml-5 shadow rounded-lg p-4 flex items-center mr-2 cursor-pointer bg-[linear-gradient(135deg,rgba(129,122,235,0.42),rgba(168,162,255,0.30))] text-gray-500">{'<<'}</button>
-            <button onClick={() => setPage(page+1)} disabled={page === totalPages} className="mr-5 shadow rounded-lg p-4 flex items-center mr-2 cursor-pointer bg-[linear-gradient(135deg,rgba(104,96,232,0.52),rgba(79,70,229,0.36))] text-gray-500">{'>>'}</button>
+            <button onClick={() => setPage(page+1)} disabled={page >= totalPages} className="mr-5 shadow rounded-lg p-4 flex items-center mr-2 cursor-pointer bg-[linear-gradient(135deg,rgba(104,96,232,0.52),rgba(79,70,229,0.36))] text-gray-500">{'>>'}</button>
           </div>
         </div>
         

@@ -4,7 +4,7 @@ import CourseForm from "./CourseForm";
 
 function CreateCourse() {
     const {accessToken} = userStore();
-    const {page, courseList, setCourseList, setFilteredCourseList} = courseStore();
+    const {page, setTotalPages, courseList, setCourseList} = courseStore();
     
     async function handleCourseSubmit(event) {
         event.preventDefault();
@@ -14,7 +14,9 @@ function CreateCourse() {
             courseList[courseList.length-1].length === 3 ? 
                 setCourseList([...courseList, [response.data.course]]) : 
                 setCourseList([...courseList.slice(0, -1), [...courseList[courseList.length-1], response.data.course]]);
-            
+            const responseAfterCreate = await getCoursesFiltered(page, 3, accessToken);
+            setTotalPages(responseAfterCreate.data.totalPages);
+
             console.log("Course created successfully", response.data.message);
         }
         catch(err) {
