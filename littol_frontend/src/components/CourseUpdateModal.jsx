@@ -4,7 +4,7 @@ import CourseForm from './CourseForm';
 
 function CourseUpdateModal() {
   const {accessToken} = userStore();
-  const {setCourseList} = courseStore();
+  const {page, setCourseList} = courseStore();
   const {courseToUpdate, setShowModal} = updateCourseModalStore();
 
   async function handleCourseUpdateSubmit(event) {
@@ -18,7 +18,7 @@ function CourseUpdateModal() {
     try {
       const response = await updateCourse(courseToUpdate._id, course, accessToken);
       console.log(response.data.updatedCourse);
-      const responseAfterUpdate = await getAllCourses(accessToken);
+      const responseAfterUpdate = await getAllCourses(page, 3, accessToken);
       setCourseList(responseAfterUpdate.data.courses);
       console.log("Course updated successfully", response.data.message);
     }

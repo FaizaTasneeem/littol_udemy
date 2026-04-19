@@ -3,13 +3,12 @@ import { courseStore, userStore } from "../store/AppStore";
 
 function CourseDeleteButton({id}) {
   const {accessToken} = userStore();
-  const {setCourseList} = courseStore();
+  const {page, setCourseList} = courseStore();
 
   async function handleCourseDelete() {
     try {
       const response = await deleteCourse(id, accessToken);
-      console.log(response.data.deletedCourse);
-      const responseAfterDelete = await getAllCourses(accessToken);
+      const responseAfterDelete = await getAllCourses(page, 3, accessToken);
       setCourseList(responseAfterDelete.data.courses);
       console.log("Course deleted successfully", response.data.message);
     }

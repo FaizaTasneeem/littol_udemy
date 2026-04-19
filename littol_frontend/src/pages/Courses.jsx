@@ -8,10 +8,9 @@ import CourseUpdateModal from "../components/CourseUpdateModal";
 
 function Courses() {
   const {accessToken} = userStore();
-  const {courseList, setCourseList, filteredCourseList, setFilteredCourseList} = courseStore();
+  const {page, setPage, courseList, setCourseList, filteredCourseList, setFilteredCourseList} = courseStore();
   const {showModal} = updateCourseModalStore();
   const [createCourseClicked, setCreateCourseClicked] = useState(false);
-  const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
@@ -60,7 +59,7 @@ function Courses() {
             })}
           </div>
           
-          <div className="flex flex-row justify-between">
+          <div className="mt-4 flex flex-row justify-between">
             <button onClick={() => setPage(page-1)} disabled={page === 1} className="shadow rounded-lg p-4 flex items-center mr-2 cursor-pointer bg-[linear-gradient(135deg,rgba(129,122,235,0.42),rgba(168,162,255,0.30))] text-gray-500">{'<<'}</button>
             <button onClick={() => setPage(page+1)} disabled={page === totalPages} className="shadow rounded-lg p-4 flex items-center mr-2 cursor-pointer bg-[linear-gradient(135deg,rgba(104,96,232,0.52),rgba(79,70,229,0.36))] text-gray-500">{'>>'}</button>
           </div>
