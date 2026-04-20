@@ -38,7 +38,7 @@ export async function searchCourse(queryInput, accessToken) {
 export async function filterCourse(filter, page, limit, accessToken) {
     const response = await axios.get(`${server}/filterCourse`, 
         {
-            params: {filter, page, limit}, 
+            params: {filter: JSON.stringify(filter), page, limit}, 
             headers: { 'authorization': `Bearer ${accessToken}`}
         });
     return response;

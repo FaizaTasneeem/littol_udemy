@@ -6,7 +6,7 @@ import SearchResult from './SearchResult';
 
 function SearchCourses() {
     const {accessToken} = userStore();
-    const {page, setPage, setTotalPages, courseList, setFilteredCourseList} = courseStore();
+    const {page, setPage, totalPages, setTotalPages, courseList, setFilteredCourseList} = courseStore();
     const [selectInput, setSelectInput] = useState({category:"All", level:"All"});
     const [searchResultsSuggestion, setSearchResultsSuggestion] = useState([]);
     const [query, setQuery] = useState("");
@@ -20,16 +20,17 @@ function SearchCourses() {
     async function handleFilterOptionsChange(event) {
         const id = event.target.id;
         const value = event.target.value;
+        setPage(1);
 
         const newSelectInput = {...selectInput, [id]: value};
         setSelectInput(newSelectInput);
 
         const filteredListDetails = keysArray.every(key => newSelectInput[key] == 'All') ? 
-            {filterResults: courseList, totalFilterResults: Math.ceil(courseList.length/3)} : 
+            {filterResults: courseList, totalFilterPages: totalPages} : 
             await sendCourseFilterRequest(newSelectInput);
 
         setFilteredCourseList(filteredListDetails.filterResults);
-        setTotalPages(filteredListDetails.totalFilterResults);
+        setTotalPages(filteredListDetails.totalFilterPages);
     }
 
     async function sendCourseSearchRequest() {
@@ -46,13 +47,12 @@ function SearchCourses() {
     async function sendCourseFilterRequest(newSelectInput) {
         const keysToBeFiltered = keysArray.filter(key => newSelectInput[key] !== "All");
         const filter = keysToBeFiltered.reduce((prev, cur) => ({...prev, [cur] : newSelectInput[cur]}), {});
-        console.log(filter);
         try {
             const response = await filterCourse(filter, page, 3, accessToken);
-            console.log(response.data.filterResults);
+            console.log(response.data.totalFilterPages);
             return {
                 filterResults: response.data.filterResults,
-                totalFilterResults: response.data.totalFilterResults
+                totalFilterPages: response.data.totalFilterPages
             };
         }
         catch(error) {

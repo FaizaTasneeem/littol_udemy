@@ -8,7 +8,7 @@ import CourseUpdateModal from "../components/CourseUpdateModal";
 
 function Courses() {
   const {accessToken} = userStore();
-  const {page, setPage, totalPages, setTotalPages, courseList, setCourseList, filteredCourseList, setFilteredCourseList} = courseStore();
+  const {page, setPage, totalPages, setTotalPages, courseList, setCourseList, filteredCourseList} = courseStore();
   const {showModal} = updateCourseModalStore();
   const [createCourseClicked, setCreateCourseClicked] = useState(false);
 
@@ -17,11 +17,8 @@ function Courses() {
       try {
         const response = await getAllCourses(page, 3, accessToken);
         setCourseList([...response.data.courses]);
-        // setFilteredCourseList([...response.data.courses]);
         setTotalPages(response.data.totalPages);
-        console.log(response.data.courses);
-        console.log(response.data.totalPages);
-        console.log(response.data.message);
+        console.log("totalPages ", totalPages);
       }
       catch(err) {
         console.log("Error fetching all courses ", err);
@@ -31,10 +28,9 @@ function Courses() {
     getCourses();
   }, [page]);
 
-  useEffect(() => {
-    console.log("courseList ", courseList);
-    // setFilteredCourseList(courseList);
-  }, [courseList]);
+  // useEffect(() => {
+  //   console.log("totalPages ", totalPages);
+  // }, [totalPages]);
 
   return (
     <div className="w-full">
@@ -57,20 +53,17 @@ function Courses() {
             {filteredCourseList.length === 0 && courseList.length !== 0 && courseList.map((val) => {
               return <Course key={val._id} id={val._id} title={val.title} description={val.description} instructor={val.instructor} category={val.category} level={val.level} thumbnailFilePath={val.thumbnailFilePath} rating={val.rating}/>
             })}
-
           </div>
 
           <div className="pt-4 flex flex-row justify-center gap-10">
-
             {filteredCourseList.length !== 0 && filteredCourseList.map((val) => {
               return <Course key={val._id} id={val._id} title={val.title} description={val.description} instructor={val.instructor} category={val.category} level={val.level} thumbnailFilePath={val.thumbnailFilePath} rating={val.rating}/>
             })}
-            
           </div>
           
           <div className="mt-4 flex flex-row justify-between">
             <button onClick={() => setPage(page-1)} disabled={page === 1} className="shadow rounded-lg p-4 flex items-center mr-2 cursor-pointer bg-[linear-gradient(135deg,rgba(129,122,235,0.42),rgba(168,162,255,0.30))] text-gray-500">{'<<'}</button>
-            <button onClick={() => setPage(page+1)} disabled={page === totalPages} className="shadow rounded-lg p-4 flex items-center mr-2 cursor-pointer bg-[linear-gradient(135deg,rgba(104,96,232,0.52),rgba(79,70,229,0.36))] text-gray-500">{'>>'}</button>
+            <button onClick={() => setPage(page+1)} disabled={page >= totalPages} className="shadow rounded-lg p-4 flex items-center mr-2 cursor-pointer bg-[linear-gradient(135deg,rgba(104,96,232,0.52),rgba(79,70,229,0.36))] text-gray-500">{'>>'}</button>
           </div>
         </div>
         

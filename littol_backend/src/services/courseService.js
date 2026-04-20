@@ -95,6 +95,7 @@ export const courseService = {
         }
         const skip = (page - 1) * limit;
         const [filterResults, totalFilterResults] = await courseRepository.filterCourse(filter, skip, limit);
-        return { filterResults, totalFilterResults, message:`Filter Results sent successfully !`}
+        const totalFilterPages = Math.ceil(totalFilterResults/limit);
+        return { filterResults, totalFilterPages, message:`Filter Results sent successfully !`}
     }
 };
