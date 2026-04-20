@@ -10,12 +10,14 @@ export const userStore = create((set) => ({
 }));
 
 export const courseStore = create((set) => ({
-    page: 1,
     courseList: [],
     filteredCourseList: [],
-    setPage: (page) => set({page}),
+    page: 1,
+    totalPages: 1,
     setCourseList: (courseList) => set({courseList}),
     setFilteredCourseList: (filteredCourseList) => set({filteredCourseList}),
+    setPage: (page) => set({page}),
+    setTotalPages: (totalPages) => set({totalPages}),
 }));
 
 export const updateCourseModalStore = create((set) => ({

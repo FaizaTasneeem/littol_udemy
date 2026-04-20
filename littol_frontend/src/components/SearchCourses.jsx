@@ -1,35 +1,38 @@
 import { useState, useEffect } from 'react';
 import useDebounce from '../hooks/useDebounce';
-import { searchCourse } from '../services/courseService';
+import { searchCourse, filterCourse } from '../services/courseService';
 import { userStore, courseStore } from '../store/AppStore';
 import SearchResult from './SearchResult';
 
 function SearchCourses() {
     const {accessToken} = userStore();
-    const {courseList, setFilteredCourseList} = courseStore();
+    const {page, setPage, setTotalPages, courseList, setFilteredCourseList} = courseStore();
     const [selectInput, setSelectInput] = useState({category:"All", level:"All"});
     const [searchResultsSuggestion, setSearchResultsSuggestion] = useState([]);
     const [query, setQuery] = useState("");
     const debouncedQuery = useDebounce(query, 500);
+    const keysArray = Object.keys(selectInput);
     
     function handleSearchInputChange(event) {
         setQuery(event.target.value);
     }
 
-    function handleFilterOptionsChange(event) {
+    async function handleFilterOptionsChange(event) {
         const id = event.target.id;
         const value = event.target.value;
+
         const newSelectInput = {...selectInput, [id]: value};
         setSelectInput(newSelectInput);
-        const keysArray = Object.keys(newSelectInput);
-        
-        const filteredList = keysArray.every(key => newSelectInput[key] == 'All') ? courseList : courseList.filter(course => (
-            keysArray.every(key => newSelectInput[key] === course[key] || newSelectInput[key] === "All")
-        ));
-        setFilteredCourseList(filteredList);
+
+        const filteredListDetails = keysArray.every(key => newSelectInput[key] == 'All') ? 
+            {filterResults: courseList, totalFilterResults: Math.ceil(courseList.length/3)} : 
+            await sendCourseFilterRequest(newSelectInput);
+
+        setFilteredCourseList(filteredListDetails.filterResults);
+        setTotalPages(filteredListDetails.totalFilterResults);
     }
 
-    async function sendSearchCourseRequest() {
+    async function sendCourseSearchRequest() {
         try {
             const response = await searchCourse(debouncedQuery, accessToken);
             console.log(response.data);
@@ -40,10 +43,27 @@ function SearchCourses() {
         }
     };
 
+    async function sendCourseFilterRequest(newSelectInput) {
+        const keysToBeFiltered = keysArray.filter(key => newSelectInput[key] !== "All");
+        const filter = keysToBeFiltered.reduce((prev, cur) => ({...prev, [cur] : newSelectInput[cur]}), {});
+        console.log(filter);
+        try {
+            const response = await filterCourse(filter, page, 3, accessToken);
+            console.log(response.data.filterResults);
+            return {
+                filterResults: response.data.filterResults,
+                totalFilterResults: response.data.totalFilterResults
+            };
+        }
+        catch(error) {
+            console.log("❌ Course filter failed. Please try again...", error);
+        }
+    };
+    
     useEffect(() => {
         if (debouncedQuery) {
             console.log(debouncedQuery);
-            sendSearchCourseRequest();
+            sendCourseSearchRequest();
         }
     }, [debouncedQuery]);
 

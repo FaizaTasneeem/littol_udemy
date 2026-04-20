@@ -5,10 +5,7 @@ const server = import.meta.env.VITE_BACKEND_SERVER_COURSE || 'http://localhost:5
 export async function getAllCourses(page, limit, accessToken) {
     const response = await axios.get(`${server}/getCourses`, 
         {
-            params: { 
-                page,
-                limit
-            },
+            params: { page, limit },
             headers: { 'authorization': `Bearer ${accessToken}`}
         });
     return response;
@@ -36,4 +33,13 @@ export async function searchCourse(queryInput, accessToken) {
             headers: { 'authorization': `Bearer ${accessToken}`}
         });
     return response;
-}
+};
+
+export async function filterCourse(filter, page, limit, accessToken) {
+    const response = await axios.get(`${server}/filterCourse`, 
+        {
+            params: {filter, page, limit}, 
+            headers: { 'authorization': `Bearer ${accessToken}`}
+        });
+    return response;
+};

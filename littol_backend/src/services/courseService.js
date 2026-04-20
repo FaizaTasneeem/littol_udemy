@@ -10,8 +10,6 @@ export const courseService = {
         const skip = (page - 1) * limit;
         const [courses, totalCourses] = await courseRepository.findCourses(skip, limit);
         const totalPages = Math.ceil(totalCourses/limit);
-        console.log(courses, totalCourses);
-
         return { courses, totalPages, message: `All Courses for page - ${page} fetched successfully !` };
     },
 
@@ -86,8 +84,17 @@ export const courseService = {
             throw error;
         }
         const searchResultsSuggestion = await courseRepository.searchCourse({ query });
-        console.log(searchResultsSuggestion);
         return { searchResultsSuggestion, message:`Search Results Suggestions sent successfully !`}
-    }
+    },
 
+    async filterCourse(filter, page, limit){
+        if(!filter || !page || !limit) {
+            const error = new Error("Filter, Page number and Limit is required !");
+            error.code = "BAD_REQUEST";
+            throw error;
+        }
+        const skip = (page - 1) * limit;
+        const [filterResults, totalFilterResults] = await courseRepository.filterCourse(filter, skip, limit);
+        return { filterResults, totalFilterResults, message:`Filter Results sent successfully !`}
+    }
 };

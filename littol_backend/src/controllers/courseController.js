@@ -37,3 +37,10 @@ export const searchCourse = catchAsync(async (req, res) => {
     const { searchResultsSuggestion, message } = await courseService.searchCourse({ query });
     return res.status(200).json({ searchResultsSuggestion, message });
 });
+
+export const filterCourse = catchAsync(async (req, res) => {
+    const { filter, page, limit} = req.query;
+    console.log(filter);
+    const { filterResults, totalFilterResults, message } = await courseService.filterCourse(filter, page, limit);
+    return res.status(200).json({ filterResults, totalFilterResults, message });
+});

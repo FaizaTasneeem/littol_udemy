@@ -8,17 +8,16 @@ import CourseUpdateModal from "../components/CourseUpdateModal";
 
 function Courses() {
   const {accessToken} = userStore();
-  const {page, setPage, courseList, setCourseList, filteredCourseList, setFilteredCourseList} = courseStore();
+  const {page, setPage, totalPages, setTotalPages, courseList, setCourseList, filteredCourseList, setFilteredCourseList} = courseStore();
   const {showModal} = updateCourseModalStore();
   const [createCourseClicked, setCreateCourseClicked] = useState(false);
-  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     async function getCourses() {
       try {
         const response = await getAllCourses(page, 3, accessToken);
         setCourseList([...response.data.courses]);
-        setFilteredCourseList([...response.data.courses]);
+        // setFilteredCourseList([...response.data.courses]);
         setTotalPages(response.data.totalPages);
         console.log(response.data.courses);
         console.log(response.data.totalPages);
@@ -33,7 +32,8 @@ function Courses() {
   }, [page]);
 
   useEffect(() => {
-    setFilteredCourseList(courseList);
+    console.log("courseList ", courseList);
+    // setFilteredCourseList(courseList);
   }, [courseList]);
 
   return (
@@ -54,9 +54,18 @@ function Courses() {
 
         <div className={`w-full p-4 mt-10 flex flex-col bg-gray-100 rounded-lg transition-all duration-700 ${showModal ? 'blur-sm' : '' } ${createCourseClicked ? 'translate-y-2' : 'translate-y-0'}`}>
           <div className="flex flex-row justify-center gap-10">
+            {filteredCourseList.length === 0 && courseList.length !== 0 && courseList.map((val) => {
+              return <Course key={val._id} id={val._id} title={val.title} description={val.description} instructor={val.instructor} category={val.category} level={val.level} thumbnailFilePath={val.thumbnailFilePath} rating={val.rating}/>
+            })}
+
+          </div>
+
+          <div className="pt-4 flex flex-row justify-center gap-10">
+
             {filteredCourseList.length !== 0 && filteredCourseList.map((val) => {
               return <Course key={val._id} id={val._id} title={val.title} description={val.description} instructor={val.instructor} category={val.category} level={val.level} thumbnailFilePath={val.thumbnailFilePath} rating={val.rating}/>
             })}
+            
           </div>
           
           <div className="mt-4 flex flex-row justify-between">

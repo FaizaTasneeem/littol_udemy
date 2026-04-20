@@ -40,5 +40,13 @@ export const courseRepository = {
             { score: { $meta: "textScore" } }
         ).sort({ score: { $meta: "textScore" } });
         return searchResultsSuggestion;
+    },
+
+    async filterCourse(filter, skip, limit) {
+        const [filterResults, totalFilterResults] = await Promise.all([
+            Course.find(filter).skip(skip).limit(limit),
+            Course.countDocuments(filter)
+        ]);
+        return [filterResults, totalFilterResults];
     }
 }
