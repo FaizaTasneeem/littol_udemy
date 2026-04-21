@@ -6,7 +6,7 @@ import SearchResult from './SearchResult';
 
 function SearchCourses() {
     const {accessToken} = userStore();
-    const {page, setPage, totalPages, setTotalPages, courseList, setFilteredCourseList} = courseStore();
+    const {filterPage, setFilterPage, totalPages, setTotalPages, courseList, setFilteredCourseList} = courseStore();
     const [selectInput, setSelectInput] = useState({category:"All", level:"All"});
     const [searchResultsSuggestion, setSearchResultsSuggestion] = useState([]);
     const [query, setQuery] = useState("");
@@ -20,14 +20,13 @@ function SearchCourses() {
     async function handleFilterOptionsChange(event) {
         const id = event.target.id;
         const value = event.target.value;
-        setPage(1);
 
         const newSelectInput = {...selectInput, [id]: value};
         setSelectInput(newSelectInput);
 
-        const filteredListDetails = keysArray.every(key => newSelectInput[key] == 'All') ? 
+        const filteredListDetails = keysArray.every(key => newSelectInput[key] === 'All') ? 
             {filterResults: courseList, totalFilterPages: totalPages} : 
-            await sendCourseFilterRequest(newSelectInput);
+            await sendCourseFilterRequest(1, newSelectInput);
 
         setFilteredCourseList(filteredListDetails.filterResults);
         setTotalPages(filteredListDetails.totalFilterPages);
@@ -44,12 +43,12 @@ function SearchCourses() {
         }
     };
 
-    async function sendCourseFilterRequest(newSelectInput) {
+    async function sendCourseFilterRequest(filterPage, newSelectInput) {
         const keysToBeFiltered = keysArray.filter(key => newSelectInput[key] !== "All");
         const filter = keysToBeFiltered.reduce((prev, cur) => ({...prev, [cur] : newSelectInput[cur]}), {});
+        
         try {
-            const response = await filterCourse(filter, page, 3, accessToken);
-            console.log(response.data.totalFilterPages);
+            const response = await filterCourse(filter, filterPage, 3, accessToken);
             return {
                 filterResults: response.data.filterResults,
                 totalFilterPages: response.data.totalFilterPages
@@ -67,6 +66,19 @@ function SearchCourses() {
         }
     }, [debouncedQuery]);
 
+    useEffect(() => {
+        console.log("filterPage ", filterPage)
+        if (keysArray.every(key => selectInput[key] === 'All')) return;
+
+        async function getFilteredCourses() {
+            const filteredListDetails = await sendCourseFilterRequest(filterPage, selectInput);
+            setFilteredCourseList(filteredListDetails.filterResults);
+            setTotalPages(filteredListDetails.totalFilterPages);
+        }
+
+        getFilteredCourses();
+    }, [filterPage]);
+    
     return (
         <div className="w-full bg-gray-100 mt-10 rounded-lg flex flex-col">
             <input type="text" onChange={handleSearchInputChange} className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='Search courses by title, description and instructor...' />
