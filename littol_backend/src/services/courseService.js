@@ -2,15 +2,23 @@ import { courseRepository } from "../repositories/courseRepository.js";
 
 export const courseService = {
     async getCourses(page, limit){
-        if(!page || !limit) {
-            const error = new Error("Page number and limit is required !");
+        const pageNumber = Number(page);
+        const limitNumber = Number(limit);
+
+        if(
+            !Number.isInteger(pageNumber) ||
+            !Number.isInteger(limitNumber) ||
+            pageNumber < 1 ||
+            limitNumber < 1
+        ) {
+            const error = new Error("Page and limit must be positive integers !");
             error.code = "VALIDATION_ERROR";
             throw error;
         }
-        const skip = (page - 1) * limit;
-        const [courses, totalCourses] = await courseRepository.findCourses(skip, limit);
-        const totalPages = Math.ceil(totalCourses/limit);
-        return { courses, totalPages, message: `All Courses for page - ${page} fetched successfully !` };
+        const skip = (pageNumber - 1) * limitNumber;
+        const [courses, totalCourses] = await courseRepository.findCourses(skip, limitNumber);
+        const totalPages = Math.ceil(totalCourses / limitNumber);
+        return { courses, totalPages, message: `All Courses for page - ${pageNumber} fetched successfully !` };
     },
 
     async getCourse({ courseId }){
@@ -88,14 +96,28 @@ export const courseService = {
     },
 
     async filterCourse(filter, page, limit){
-        if(!filter || !page || !limit) {
-            const error = new Error("Filter, Page number and Limit is required !");
+        const pageNumber = Number(page);
+        const limitNumber = Number(limit);
+
+        if(!filter) {
+            const error = new Error("Filter is required !");
             error.code = "BAD_REQUEST";
             throw error;
         }
-        const skip = (page - 1) * limit;
-        const [filterResults, totalFilterResults] = await courseRepository.filterCourse(filter, skip, limit);
-        const totalFilterPages = Math.ceil(totalFilterResults/limit);
+
+        if(
+            !Number.isInteger(pageNumber) ||
+            !Number.isInteger(limitNumber) ||
+            pageNumber < 1 ||
+            limitNumber < 1
+        ) {
+            const error = new Error("Page and limit must be positive integers !");
+            error.code = "BAD_REQUEST";
+            throw error;
+        }
+        const skip = (pageNumber - 1) * limitNumber;
+        const [filterResults, totalFilterResults] = await courseRepository.filterCourse(filter, skip, limitNumber);
+        const totalFilterPages = Math.ceil(totalFilterResults / limitNumber);
         return { filterResults, totalFilterPages, message:`Filter Results sent successfully !`}
     }
 };

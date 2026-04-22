@@ -3,7 +3,7 @@ import Course from "../models/Course.js";
 export const courseRepository = {
     async findCourses(skip, limit) {
         const [courses, totalCourses] = await Promise.all([
-            Course.find().skip(skip).limit(limit),
+            Course.find().sort({ _id: -1 }).skip(skip).limit(limit),
             Course.countDocuments()
         ]);
         return [courses, totalCourses];
@@ -44,7 +44,7 @@ export const courseRepository = {
 
     async filterCourse(filter, skip, limit) {
         const [filterResults, totalFilterResults] = await Promise.all([
-            Course.find(filter).skip(skip).limit(limit),
+            Course.find(filter).sort({ _id: -1 }).skip(skip).limit(limit),
             Course.countDocuments(filter)
         ]);
         return [filterResults, totalFilterResults];
