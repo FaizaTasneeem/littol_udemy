@@ -5,10 +5,11 @@ import CreateCourse from "../components/CreateCourse";
 import Course from "../components/Course";
 import { getAllCourses } from "../services/courseService";
 import CourseUpdateModal from "../components/CourseUpdateModal";
+import NextAndPrevButton from "../components/NextAndPrevButton";
 
 function Courses() {
   const {accessToken} = userStore();
-  const {page, setPage, filterPage, setFilterPage, totalPages, setTotalPages, courseList, setCourseList, filteredCourseList} = courseStore();
+  const {page, totalPages, setTotalPages, courseList, setCourseList, filteredCourseList} = courseStore();
   const {showModal} = updateCourseModalStore();
   const [createCourseClicked, setCreateCourseClicked] = useState(false);
 
@@ -24,23 +25,8 @@ function Courses() {
         console.log("Error fetching all courses ", err);
       }
     }
-
     getCourses();
   }, [page]);
-
-  function handlePageIncrement() {
-    // console.log("filteredCourseList.length ", filteredCourseList.length);
-    console.log("filterPage ", filterPage);
-    console.log("page ", page);
-    filteredCourseList.length === 0 ? setPage(page + 1) : setFilterPage(filterPage + 1);
-  }
-
-  function handlePageDecrement() {
-    console.log("filteredCourseList.length ", filteredCourseList.length);
-
-
-    filteredCourseList.length === 0 ? setPage(page - 1) : setFilterPage(filterPage - 1);
-  }
 
   return (
     <div className="w-full">
@@ -58,24 +44,23 @@ function Courses() {
           <CreateCourse />
         </div>
 
-        <div className={`w-full p-4 mt-10 flex flex-col bg-gray-100 rounded-lg transition-all duration-700 ${showModal ? 'blur-sm' : '' } ${createCourseClicked ? 'translate-y-2' : 'translate-y-0'}`}>
+        {courseList.length !== 0 && <div className={`w-full p-4 mt-10 flex flex-col bg-gray-100 rounded-lg transition-all duration-700 ${showModal ? 'blur-sm' : '' } ${createCourseClicked ? 'translate-y-2' : 'translate-y-0'}`}>
           <div className="flex flex-row justify-center gap-10">
-            {filteredCourseList.length === 0 && courseList.length !== 0 && courseList.map((val) => {
+            {courseList.map((val) => {
               return <Course key={val._id} id={val._id} title={val.title} description={val.description} instructor={val.instructor} category={val.category} level={val.level} thumbnailFilePath={val.thumbnailFilePath} rating={val.rating}/>
             })}
           </div>
+          <NextAndPrevButton mainList={true} />
+        </div>}
 
-          <div className="pt-4 flex flex-row justify-center gap-10">
-            {filteredCourseList.length !== 0 && filteredCourseList.map((val) => {
+        {filteredCourseList.length !== 0 && <div className={`w-full p-4 mt-10 flex flex-col bg-gray-100 rounded-lg transition-all duration-700 ${showModal ? 'blur-sm' : '' } ${createCourseClicked ? 'translate-y-2' : 'translate-y-0'}`}>
+          <div className="flex flex-row justify-center gap-10">
+            {filteredCourseList.map((val) => {
               return <Course key={val._id} id={val._id} title={val.title} description={val.description} instructor={val.instructor} category={val.category} level={val.level} thumbnailFilePath={val.thumbnailFilePath} rating={val.rating}/>
             })}
           </div>
-          
-          <div className="mt-4 flex flex-row justify-between">
-            <button onClick={handlePageDecrement} disabled={(filteredCourseList.length === 0 && page === 1) || (filteredCourseList.length !== 0 && filterPage === 1)} className="shadow rounded-lg p-4 flex items-center mr-2 cursor-pointer bg-[linear-gradient(135deg,rgba(129,122,235,0.42),rgba(168,162,255,0.30))] text-gray-500">{'<<'}</button>
-            <button onClick={handlePageIncrement} disabled={(filteredCourseList.length === 0 && page >= totalPages) || (filteredCourseList.length !== 0 && filterPage >= totalPages)} className="shadow rounded-lg p-4 flex items-center mr-2 cursor-pointer bg-[linear-gradient(135deg,rgba(104,96,232,0.52),rgba(79,70,229,0.36))] text-gray-500">{'>>'}</button>
-          </div>
-        </div>
+          <NextAndPrevButton mainList={false} />
+        </div>}
         
         {showModal && <CourseUpdateModal/>}
 

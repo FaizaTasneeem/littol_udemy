@@ -6,36 +6,22 @@ import SearchResult from './SearchResult';
 
 function SearchCourses() {
     const {accessToken} = userStore();
-    const {filterPage, setFilterPage, totalPages, setTotalPages, courseList, setFilteredCourseList} = courseStore();
-    const [selectInput, setSelectInput] = useState({category:"All", level:"All"});
+    const {filterPage, setFilterPage, setTotalFilterPages, setFilteredCourseList} = courseStore();
+    
     const [searchResultsSuggestion, setSearchResultsSuggestion] = useState([]);
+    const [selectInput, setSelectInput] = useState({category:"All", level:"All"});
     const [query, setQuery] = useState("");
     const debouncedQuery = useDebounce(query, 500);
+    
     const keysArray = Object.keys(selectInput);
     
     function handleSearchInputChange(event) {
         setQuery(event.target.value);
-    }
-
-    async function handleFilterOptionsChange(event) {
-        const id = event.target.id;
-        const value = event.target.value;
-
-        const newSelectInput = {...selectInput, [id]: value};
-        setSelectInput(newSelectInput);
-
-        const filteredListDetails = keysArray.every(key => newSelectInput[key] === 'All') ? 
-            {filterResults: courseList, totalFilterPages: totalPages} : 
-            await sendCourseFilterRequest(1, newSelectInput);
-
-        setFilteredCourseList(filteredListDetails.filterResults);
-        setTotalPages(filteredListDetails.totalFilterPages);
-    }
+    };
 
     async function sendCourseSearchRequest() {
         try {
             const response = await searchCourse(debouncedQuery, accessToken);
-            console.log(response.data);
             setSearchResultsSuggestion(response.data.searchResultsSuggestion);
         }
         catch(error) {
@@ -43,41 +29,50 @@ function SearchCourses() {
         }
     };
 
+    async function handleFilterOptionsChange(event) {
+        const id = event.target.id;
+        const value = event.target.value;
+
+        const newSelectInput = {...selectInput, [id]: value};
+        setSelectInput(newSelectInput);
+        setFilterPage(1);
+    }
+
+
     async function sendCourseFilterRequest(filterPage, newSelectInput) {
         const keysToBeFiltered = keysArray.filter(key => newSelectInput[key] !== "All");
         const filter = keysToBeFiltered.reduce((prev, cur) => ({...prev, [cur] : newSelectInput[cur]}), {});
         
-        try {
-            const response = await filterCourse(filter, filterPage, 3, accessToken);
-            return {
-                filterResults: response.data.filterResults,
-                totalFilterPages: response.data.totalFilterPages
-            };
-        }
-        catch(error) {
-            console.log("❌ Course filter failed. Please try again...", error);
-        }
+        const response = await filterCourse(filter, filterPage, 3, accessToken);
+        return response;
     };
     
     useEffect(() => {
         if (debouncedQuery) {
-            console.log(debouncedQuery);
             sendCourseSearchRequest();
         }
     }, [debouncedQuery]);
 
     useEffect(() => {
-        console.log("filterPage ", filterPage)
-        if (keysArray.every(key => selectInput[key] === 'All')) return;
-
+        // if (keysArray.every(key => selectInput[key] === 'All')) return;
         async function getFilteredCourses() {
-            const filteredListDetails = await sendCourseFilterRequest(filterPage, selectInput);
-            setFilteredCourseList(filteredListDetails.filterResults);
-            setTotalPages(filteredListDetails.totalFilterPages);
+            try {
+                console.log(selectInput);
+                const response = await sendCourseFilterRequest(filterPage, selectInput);
+                setFilteredCourseList([...response.data.filterResults]);
+                setTotalFilterPages(response.data.totalFilterPages);
+            }
+            catch(error) {
+                console.log("❌ Course filter failed. Please try again...", error);
+            }
+        }
+        
+        if (filterPage) {
+            console.log(filterPage);
+            getFilteredCourses();
         }
 
-        getFilteredCourses();
-    }, [filterPage]);
+    }, [filterPage, selectInput]);
     
     return (
         <div className="w-full bg-gray-100 mt-10 rounded-lg flex flex-col">
