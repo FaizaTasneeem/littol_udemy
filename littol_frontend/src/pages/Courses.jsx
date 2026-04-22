@@ -44,16 +44,18 @@ function Courses() {
           <CreateCourse />
         </div>
 
-        {courseList.length !== 0 && <div className={`w-full p-4 mt-10 flex flex-col bg-gray-100 rounded-lg transition-all duration-700 ${showModal ? 'blur-sm' : '' } ${createCourseClicked ? 'translate-y-2' : 'translate-y-0'}`}>
+        <div className={`w-full p-4 mt-10 flex flex-col bg-gray-100 rounded-lg transition-all duration-700 ${showModal ? 'blur-sm' : '' } ${createCourseClicked ? 'translate-y-2' : 'translate-y-0'}`}>
+          <h1 className="ml-8 p-4 font-medium text-xl">All list -</h1>
           <div className="flex flex-row justify-center gap-10">
             {courseList.map((val) => {
               return <Course key={val._id} id={val._id} title={val.title} description={val.description} instructor={val.instructor} category={val.category} level={val.level} thumbnailFilePath={val.thumbnailFilePath} rating={val.rating}/>
             })}
           </div>
           <NextAndPrevButton mainList={true} />
-        </div>}
+        </div>
 
         {filteredCourseList.length !== 0 && <div className={`w-full p-4 mt-10 flex flex-col bg-gray-100 rounded-lg transition-all duration-700 ${showModal ? 'blur-sm' : '' } ${createCourseClicked ? 'translate-y-2' : 'translate-y-0'}`}>
+          <h1 className="ml-8 p-4 font-medium text-xl">Filtered List -</h1>
           <div className="flex flex-row justify-center gap-10">
             {filteredCourseList.map((val) => {
               return <Course key={val._id} id={val._id} title={val.title} description={val.description} instructor={val.instructor} category={val.category} level={val.level} thumbnailFilePath={val.thumbnailFilePath} rating={val.rating}/>
