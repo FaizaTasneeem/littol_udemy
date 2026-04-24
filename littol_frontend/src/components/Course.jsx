@@ -1,11 +1,19 @@
+import { useNavigate } from "react-router-dom";
+import CourseDetails from "../pages/CourseDetails";
 import CourseUpdateButton from "./CourseUpdateButton";
 import CourseDeleteButton from "./CourseDeleteButton";
 
 const server = import.meta.env.VITE_BACKEND_SERVER || 'http://localhost:5000';
 
 function Course({id, title, description, instructor, category, level, thumbnailFilePath, rating}) {
+  const navigate = useNavigate();
+  
+  function handleCourseClick() {
+    navigate("/courseDetails");
+  }
+
   return (
-    <div className="w-[50%] md:w-[30%] border border-gray-400 flex flex-col rounded-xl p-2">
+    <div onClick={handleCourseClick} className="w-[50%] md:w-[30%] border border-gray-400 flex flex-col rounded-xl p-2 cursor-pointer">
       <div className="w-full h-40 border rounded-t-xl relative">
         <img src={`${server}${thumbnailFilePath}`} alt="" className="w-full h-full object-cover rounded-t-xl" />
         <CourseUpdateButton id={id} />    

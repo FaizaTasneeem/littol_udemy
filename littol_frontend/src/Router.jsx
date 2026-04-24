@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
 import Courses from "./pages/Courses";
 import Profile from "./pages/Profile";
+import CourseDetails from "./pages/CourseDetails";
 
 const router = createBrowserRouter([
     {
@@ -25,9 +26,13 @@ const router = createBrowserRouter([
                         path: "/courses",
                         element: <Courses/>
                     },
-                                        {
+                    {
                         path: "/profile",
                         element: <Profile/>
+                    },
+                    {
+                        path: "/courseDetails",
+                        element: <CourseDetails/>
                     },
                 ]
             }
