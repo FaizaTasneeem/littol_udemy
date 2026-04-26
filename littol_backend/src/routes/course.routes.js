@@ -11,6 +11,6 @@ router.post("/createCourse/", authenticateToken, upload_courses.single('thumbnai
 router.put("/updateCourse/:id", authenticateToken, upload_courses.single('thumbnail'), updateCourse);
 router.delete("/deleteCourse/:id", authenticateToken, deleteCourse);
 router.get("/searchCourse", authenticateToken, searchCourse);
-router.get("/filterCourse", filterCourse);
+router.get("/filterCourse", authenticateToken, filterCourse);
 
 export default router;

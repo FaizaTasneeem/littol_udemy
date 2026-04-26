@@ -11,6 +11,11 @@ export async function getAllCourses(page, limit, accessToken) {
     return response;
 };
 
+export async function getCourse(id, accessToken) {
+    const response = await axios.get(`${server}/getCourse/${id}`, {headers: { 'authorization': `Bearer ${accessToken}`}});
+    return response;
+};
+
 export async function createCourse(course, accessToken) {
     const response = await axios.post(`${server}/createCourse`, course, {headers: { 'authorization': `Bearer ${accessToken}`}});
     return response;
