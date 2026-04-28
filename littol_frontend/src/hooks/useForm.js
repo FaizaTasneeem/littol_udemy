@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
 import { sendAuthRequest } from "../services/authService";
 import { validateCredentials } from "../utils/authValidation";
@@ -6,22 +6,33 @@ import { userStore } from "../store/AppStore";
 
 const server = import.meta.env.VITE_BACKEND_SERVER || 'http://localhost:5000/';
 
-export function useFormHandler(userInput) {
+const initialState = {
+    signInClicked: false,
+    formValues: {fullname:"", email:"", password:""},
+    error: null
+}
+
+const reducer = (state, action) => {
+    switch (action.type) {
+        case "TOGGLE_SIGN_IN":
+            return {...state, signInClicked: !signInClicked, error: null};
+        case "INPUT_CHANGE":
+            return {...state, formValues: {...state.formValues, [action.name]: action.value}};
+        case "SET_ERROR":
+            return {...state, error: action.error};
+        default:
+            return state;
+    }
+}
+
+export function useFormHandler() {
     const navigate = useNavigate();
     const {setAccessToken, setUser, setPreviewUrl} = userStore();
 
-    const [signInClicked, setSignInClicked] = useState(false);
-    const [formValues, setFormValues] = useState(userInput);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        console.log("Sign In Clicked - ", signInClicked);
-    }, [signInClicked]);
-
-    // useEffect(() => {
-    //     console.log(formValues);
-    // }, [formValues]);
-
+    const [formState, dispatch] = useReducer(reducer, initialState);
+    // const [signInClicked, setSignInClicked] = useState(false);
+    // const [formValues, setFormValues] = useState(userInput);
+    // const [error, setError] = useState(null);
 
     function handleSignInClick() {
         setError(null);
@@ -37,9 +48,6 @@ export function useFormHandler(userInput) {
         // e.preventDefault();
         const authMode = signInStatus ? 'login' : 'signup' ;
 
-        console.log(authMode);
-        console.log(formValues);
-        
         const validationError = validateCredentials(authMode, formValues);
         if(validationError) {
             setError({msg: validationError});
@@ -50,7 +58,6 @@ export function useFormHandler(userInput) {
             const serverResponse = await sendAuthRequest(authMode, formValues);
             console.log("Success", serverResponse);
 
-            // localStorage.setItem("accessToken", serverResponse.data.accessToken);
             setAccessToken(serverResponse.data.accessToken);
             setUser(serverResponse.data.updatedUser);
             setPreviewUrl(`${server}${serverResponse.data.updatedUser.profilePicFilePath}`);

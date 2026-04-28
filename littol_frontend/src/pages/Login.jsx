@@ -2,7 +2,7 @@ import { useFormHandler } from "../hooks/useForm";
 import SignInUp from "../components/SignInUp";
 
 function Login() {
-  const {signInClicked, formValues, error, handleSignInClick, handleInputChange, handleLogin} = useFormHandler({fullname:"", email:"", password:""});
+  const {signInClicked, formValues, error, handleSignInClick, handleInputChange, handleLogin} = useFormHandler();
 
   return (
     <div className="bg-blue-50 h-screen flex items-center justify-center">
