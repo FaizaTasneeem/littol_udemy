@@ -15,11 +15,11 @@ const initialState = {
 const reducer = (state, action) => {
     switch (action.type) {
         case "TOGGLE_SIGN_IN":
-            return {...state, signInClicked: !signInClicked, error: null};
+            return {...state, signInClicked: !state.signInClicked, error: null};
         case "INPUT_CHANGE":
             return {...state, formValues: {...state.formValues, [action.name]: action.value}};
         case "SET_ERROR":
-            return {...state, error: action.error};
+            return {...state, error: action.msg};
         default:
             return state;
     }
@@ -30,32 +30,19 @@ export function useFormHandler() {
     const {setAccessToken, setUser, setPreviewUrl} = userStore();
 
     const [formState, dispatch] = useReducer(reducer, initialState);
-    // const [signInClicked, setSignInClicked] = useState(false);
-    // const [formValues, setFormValues] = useState(userInput);
-    // const [error, setError] = useState(null);
-
-    function handleSignInClick() {
-        setError(null);
-        setSignInClicked((prev) => !prev);
-    }
-
-    function handleInputChange(e) {
-        const {name, value} = e.target;
-        setFormValues((prev) => ({...prev, [name]: value}));
-    }
 
     async function handleLogin(signInStatus) {
         // e.preventDefault();
         const authMode = signInStatus ? 'login' : 'signup' ;
 
-        const validationError = validateCredentials(authMode, formValues);
+        const validationError = validateCredentials(authMode, formState.formValues);
         if(validationError) {
-            setError({msg: validationError});
+            dispatch({ type: 'SET_ERROR', msg: validationError });
             return;
         }
 
         try {
-            const serverResponse = await sendAuthRequest(authMode, formValues);
+            const serverResponse = await sendAuthRequest(authMode, formState.formValues);
             console.log("Success", serverResponse);
 
             setAccessToken(serverResponse.data.accessToken);
@@ -65,10 +52,10 @@ export function useFormHandler() {
             navigate("/dashboard");
         }
         catch (err) {
-            setError({msg: err?.response?.data?.message ?? err.message })
+            dispatch({ type: 'SET_ERROR', msg: err?.response?.data?.message ?? err.message });
             console.log(err?.response?.data?.message ?? err.message);
         }
     }
 
-    return {signInClicked, formValues, error, handleSignInClick, handleInputChange, handleLogin};
+    return {formState, dispatch, handleLogin};
 }
