@@ -22,7 +22,7 @@ function CreateCourse() {
 
 
     return (
-        <form onSubmit={handleCourseSubmit} className="w-full bg-gray-100 rounded-lg flex flex-col">
+        <form onSubmit={handleCourseSubmit} className="w-full p-4 bg-white rounded-lg flex flex-col">
             <CourseForm/>
         </form>
     )

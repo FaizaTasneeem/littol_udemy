@@ -5,8 +5,8 @@ function Navbar() {
   const {handleLogout} = useLogout();
 
   return (
-    <div className="flex flex-row min-h-screen">
-      <div className='flex flex-col mx-8 py-4 bg-gray-200 rounded-lg w-[15%] shadow-2xl shadow'>
+    <div className="flex flex-row min-h-screen bg-gray-100">
+      <div className='flex flex-col mx-8 py-4 bg-white rounded-lg w-[15%] shadow-2xl shadow'>
           <NavLink to='/dashboard' className='px-4 py-2'>Dashboard</NavLink>
           <NavLink to='/courses' className='px-4 py-2'>Courses</NavLink>
           <NavLink to='/profile' className='px-4 py-2'>Profile</NavLink>

@@ -75,7 +75,7 @@ function SearchCourses() {
     }, [filterPage, selectInput]);
     
     return (
-        <div className="w-full bg-gray-100 mt-10 rounded-lg flex flex-col">
+        <div className="w-full p-4 bg-white mt-10 rounded-lg flex flex-col">
             <input type="text" onChange={handleSearchInputChange} className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='Search courses by title, description and instructor...' />
             
             {searchResultsSuggestion.length !== 0 && 

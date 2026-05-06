@@ -29,7 +29,7 @@ function Courses() {
   }, [page]);
 
   return (
-    <div className="w-full">
+    <div className="w-full bg-gray-100">
       <div className="w-full p-14 flex flex-col items-start justify-start">
 
         <div className="w-full flex flex-row justify-between">
@@ -40,11 +40,11 @@ function Courses() {
 
         <SearchCourses />
 
-        <div id="create-course-panel" className={`w-full overflow-hidden bg-gray-100 rounded-lg transition-all duration-700 ${showModal ? 'blur-sm' : '' } ${createCourseClicked ? 'mt-10 max-h-[700px] opacity-100' : 'mt-0 max-h-0 opacity-0 pointer-events-none'}`}>
+        <div id="create-course-panel" className={`w-full overflow-hidden bg-white rounded-lg transition-all duration-700 ${showModal ? 'blur-sm' : '' } ${createCourseClicked ? 'mt-10 max-h-[700px] opacity-100' : 'mt-0 max-h-0 opacity-0 pointer-events-none'}`}>
           <CreateCourse />
         </div>
 
-        <div className={`w-full p-4 mt-10 flex flex-col bg-gray-100 rounded-lg transition-all duration-700 ${showModal ? 'blur-sm' : '' } ${createCourseClicked ? 'translate-y-2' : 'translate-y-0'}`}>
+        <div className={`w-full p-4 mt-10 flex flex-col bg-white rounded-lg transition-all duration-700 ${showModal ? 'blur-sm' : '' } ${createCourseClicked ? 'translate-y-2' : 'translate-y-0'}`}>
           <h1 className="ml-8 p-4 font-medium text-xl">All list -</h1>
           <div className="flex flex-row justify-center gap-10">
             {courseList.map((val) => {
@@ -54,7 +54,7 @@ function Courses() {
           <NextAndPrevButton mainList={true} />
         </div>
 
-        {filteredCourseList.length !== 0 && <div className={`w-full p-4 mt-10 flex flex-col bg-gray-100 rounded-lg transition-all duration-700 ${showModal ? 'blur-sm' : '' } ${createCourseClicked ? 'translate-y-2' : 'translate-y-0'}`}>
+        {filteredCourseList.length !== 0 && <div className={`w-full p-4 mt-10 flex flex-col bg-white rounded-lg transition-all duration-700 ${showModal ? 'blur-sm' : '' } ${createCourseClicked ? 'translate-y-2' : 'translate-y-0'}`}>
           <h1 className="ml-8 p-4 font-medium text-xl">Filtered List -</h1>
           <div className="flex flex-row justify-center gap-10">
             {filteredCourseList.map((val) => {

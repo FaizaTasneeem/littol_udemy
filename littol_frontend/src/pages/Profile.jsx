@@ -40,8 +40,8 @@ function Profile() {
   }
    
   return (
-    <div className="w-full p-14 flex flex-col items-start justify-start">
-      <div className="w-full flex flex-row items-start justify-start rounded-lg p-4 bg-gray-100">
+    <div className="w-full p-14 flex flex-col items-start justify-start bg-gray-100">
+      <div className="w-full flex flex-row items-start justify-start rounded-lg p-4 bg-white">
         
         <label htmlFor="profile-pic" className="relative cursor-pointer">
           {!previewUrl && <div className="w-full absolute top-[40%] left-[20%] text-gray-500">Upload Image</div>}
