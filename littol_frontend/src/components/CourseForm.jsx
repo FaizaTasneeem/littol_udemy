@@ -38,8 +38,8 @@ function CourseForm({formHeader, courseToUpdate}) {
         </div>
 
 
-        <label htmlFor="thumbnail" className="cursor-pointer bg-gray-300 m-2 my-4 p-10 py-2 border border-gray-300 rounded-sm shadow-lg">
-            Upload Thumbnail URL
+        <label htmlFor="thumbnail" className="cursor-pointer m-2 my-4 p-10 py-2 border-2 border-dashed border-gray-300 rounded-lg shadow-lg">
+           + Upload Thumbnail URL
         </label>
         <input name="thumbnail" id="thumbnail" type="file" hidden />
 
