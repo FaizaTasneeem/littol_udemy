@@ -1,3 +1,5 @@
+import AddSection from "./AddSection";
+
 function CourseForm({formHeader, courseToUpdate}) {
   return (
     <div className="flex flex-col">
@@ -36,19 +38,16 @@ function CourseForm({formHeader, courseToUpdate}) {
         </div>
 
 
-        {/* <div className="w-full flex flex-row justify-between">
-        </div> */}
         <label htmlFor="thumbnail" className="cursor-pointer bg-gray-300 m-2 my-4 p-10 py-2 border border-gray-300 rounded-sm shadow-lg">
             Upload Thumbnail URL
         </label>
-        {/* <div className="w-full absolute text-gray-700">Upload Thumbnail</div> */}
         <input name="thumbnail" id="thumbnail" type="file" hidden />
-        
-        <h2 className="m-2 font-medium text-xl">Course Content</h2>
+
+        <AddSection/>
 
         <hr className="mt-4 pl-6 pr-2 border-gray-300"></hr>
         <div className="flex flex-row justify-end">
-            <button type="submit" className="bg-[linear-gradient(to_right,#6860e8,#817aeb)] rounded-lg py-2 px-4 text-white my-4 mx-2 cursor-pointer">Submit</button>
+            <button type="submit" className="bg-[linear-gradient(to_right,#6860e8,#817aeb)] rounded-lg font-medium text-lg py-2 px-4 text-white my-4 mx-2 cursor-pointer">Submit</button>
         </div>
 
     </div>
