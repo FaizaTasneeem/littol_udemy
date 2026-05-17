@@ -40,7 +40,7 @@ function Courses() {
 
         <SearchCourses />
 
-        <div id="create-course-panel" className={`w-full overflow-hidden bg-white rounded-lg transition-all duration-700 ${showModal ? 'blur-sm' : '' } ${createCourseClicked ? 'mt-10 max-h-[700px] opacity-100' : 'mt-0 max-h-0 opacity-0 pointer-events-none'}`}>
+        <div id="create-course-panel" className={`w-full overflow-hidden bg-white rounded-lg transition-all duration-700 ${showModal ? 'blur-sm' : '' } ${createCourseClicked ? 'mt-10 opacity-100' : 'mt-0 max-h-0 opacity-0 pointer-events-none'}`}>
           <CreateCourse />
         </div>
 

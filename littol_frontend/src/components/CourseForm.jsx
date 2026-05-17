@@ -1,14 +1,21 @@
 function CourseForm({courseToUpdate}) {
   return (
     <div className="flex flex-col">
-        <input name="title" type="text" defaultValue={courseToUpdate?.title} className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='Title' required/>
-        <input name="description" type="text" defaultValue={courseToUpdate?.description} className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='Description...' required/>
-        <input name="instructor" type="text" defaultValue={courseToUpdate?.instructor} className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='Instructor' required/>
+        <h2 className="m-2 font-medium text-xl">Basic Information</h2>
+        
+        <label htmlFor="title" className="m-2 font-medium text-sm text-gray-500">Course Title *</label>
+        <input id="title" name="title" type="text" defaultValue={courseToUpdate?.title} className="bg-white m-2 p-4 py-2 border border-gray-400 rounded-lg" placeholder='e.g., Advanced React Patterns' required/>
+        
+        <label htmlFor="description" className="m-2 font-medium text-sm text-gray-500">Description *</label>
+        <textarea id="description" name="description" type="text" defaultValue={courseToUpdate?.description} className="bg-white m-2 p-4 pb-10 border border-gray-400 rounded-lg" placeholder='Describe what students will learn...' required></textarea>
+        
+        <label htmlFor="instructor" className="m-2 font-medium text-sm text-gray-500">Instructor *</label>
+        <input id="instructor" name="instructor" type="text" defaultValue={courseToUpdate?.instructor} className="bg-white m-2 p-4 py-2 border border-gray-400 rounded-lg" placeholder='e.g., John Doe' required/>
     
         <div className="pt-2 w-full flex flex-row justify-between">
             <div className="w-1/2 flex flex-col">
-                <label htmlFor="category" className="mx-2">Category</label>
-                <select name="category" defaultValue={courseToUpdate?.category} id="category" className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='All' required>
+                <label htmlFor="category" className="mx-2 font-medium text-sm text-gray-500">Category *</label>
+                <select name="category" defaultValue={courseToUpdate?.category} id="category" className="bg-white m-2 p-4 py-2 border border-gray-400 rounded-lg" placeholder='All' required>
                     <option>All</option>
                     <option>category1</option>
                     <option>category2</option>
@@ -16,8 +23,8 @@ function CourseForm({courseToUpdate}) {
             </div>
         
             <div className="w-1/2 flex flex-col">
-                <label htmlFor="level" className="mx-2">Level</label>
-                <select name="level" defaultValue={courseToUpdate?.level} id="level" className="bg-white m-2 p-4 py-2 border border-gray-300 rounded-lg" placeholder='All' required>
+                <label htmlFor="level" className="mx-2 font-medium text-sm text-gray-500">Level *</label>
+                <select name="level" defaultValue={courseToUpdate?.level} id="level" className="bg-white m-2 p-4 py-2 border border-gray-400 rounded-lg" placeholder='All' required>
                     <option>All</option>
                     <option>Beginner</option>
                     <option>Intermediate</option>
@@ -27,13 +34,21 @@ function CourseForm({courseToUpdate}) {
         </div>
 
 
-        <div className="w-full flex flex-row justify-between">
-            <label htmlFor="thumbnail" className="w-1/3 relative cursor-pointer bg-gray-200 m-2 my-4 p-4 py-2 border border-gray-300 rounded-sm shadow-lg">
-                <div className="w-full absolute text-gray-700">Upload Thumbnail</div>
-                <input name="thumbnail" id="thumbnail" type="file" hidden />
-            </label>
-            <button type="submit" className="bg-[linear-gradient(to_right,#6860e8,#817aeb)] rounded-lg py-2 px-4 text-white my-4 mx-2 mb-4 cursor-pointer">Submit</button>
+        {/* <div className="w-full flex flex-row justify-between">
+        </div> */}
+        <label htmlFor="thumbnail" className="cursor-pointer bg-gray-300 m-2 my-4 p-10 py-2 border border-gray-300 rounded-sm shadow-lg">
+            Upload Thumbnail URL
+        </label>
+        {/* <div className="w-full absolute text-gray-700">Upload Thumbnail</div> */}
+        <input name="thumbnail" id="thumbnail" type="file" hidden />
+        
+        <h2 className="m-2 font-medium text-xl">Course Content</h2>
+
+        <hr className="mt-4 pl-6 pr-2 border-gray-300"></hr>
+        <div className="flex flex-row justify-end">
+            <button type="submit" className="bg-[linear-gradient(to_right,#6860e8,#817aeb)] rounded-lg py-2 px-4 text-white my-4 mx-2 cursor-pointer">Submit</button>
         </div>
+
     </div>
   )
 }
