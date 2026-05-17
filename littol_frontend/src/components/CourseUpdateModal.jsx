@@ -28,10 +28,10 @@ function CourseUpdateModal() {
   }
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50">
-        <form onSubmit={handleCourseUpdateSubmit} key={courseToUpdate?._id} className="w-1/2 p-6 border border-gray-400 bg-gray-100 mt-16 rounded-xl flex flex-col relative">
+    <div className="fixed inset-0 flex flex-col items-center justify-center z-50">
+        <form onSubmit={handleCourseUpdateSubmit} key={courseToUpdate?._id} className="h-1/2 overflow-y-auto w-1/2 p-6 border border-gray-400 bg-gray-100 mt-16 rounded-xl flex flex-col relative">
             <div onClick={() => setShowModal(false)} className="absolute px-2 border rounded top-2 right-4 cursor-pointer">X</div>
-            <CourseForm courseToUpdate={courseToUpdate}/>
+            <CourseForm formHeader={"Update Course"} courseToUpdate={courseToUpdate}/>
         </form>
 
     </div>

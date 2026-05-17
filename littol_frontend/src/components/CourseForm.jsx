@@ -1,6 +1,8 @@
-function CourseForm({courseToUpdate}) {
+function CourseForm({formHeader, courseToUpdate}) {
   return (
     <div className="flex flex-col">
+        <h1 className="p-2 font-medium text-2xl">{formHeader}</h1>
+        <hr className="px-2 pb-4 border-gray-300"></hr>
         <h2 className="m-2 font-medium text-xl">Basic Information</h2>
         
         <label htmlFor="title" className="m-2 font-medium text-sm text-gray-500">Course Title *</label>
