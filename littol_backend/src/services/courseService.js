@@ -42,7 +42,7 @@ export const courseService = {
             error.code = "VALIDATION_ERROR";
             throw error;
         }
-        const oldCourse = await courseRepository.findOneCourse({ _id: courseObj._id });
+        const oldCourse = await courseRepository.findOneCourse({ title: courseObj.title });
         if (oldCourse) {
             const error = new Error("Course already exists !");
             error.code = "CONFLICT_ERROR";

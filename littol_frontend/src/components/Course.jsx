@@ -14,7 +14,7 @@ function Course({id, title, description, instructor, category, level, thumbnailF
 
   return (
     <div className="w-[50%] md:w-[30%] border border-gray-400 flex flex-col rounded-xl p-2 cursor-pointer">
-      <div className="w-full h-40 border rounded-t-xl relative">
+      <div className="w-full h-40 border border-gray-400 rounded-t-xl relative">
         <img src={`${server}${thumbnailFilePath}`} alt="" className="w-full h-full object-cover rounded-t-xl" />
         <CourseUpdateButton id={id} />    
         <CourseDeleteButton id={id} />    
