@@ -1,19 +1,24 @@
 import { userStore, courseStore } from "../store/AppStore";
+import { useNavigate } from "react-router-dom";
+
 import { createCourse, getAllCourses } from "../services/courseService";
 import CourseForm from "./CourseForm";
+import CourseDetails from "../pages/CourseDetails";
+
 
 function CreateCourse() {
+    const navigate = useNavigate();
+
     const {accessToken} = userStore();
-    const {page, setCourseList} = courseStore();
+    // const {page, setCourseList} = courseStore();
     
     async function handleCourseSubmit(event) {
         event.preventDefault();
         const course = new FormData(event.target);
         try {
             const response = await createCourse(course, accessToken);
-            const responseAfterCreate = await getAllCourses(page, 3, accessToken);
-            setCourseList(responseAfterCreate.data.courses);
             console.log("Course created successfully", response.data.message);
+            navigate(`/courseDetails/${response.data.course._id}`);
         }
         catch(err) {
             console.log("Error creating course ", err);

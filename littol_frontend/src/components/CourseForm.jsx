@@ -1,5 +1,3 @@
-import AddSection from "./AddSection";
-
 function CourseForm({formHeader, courseToUpdate}) {
   return (
     <div className="flex flex-col">
@@ -37,13 +35,11 @@ function CourseForm({formHeader, courseToUpdate}) {
             </div>
         </div>
 
-
         <label htmlFor="thumbnail" className="cursor-pointer m-2 my-4 p-10 py-2 border-2 border-dashed border-gray-300 rounded-lg shadow-lg">
            + Upload Thumbnail URL
         </label>
         <input name="thumbnail" id="thumbnail" type="file" hidden />
 
-        <AddSection/>
 
         <hr className="mt-4 pl-6 pr-2 border-gray-300"></hr>
         <div className="flex flex-row justify-end">
