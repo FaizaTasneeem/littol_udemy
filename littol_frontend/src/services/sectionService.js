@@ -17,7 +17,7 @@ export async function createSection(section, accessToken) {
 };
 
 export async function updateSection(id, section, accessToken) {
-    const response = await axios.put(`${server}/updateSection/${id}`, Section, {headers: { 'authorization': `Bearer ${accessToken}`}});
+    const response = await axios.put(`${server}/updateSection/${id}`, section, {headers: { 'authorization': `Bearer ${accessToken}`}});
     return response;
 };
 

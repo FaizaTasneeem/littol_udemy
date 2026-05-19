@@ -16,7 +16,7 @@ function Profile() {
       const response = await sendEditProfileRequest(payload, accessToken);
       setUser(response.data.updatedUser);
       setPreviewUrl(`${server}${response.data.updatedUser.profilePicFilePath}`);
-      console.log("✅ User updated successfully !!!", response);
+      console.log("✅ User updated successfully !!!", response.data.message);
     }
     catch (err) {
       console.log("❌ User update failed. Please try again...", err);

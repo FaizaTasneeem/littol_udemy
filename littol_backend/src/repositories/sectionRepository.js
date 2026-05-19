@@ -5,6 +5,11 @@ export const sectionRepository = {
         const section = await Section.findOne(filter) || null;
         return section;
     },
+
+    async findSections(filter) {
+        const sections = await Section.find(filter);
+        return sections;
+    },
     
     async create(sectionInfo) {
         const newSection = new Section(sectionInfo);

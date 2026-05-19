@@ -7,7 +7,7 @@ export const sectionService = {
             error.code = "VALIDATION_ERROR";
             throw error;
         }
-        const sections = await sectionRepository.findSection({ courseId });
+        const sections = await sectionRepository.findSections({ courseId });
         return { sections, message: `All sections for course - ${courseId} fetched successfully !` };
     },
 
