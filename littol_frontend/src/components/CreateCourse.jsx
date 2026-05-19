@@ -1,4 +1,4 @@
-import { userStore, courseStore } from "../store/AppStore";
+import { userStore } from "../store/AppStore";
 import { useNavigate } from "react-router-dom";
 
 import { createCourse, getAllCourses } from "../services/courseService";
@@ -10,7 +10,6 @@ function CreateCourse() {
     const navigate = useNavigate();
 
     const {accessToken} = userStore();
-    // const {page, setCourseList} = courseStore();
     
     async function handleCourseSubmit(event) {
         event.preventDefault();

@@ -4,6 +4,7 @@ const courseSchema = mongoose.Schema({
     title:{
         required: true,
         type: String,
+        trim: true
     },
     description:{
         required: true,

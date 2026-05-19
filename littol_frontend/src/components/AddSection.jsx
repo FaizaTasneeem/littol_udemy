@@ -24,6 +24,10 @@ function AddSection() {
         setSectionArray(updatedArray);
     }
 
+    function createSection() {
+
+    }
+
     useEffect(() => {
         if(sectionArray.length === 0) {
             setAddSecBtnClicked(false);
@@ -31,7 +35,7 @@ function AddSection() {
     }, [sectionArray]);
 
     return (
-        <div className="w-full p-2 flex flex-col">
+        <form onSubmit={createSection} className="w-full p-2 flex flex-col">
             <div className="w-full flex flex-row justify-between">
                 <h2 className="m-2 font-medium text-xl">Course Content</h2>
                 <button type="button" onClick={handleAddButtonClick} className="py-2 px-4 rounded-lg bg-blue-100 font-medium text-lg text-blue-800 cursor-pointer">+ Add Section</button>
@@ -50,10 +54,11 @@ function AddSection() {
 
                     <button type="button" className="w-full mt-4 py-2 rounded-lg border-2 border-dashed cursor-pointer">+ Add Lesson</button>
 
+                    <button className="w-full mt-4 py-2 rounded-lg bg-blue-100 border cursor-pointer shadow-lg hover:scale-102">+ Create</button>
                 </div>
 
             })}
-        </div>
+        </form>
     )
 }
 

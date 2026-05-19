@@ -7,6 +7,7 @@ import { connectToMongoDB, createMongoDBIndex } from "./database/mongo.js";
 import authRoutes from "./routes/auth.routes.js";
 import profileRoutes from "./routes/profile.routes.js";
 import courseRoutes from "./routes/course.routes.js";
+import sectionRoutes from "./routes/section.routes.js";
 import env from "./config/env.js";
 
 const app = express();
@@ -28,6 +29,7 @@ app.use("/uploads", express.static(uploadsDir));
 app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/course", courseRoutes);
+app.use("/api/section", sectionRoutes);
 
 
 app.listen(env.port, async () => {
