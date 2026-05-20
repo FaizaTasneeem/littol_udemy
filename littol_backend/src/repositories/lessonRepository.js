@@ -1,6 +1,6 @@
 import Lesson from "../models/Lesson.js";
 
-export const LessonRepository = {
+export const lessonRepository = {
     async findLesson(filter) {
         const lesson = await Lesson.findOne(filter);
         return lesson;

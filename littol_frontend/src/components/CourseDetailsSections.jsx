@@ -48,7 +48,7 @@ function CourseDetailsSections({id, sectionArray, setSectionArray}) {
                 {sectionArray.map((section, idx) => {
                     return (
                         <div className="p-4 flex flex-col">
-                            <div key={idx} className="p-4 flex flex-row justify-between font-medium text-xl">
+                            <div key={idx} onClick={} className="p-4 flex flex-row justify-between font-medium text-xl cursor-pointer">
                                 {editingId !== section._id && <h1 onClick={() => handleNameChange(section._id, section.title)}>{section.title}</h1>}
                                 {editingId === section._id && <input className="outline-none" type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} onBlur={() => { handleSectionUpdate(section._id, inputValue); setEditingId(null); }} autoFocus />}
 

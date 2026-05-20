@@ -9,9 +9,10 @@ function CourseDetailsCourseContents({id, courseDetails}) {
     const {accessToken} = userStore();
     
     const [sectionArray, setSectionArray] = useState([]);
-
-    async function handleSectionCreateSubmit(event) {
+    
+    async function handleSectionCreateSubmit(event, setShowLesson) {
         event.preventDefault();
+        setShowLesson(true);
         const form = event.currentTarget;
         const title = form.elements.title.value;
         
