@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { getSections, updateSection, deleteSection } from "../services/sectionService";
 import { userStore } from "../store/AppStore";
 
@@ -5,9 +6,18 @@ import { userStore } from "../store/AppStore";
 function CourseDetailsSections({id, sectionArray, setSectionArray}) {
     const {accessToken} = userStore();
 
-    async function handleSectionUpdate(idxToUpdate) {
+    const [inputValue, setInputValue] = useState("");
+    const [editingId, setEditingId] = useState(null);
+
+    
+    function handleNameChange(sectionId, defaultValue) {
+        setInputValue(defaultValue || "");
+        setEditingId(sectionId);
+    }
+
+    async function handleSectionUpdate(idxToUpdate, inputValue) {
         try {
-            const response = await updateSection(idxToUpdate, accessToken);
+            const response = await updateSection(idxToUpdate, {title: inputValue}, accessToken);
             const responseAfterUpdate = await getSections(id, accessToken);
             setSectionArray(responseAfterUpdate.data.sections);
             console.log("Section updated successfully", response.data.message);
@@ -38,13 +48,16 @@ function CourseDetailsSections({id, sectionArray, setSectionArray}) {
                 {sectionArray.map((section, idx) => {
                     return (
                         <div className="p-4 flex flex-col">
-                            <div key={idx} className="p-4 flex flex-row justify-between">
-                                {section.title}
+                            <div key={idx} className="p-4 flex flex-row justify-between font-medium text-xl">
+                                {editingId !== section._id && <h1 onClick={() => handleNameChange(section._id, section.title)}>{section.title}</h1>}
+                                {editingId === section._id && <input className="outline-none" type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} onBlur={() => { handleSectionUpdate(section._id, inputValue); setEditingId(null); }} autoFocus />}
+
+                                
                                 <div className="flex">
-                                    <button onClick={() => handleSectionUpdate(section._id)} className="bg-gray-200 mr-2 rounded px-2 cursor-pointer">U</button>
-                                    <button onClick={() => handleSectionDelete(section._id)} className="bg-gray-200 mr-2 rounded px-2 cursor-pointer">D</button>
+                                    <button onClick={() => handleSectionDelete(section._id)} className="bg-gray-200 text-gray-600 mr-2 rounded px-2 cursor-pointer">D</button>
                                 </div>
                             </div>
+                            
                             <hr className="my-4 border-gray-400"/>
 
                         </div>

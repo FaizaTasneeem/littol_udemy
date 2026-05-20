@@ -2,19 +2,21 @@ import { useState, useEffect } from "react";
 
 function AddSection({sectionArray, handleSectionCreateSubmit}) {
     const [title, setTitle] = useState("");
-    
+
     function handleAddButtonClick() {
         setTitle(`Section ${sectionArray ? sectionArray.length + 1 : 1}: e.g., Getting Started`);
     }
 
     return (
         <form onSubmit={handleSectionCreateSubmit} className="w-full p-2 flex flex-col">
-            <div className="w-full flex flex-row justify-between">
-                <h2 className="m-2 font-medium text-xl">Course Content</h2>
+            <div className="w-full flex flex-row justify-between items-center">
+                <div className="flex flex-col">
+                    <h2 className="m-2 font-medium text-2xl">Course Content</h2>
+                    <span className="px-2">{sectionArray.length} Sections</span>
+
+                </div>
                 <button type="button" onClick={handleAddButtonClick} className="py-2 px-4 rounded-lg bg-blue-100 font-medium text-lg text-blue-800 cursor-pointer">+ Add Section</button>
             </div>
-
-            <hr className="mt-4 border-gray-400"/>
 
             {(title === "" && sectionArray.length === 0) && <div className="mt-4 p-20 rounded-lg border-2 border-dashed border-gray-400 font-medium text-lg text-gray-400">No sections yet. Add a section to start building your course.
             </div>}
