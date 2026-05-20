@@ -14,7 +14,7 @@ const lessonSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    SectionId: {
+    sectionId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Section',
         required: true
