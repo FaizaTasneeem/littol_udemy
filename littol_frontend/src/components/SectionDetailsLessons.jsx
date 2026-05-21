@@ -49,7 +49,7 @@ function LessonDetailsLessons({sectionId, lessonList, setLessonList}) {
                 {lessonList.map((lesson, idx) => {
                     return (
                         <div className="p-4 flex flex-col">
-                            <div key={idx} onClick={() => setLessonId(prev => prev === lesson._id ? null : lesson._id)} className="p-4 flex flex-row justify-between font-medium text-xl cursor-pointer">
+                            <div key={idx} onClick={() => setLessonId(prev => prev === lesson._id ? null : lesson._id)} className="p-4 flex flex-row justify-between font-medium text-lg cursor-pointer">
                                 {editingId !== lesson._id && <h1 onClick={() => handleNameChange(lesson._id, lesson.title)}>{lesson.title}</h1>}
                                 {editingId === lesson._id && <input className="outline-none" type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} onBlur={() => { handleLessonUpdate(lesson._id, inputValue); setEditingId(null); }} autoFocus />}
 

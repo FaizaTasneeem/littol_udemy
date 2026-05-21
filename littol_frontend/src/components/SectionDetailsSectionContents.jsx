@@ -55,16 +55,16 @@ function SectionDetailsSectionContents({sectionId}) {
 
     return (
         <div className="w-full p-2 my-2 bg-white border rounded-xl border-gray-300">
-            <AddLesson 
-                lessonList={lessonList} 
-                handleLessonCreateSubmit={handleLessonCreateSubmit} 
-            />
             {lessonList && lessonList.length > 0 && 
             <SectionDetailsLessons
                 sectionId={sectionId}
                 lessonList={lessonList}
                 setLessonList={setLessonList}
             />}
+            <AddLesson 
+                lessonList={lessonList} 
+                handleLessonCreateSubmit={handleLessonCreateSubmit} 
+            />
         </div>
     )
 }
