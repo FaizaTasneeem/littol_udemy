@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const server = import.meta.env.VITE_BACKEND_SERVER_SECTION || 'http://localhost:5000/api/lesson';
+const server = import.meta.env.VITE_BACKEND_SERVER_LESSON || 'http://localhost:5000/api/lesson';
 
 export async function getLessons(sectionId, accessToken) {
     const response = await axios.get(`${server}/getLessons`, 

@@ -15,7 +15,7 @@ export const createLesson = catchAsync(async (req, res) => {
 
 export const updateLesson = catchAsync(async (req, res) => {
     const lessonId = req.params.id;
-    const updates = req.body
+    const updates = {...req.body, videoUrl: req.file?.path.replace(/\\/g,'/')};
     const { updatedLesson, message } = await lessonService.updateLesson({ lessonId, updates });
     return res.status(200).json({ updatedLesson, message });
 });

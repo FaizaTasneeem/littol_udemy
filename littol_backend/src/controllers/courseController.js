@@ -21,7 +21,7 @@ export const createCourse = catchAsync(async (req, res) => {
 
 export const updateCourse = catchAsync(async (req, res) => {
     const courseId = req.params.id;
-    const updates = req.body
+    const updates = {...req.body, thumbnailFilePath: req.file?.path.replace(/\\/g,'/') };
     const { updatedCourse, message } = await courseService.updateCourse({ courseId, updates });
     return res.status(200).json({ updatedCourse, message });
 });

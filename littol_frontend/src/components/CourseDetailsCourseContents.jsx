@@ -13,7 +13,7 @@ function CourseDetailsCourseContents({courseId}) {
     async function handleSectionCreateSubmit(event) {
         event.preventDefault();
         const form = event.currentTarget;
-        const title = form.elements.title.value;
+        const title = form.elements.sectionTitle.value;
         
         const section = {
             title,

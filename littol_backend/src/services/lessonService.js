@@ -3,7 +3,7 @@ import { lessonRepository } from "../repositories/lessonRepository.js";
 export const lessonService = {
     async getAllLessonsForASection(sectionId){
         if (!sectionId) {
-            const error = new Error("Course ID required!");
+            const error = new Error("Section ID required!");
             error.code = "VALIDATION_ERROR";
             throw error;
         }
@@ -12,7 +12,7 @@ export const lessonService = {
     },
 
     async createLesson(lessonObj){
-        if (!lessonObj.title || !lessonObj.order || !lessonObj.sectionId) {
+        if (!lessonObj.title || !lessonObj.order || !lessonObj.sectionId || !lessonObj.videoUrl) {
             const error = new Error("All Lesson fields are required to create a Lesson!");
             error.code = "VALIDATION_ERROR";
             throw error;
