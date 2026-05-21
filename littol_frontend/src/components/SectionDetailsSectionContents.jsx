@@ -51,7 +51,7 @@ function SectionDetailsSectionContents({sectionId}) {
 
         fetchLessons();
         
-    }, []);
+    }, [sectionId]);
 
     return (
         <div className="w-full p-2 my-2 bg-white border rounded-xl border-gray-300">

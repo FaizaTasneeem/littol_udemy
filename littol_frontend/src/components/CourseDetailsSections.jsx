@@ -60,7 +60,7 @@ function CourseDetailsSections({courseId, sectionList, setSectionList}) {
                             </div>
 
                             <div className={`w-full overflow-hidden transition-all duration-700 ${sectionId === section._id ? 'mt-10 opacity-100' : 'mt-0 max-h-0 opacity-0 '}`}>
-                                <SectionDetailsSectionContents sectionId={sectionId}/>
+                                <SectionDetailsSectionContents sectionId={section._id}/>
                             </div>
                             
                             <hr className="my-4 border-gray-400"/>
