@@ -5,7 +5,7 @@ import { userStore } from "../store/AppStore";
 import AddSection from "./AddSection";
 import CourseDetailsSections from "./CourseDetailsSections";
 
-function CourseDetailsCourseContents({id, courseDetails}) {
+function CourseDetailsCourseContents({courseId}) {
     const {accessToken} = userStore();
     
     const [sectionList, setSectionList] = useState([]);
@@ -18,7 +18,7 @@ function CourseDetailsCourseContents({id, courseDetails}) {
         const section = {
             title,
             order: sectionList ? sectionList.length + 1 : 1,
-            courseId: id
+            courseId
         };
 
         sendSectionCreateRequest(section);
@@ -38,10 +38,9 @@ function CourseDetailsCourseContents({id, courseDetails}) {
     useEffect(() => {
         async function fetchSections() {
             try{
-                const response = await getSections(id, accessToken);
+                const response = await getSections(courseId, accessToken);
                 setSectionList(response?.data?.sections ?? []);
                 console.log("✅ All Sections fetched successfully !!!", response.data.message);
-
             }
             catch(err) {
                 console.log("Error fetching sections ", err);
@@ -60,7 +59,7 @@ function CourseDetailsCourseContents({id, courseDetails}) {
             />
             {sectionList && sectionList.length > 0 && 
             <CourseDetailsSections
-                id={id}
+                courseId={courseId}
                 sectionList={sectionList}
                 setSectionList={setSectionList}
             />}

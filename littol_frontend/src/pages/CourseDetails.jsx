@@ -27,7 +27,7 @@ function CourseDetails() {
   return (
     <div className="w-full p-2 mt-10 mr-10 flex flex-col">
       <CourseDetailsBasicInfo courseDetails={courseDetails}/>
-      <CourseDetailsCourseContents courseDetails={courseDetails} id={id}/>
+      <CourseDetailsCourseContents courseId={id}/>
     </div>
     
   )

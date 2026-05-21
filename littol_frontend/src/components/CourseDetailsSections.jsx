@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { getSections, updateSection, deleteSection } from "../services/sectionService";
 import { userStore } from "../store/AppStore";
-import AddLesson from "./AddLesson";
+import SectionDetailsSectionContents from "./SectionDetailsSectionContents";
 
 
-function CourseDetailsSections({id, sectionList, setSectionList}) {
+function CourseDetailsSections({courseId, sectionList, setSectionList}) {
     const {accessToken} = userStore();
 
     const [inputValue, setInputValue] = useState("");
@@ -20,7 +20,7 @@ function CourseDetailsSections({id, sectionList, setSectionList}) {
     async function handleSectionUpdate(idxToUpdate, inputValue) {
         try {
             const response = await updateSection(idxToUpdate, {title: inputValue}, accessToken);
-            const responseAfterUpdate = await getSections(id, accessToken);
+            const responseAfterUpdate = await getSections(courseId, accessToken);
             setSectionList(responseAfterUpdate.data.sections);
             console.log("Section updated successfully", response.data.message);
         }
@@ -33,7 +33,7 @@ function CourseDetailsSections({id, sectionList, setSectionList}) {
     async function handleSectionDelete(idxToRemove) {
         try {
             const response = await deleteSection(idxToRemove, accessToken);
-            const responseAfterDelete = await getSections(id, accessToken);
+            const responseAfterDelete = await getSections(courseId, accessToken);
             setSectionList(responseAfterDelete.data.sections);
             console.log("Section deleted successfully", response.data.message);
         }
@@ -59,10 +59,8 @@ function CourseDetailsSections({id, sectionList, setSectionList}) {
                                 </div>
                             </div>
 
-                            {/* {sectionId === section._id && <AddLesson/>} */}
-
                             <div className={`w-full overflow-hidden transition-all duration-700 ${sectionId === section._id ? 'mt-10 opacity-100' : 'mt-0 max-h-0 opacity-0 '}`}>
-                                <AddLesson sectionId={sectionId}/>
+                                <SectionDetailsSectionContents sectionId={sectionId}/>
                             </div>
                             
                             <hr className="my-4 border-gray-400"/>
