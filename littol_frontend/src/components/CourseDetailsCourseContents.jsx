@@ -8,26 +8,27 @@ import CourseDetailsSections from "./CourseDetailsSections";
 function CourseDetailsCourseContents({id, courseDetails}) {
     const {accessToken} = userStore();
     
-    const [sectionArray, setSectionArray] = useState([]);
+    const [sectionList, setSectionList] = useState([]);
     
-    async function handleSectionCreateSubmit(event, setShowLesson) {
+    async function handleSectionCreateSubmit(event) {
         event.preventDefault();
-        setShowLesson(true);
         const form = event.currentTarget;
         const title = form.elements.title.value;
         
         const section = {
             title,
-            order: sectionArray ? sectionArray.length + 1 : 1,
+            order: sectionList ? sectionList.length + 1 : 1,
             courseId: id
         };
 
+        sendSectionCreateRequest(section);
+    }
+    
+    async function sendSectionCreateRequest(section) {
         try{
             const response = await createSection(section, accessToken);
-            console.log(response);
-            setSectionArray([...sectionArray, response?.data?.section]);
-            console.log("✅ All Sections fetched successfully !!!", response.data.message);
-        
+            setSectionList([...sectionList, response?.data?.section]);
+            console.log("✅ Section created successfully !!!", response.data.message);
         }
         catch(err) {
             console.log("Error creating section ", err);
@@ -38,7 +39,7 @@ function CourseDetailsCourseContents({id, courseDetails}) {
         async function fetchSections() {
             try{
                 const response = await getSections(id, accessToken);
-                setSectionArray(response?.data?.sections ?? []);
+                setSectionList(response?.data?.sections ?? []);
                 console.log("✅ All Sections fetched successfully !!!", response.data.message);
 
             }
@@ -54,14 +55,14 @@ function CourseDetailsCourseContents({id, courseDetails}) {
     return (
         <div className="w-full p-2 my-10 bg-white border rounded-xl border-gray-300">
             <AddSection 
-                sectionArray={sectionArray} 
+                sectionList={sectionList} 
                 handleSectionCreateSubmit={handleSectionCreateSubmit} 
             />
-            {sectionArray && sectionArray.length > 0 && 
+            {sectionList && sectionList.length > 0 && 
             <CourseDetailsSections
                 id={id}
-                sectionArray={sectionArray}
-                setSectionArray={setSectionArray}
+                sectionList={sectionList}
+                setSectionList={setSectionList}
             />}
         </div>
     )

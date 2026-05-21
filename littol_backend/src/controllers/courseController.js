@@ -14,7 +14,7 @@ export const getCourse = catchAsync(async (req, res) => {
 });
 
 export const createCourse = catchAsync(async (req, res) => {
-    const courseObj = req.file ? {...req.body, thumbnailFilePath: req.file.path.replace(/\\/g,'/') }: req.body;
+    const courseObj = {...req.body, thumbnailFilePath: req.file?.path.replace(/\\/g,'/') };
     const { course, message } = await courseService.createCourse(courseObj);
     return res.status(200).json({ course, message });
 });
