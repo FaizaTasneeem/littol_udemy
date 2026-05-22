@@ -10,8 +10,10 @@ function LessonDetailsLessons({sectionId, lessonList, setLessonList}) {
     const [editingId, setEditingId] = useState(null);
     const [lessonTitle, setLessonTitle] = useState("");
         
-    async function handleLessonUpdate(event) {
+    async function handleLessonUpdate(event, idToUpdate) {
         event.preventDefault();
+        setEditingId(null)
+        setLessonTitle("");
         const form = event.currentTarget;
         
         const title = form.elements.lessonTitle.value;
@@ -21,12 +23,12 @@ function LessonDetailsLessons({sectionId, lessonList, setLessonList}) {
         if (title !== "") updatedLesson.append("title", title);
         if (videoUrl !== undefined) updatedLesson.append("videoUrl", videoUrl);
 
-        sendLessonUpdateRequest(updatedLesson);
+        sendLessonUpdateRequest(idToUpdate, updatedLesson);
     }
     
-    async function sendLessonUpdateRequest(lesson) {
+    async function sendLessonUpdateRequest(idToUpdate, lesson) {
         try {
-            const response = await updateLesson(editingId, lesson, accessToken);
+            const response = await updateLesson(idToUpdate, lesson, accessToken);
             const responseAfterUpdate = await getLessons(sectionId, accessToken);
             setLessonList(responseAfterUpdate.data.lessons);
             console.log("Lesson updated successfully", response.data.message);
@@ -65,7 +67,7 @@ function LessonDetailsLessons({sectionId, lessonList, setLessonList}) {
                             </div>
 
                             {editingId === lesson._id && 
-                                <form onSubmit={handleLessonUpdate} className="pb-10 flex flex-col justify-between">
+                                <form onSubmit={(event) => handleLessonUpdate(event, editingId)} className="pb-10 flex flex-col justify-between">
                                     <div className="w-full flex flex-row justify-between items-center">
                                         
                                         <div className="w-full flex flex-row justify-start">

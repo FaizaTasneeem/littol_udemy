@@ -18,7 +18,7 @@ function CourseDetails() {
         console.log(`Successfully fetched a course with id - ${id} `, response.data.message);
       }
       catch (error) {
-        console.log("Error fetching a course ", err);
+        console.log("Error fetching a course ", error);
       }
     }
     sendGetCourseRequest();
