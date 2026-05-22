@@ -33,7 +33,7 @@ function AddSection({sectionList, handleSectionCreateSubmit}) {
                     <button type="button" onClick={() => setSectionTitle("")} className="bg-gray-200 rounded-lg py-2 px-4 cursor-pointer">X</button>
                 </div>
 
-                <button className="w-full mt-4 py-2 rounded-lg bg-blue-100 text-blue-800 border cursor-pointer shadow-lg hover:scale-102">+ Create</button>
+                <button className="w-full mt-4 py-2 rounded-lg bg-blue-100 text-blue-800 border cursor-pointer shadow-lg hover:scale-102">+ Create Section</button>
 
             </div>}
 

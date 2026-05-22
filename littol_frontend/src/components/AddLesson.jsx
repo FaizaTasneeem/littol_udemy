@@ -16,7 +16,7 @@ function AddLesson({lessonList, handleLessonCreateSubmit}) {
 
 
   return (
-    <div className="flex flex-col">
+    <div className="px-8 flex flex-col">
       <div className="w-full flex flex-row justify-end items-center">
         <button type="button" onClick={handleAddButtonClick} className="py-2 px-4 rounded-lg bg-blue-100 font-medium text-lg text-blue-800 cursor-pointer">+ Add Lesson</button>
       </div>
@@ -25,8 +25,9 @@ function AddLesson({lessonList, handleLessonCreateSubmit}) {
       </div>}
 
       {lessonTitle !== "" && 
-        <form onSubmit={handleLessonCreateSubmit} className="px-20 pb-10 flex flex-col justify-between">
+        <form onSubmit={handleLessonCreateSubmit} className="pb-10 flex flex-col justify-between">
           <div className="w-full flex flex-row justify-between items-center">
+            
             <div className="w-full flex flex-row justify-start">
               <input type="text" id="lessonTitle" name="lessonTitle" value={lessonTitle} onChange={(e) => setLessonTitle(e.target.value)} className="w-1/3 my-4 mr-4 p-10 py-2 border-2 border-gray-300 rounded-lg" placeholder="Lesson 1: e.g., Getting Started"/>
               
@@ -35,11 +36,11 @@ function AddLesson({lessonList, handleLessonCreateSubmit}) {
               </label>
               <input type="file" name="videoUrl" id="videoUrl" accept="video/*" hidden />
             </div>
+            <button type="button" onClick={() => setLessonTitle("")} className="bg-gray-200 rounded-lg py-2 px-4 cursor-pointer">X</button>
 
-            <button onClick={() => setLessonTitle("")} className="bg-gray-200 rounded-lg py-2 px-4 cursor-pointer">X</button>
           </div>
 
-          <button type="submit" className="w-full mt-4 py-2 rounded-lg shadow-xl border-2 border-gray-400 hover:border-blue-800 cursor-pointer">+ Add Lesson</button>
+          <button type="submit" className="w-full mt-4 py-2 rounded-lg shadow-xl border-2 border-gray-400 hover:border-blue-800 cursor-pointer">+ Create Lesson</button>
         </form>
       }
 

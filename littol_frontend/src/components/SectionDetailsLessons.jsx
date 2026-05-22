@@ -50,10 +50,9 @@ function LessonDetailsLessons({sectionId, lessonList, setLessonList}) {
                     return (
                         <div className="p-4 flex flex-col">
                             <div key={idx} onClick={() => setLessonId(prev => prev === lesson._id ? null : lesson._id)} className="p-4 flex flex-row justify-between font-medium text-lg cursor-pointer">
-                                {editingId !== lesson._id && <h1 onClick={() => handleNameChange(lesson._id, lesson.title)}>{lesson.title}</h1>}
-                                {editingId === lesson._id && <input className="outline-none" type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} onBlur={() => { handleLessonUpdate(lesson._id, inputValue); setEditingId(null); }} autoFocus />}
-
+                                <h1>{lesson.title}</h1>
                                 <div className="flex">
+                                    <button  className="bg-gray-200 text-gray-600 mr-2 rounded px-2 cursor-pointer">U</button>
                                     <button onClick={() => handleLessonDelete(lesson._id)} className="bg-gray-200 text-gray-600 mr-2 rounded px-2 cursor-pointer">D</button>
                                 </div>
                             </div>
