@@ -17,7 +17,12 @@ export const lessonService = {
             error.code = "VALIDATION_ERROR";
             throw error;
         }
-        const lesson = await lessonRepository.findLesson({ lessonId });
+        const lesson = await lessonRepository.findLesson({ _id: lessonId });
+        if (!lesson) {
+            const error = new Error("Lesson not found !");
+            error.code = "NOT_FOUND";
+            throw error;
+        }
         return { lesson, message: `Lesson with id - ${lessonId} fetched successfully !` };
     },
 

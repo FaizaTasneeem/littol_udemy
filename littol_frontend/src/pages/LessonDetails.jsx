@@ -27,10 +27,10 @@ function LessonDetails() {
   }, []);
 
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full p-8 flex flex-col">
 
       {lesson && 
-        <div className="bg-blue-700">
+        <div className="flex flex-col justify-center items-center">
           {lesson.title}
         </div>
       }
