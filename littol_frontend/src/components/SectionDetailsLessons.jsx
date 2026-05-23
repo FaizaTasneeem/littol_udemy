@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { getLessons, updateLesson, deleteLesson } from "../services/lessonService";
 import { userStore } from "../store/AppStore";
 
@@ -9,6 +10,13 @@ function LessonDetailsLessons({sectionId, lessonList, setLessonList}) {
     const [inputValue, setInputValue] = useState("");
     const [editingId, setEditingId] = useState(null);
     const [lessonTitle, setLessonTitle] = useState("");
+
+    const navigate = useNavigate();
+
+    function handleUpdateButtonClick(lessonId, title) {
+        setEditingId(lessonId);
+        setLessonTitle(title);
+    }
         
     async function handleLessonUpdate(event, idToUpdate) {
         event.preventDefault();
@@ -51,6 +59,11 @@ function LessonDetailsLessons({sectionId, lessonList, setLessonList}) {
 
     }
 
+    function handleLessonClick(lessonId) {
+        console.log("clicked")
+        navigate(`/lessonDetails/${lessonId}`);
+    }
+
     return (
         <div>
             {lessonList && lessonList.length > 0 && 
@@ -58,16 +71,16 @@ function LessonDetailsLessons({sectionId, lessonList, setLessonList}) {
                 {lessonList.map((lesson, idx) => {
                     return (
                         <div className="p-4 flex flex-col">
-                            <div key={idx} className="p-4 flex flex-row justify-between font-medium text-lg cursor-pointer">
-                                <h1>{lesson.title}</h1>
+                            <div key={idx} className="p-4 flex flex-row justify-between font-medium text-lg">
+                                <h1 onClick={() => handleLessonClick(lesson._id)} className="cursor-pointer">{lesson.title}</h1>
                                 <div className="flex">
-                                    <button onClick={() => setEditingId(lesson._id)} className="bg-gray-200 text-gray-600 mr-2 rounded px-2 cursor-pointer">U</button>
+                                    <button onClick={() => handleUpdateButtonClick(lesson._id, lesson.title)} className="bg-gray-200 text-gray-600 mr-2 rounded px-2 cursor-pointer">U</button>
                                     <button onClick={() => handleLessonDelete(lesson._id)} className="bg-gray-200 text-gray-600 mr-2 rounded px-2 cursor-pointer">D</button>
                                 </div>
                             </div>
 
                             {editingId === lesson._id && 
-                                <form onSubmit={(event) => handleLessonUpdate(event, editingId)} className="pb-10 flex flex-col justify-between">
+                                <form onSubmit={(event) => handleLessonUpdate(event, editingId)} className="px-4 pb-10 flex flex-col justify-between">
                                     <div className="w-full flex flex-row justify-between items-center">
                                         
                                         <div className="w-full flex flex-row justify-start">
@@ -78,11 +91,11 @@ function LessonDetailsLessons({sectionId, lessonList, setLessonList}) {
                                             </label>
                                             <input type="file" name="videoUrl" id="videoUrl" accept="video/*" hidden />
                                         </div>
-                                        <button type="button" onClick={() => setEditingId(null)} className="bg-gray-200 rounded-lg py-2 px-4 cursor-pointer">X</button>
+                                        <button type="button" onClick={() => setEditingId(null)} className="mr-2 bg-gray-200 rounded-lg py-2 px-4 cursor-pointer">X</button>
 
                                     </div>
 
-                                    <button type="submit" className="w-full mt-4 py-2 rounded-lg shadow-xl border-2 border-gray-400 hover:border-blue-800 cursor-pointer"> Update Lesson</button>
+                                    <button type="submit" className="mr-2 w-full mt-4 py-2 rounded-lg shadow-xl border-2 border-gray-400 hover:border-blue-800 cursor-pointer"> Update Lesson</button>
                                 </form>
                             }
 

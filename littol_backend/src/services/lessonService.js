@@ -11,6 +11,16 @@ export const lessonService = {
         return { lessons, message: `All Lessons for course - ${sectionId} fetched successfully !` };
     },
 
+    async getLesson(lessonId){
+        if (!lessonId) {
+            const error = new Error("Lesson ID required!");
+            error.code = "VALIDATION_ERROR";
+            throw error;
+        }
+        const lesson = await lessonRepository.findLesson({ lessonId });
+        return { lesson, message: `Lesson with id - ${lessonId} fetched successfully !` };
+    },
+
     async createLesson(lessonObj){
         if (!lessonObj.title || !lessonObj.order || !lessonObj.sectionId || !lessonObj.videoUrl) {
             const error = new Error("All Lesson fields are required to create a Lesson!");

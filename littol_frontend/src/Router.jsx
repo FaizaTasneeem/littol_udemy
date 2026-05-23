@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import Courses from "./pages/Courses";
 import Profile from "./pages/Profile";
 import CourseDetails from "./pages/CourseDetails";
+import LessonDetails from "./pages/LessonDetails";
 
 const router = createBrowserRouter([
     {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
                     {
                         path: "/courseDetails/:id",
                         element: <CourseDetails/>
+                    },
+                    {
+                        path: "/lessonDetails/:id",
+                        element: <LessonDetails/>
                     },
                 ]
             }

@@ -11,6 +11,11 @@ export async function getLessons(sectionId, accessToken) {
     return response;
 };
 
+export async function getLesson(id, accessToken) {
+    const response = await axios.get(`${server}/getLesson/${id}`, {headers: { 'authorization': `Bearer ${accessToken}`}});
+    return response;
+};
+
 export async function createLesson(lesson, accessToken) {
     const response = await axios.post(`${server}/createLesson`, lesson, {headers: { 'authorization': `Bearer ${accessToken}`}});
     return response;

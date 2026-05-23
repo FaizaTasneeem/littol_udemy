@@ -16,7 +16,7 @@ function AddLesson({lessonList, handleLessonCreateSubmit}) {
 
 
   return (
-    <div className="px-8 flex flex-col">
+    <div className="px-8 pb-2 flex flex-col">
       <div className="w-full flex flex-row justify-end items-center">
         <button type="button" onClick={handleAddButtonClick} className="py-2 px-4 rounded-lg bg-blue-100 font-medium text-lg text-blue-800 cursor-pointer">+ Add Lesson</button>
       </div>
