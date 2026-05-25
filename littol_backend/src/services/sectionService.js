@@ -1,4 +1,5 @@
 import { sectionRepository } from "../repositories/sectionRepository.js";
+import { lessonService } from "./lessonService.js";
 
 export const sectionService = {
     async getAllSectionsForACourse(courseId){
@@ -10,6 +11,23 @@ export const sectionService = {
         const sections = await sectionRepository.findSections({ courseId });
         return { sections, message: `All sections for course - ${courseId} fetched successfully !` };
     },
+
+    
+    async getSection(sectionId){
+        if (!sectionId) {
+            const error = new Error("Section ID required!");
+            error.code = "VALIDATION_ERROR";
+            throw error;
+        }
+        const section = await sectionRepository.findSection({ _id: sectionId });
+        if (!section) {
+            const error = new Error("Section not found !");
+            error.code = "NOT_FOUND";
+            throw error;
+        }
+        return { section, message: `Section with id - ${sectionId} fetched successfully !` };
+    },
+
 
     async createSection(sectionObj){
         if (!sectionObj.title || !sectionObj.order || !sectionObj.courseId) {
@@ -55,7 +73,15 @@ export const sectionService = {
             error.code = "NOT_FOUND";
             throw error;
         }
+
+        const { lessons } = await lessonService.getAllLessonsForASection(sectionId);
+
+        await Promise.all(
+            lessons.map((lesson) => lessonService.deleteLesson(lesson._id))
+        );
+
         const deletedSection = await sectionRepository.delete({ _id: sectionId });
+
         return { deletedSection, message:`Section with ID - ${deletedSection._id} deleted successfully !`}
     },
 

@@ -1,4 +1,5 @@
 import { courseRepository } from "../repositories/courseRepository.js";
+import { sectionService } from "./sectionService.js";
 
 export const courseService = {
     async getCourses(page, limit){
@@ -80,8 +81,15 @@ export const courseService = {
             error.code = "NOT_FOUND";
             throw error;
         }
+
+        const { sections } = await sectionService.getAllSectionsForACourse(courseId);
+
+        await Promise.all(
+            sections.map((section) => section.deleteSection(section._id))
+        );
+        
         const deletedCourse = await courseRepository.delete({ _id: courseId });
-        console.log(deletedCourse);
+
         return { deletedCourse, message:`Course with ID - ${deletedCourse._id} deleted successfully !`}
     },
 
