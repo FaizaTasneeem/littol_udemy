@@ -6,9 +6,13 @@ function CourseDetailsBasicInfo({courseDetails}) {
     return (
         <div className="bg-white w-full p-2 mr-10 flex flex-row justify-stretch border rounded-xl border-gray-300 h-fit">
             <div className="w-1/2 p-4">
-                <div className="mt-2 text-gray-500 flex flex-row justify-start">
-                    <h3 className="py-2 px-4 rounded-3xl bg-blue-100 text-lg text-blue-800">{courseDetails.category}</h3>
-                    <h3 className="p-2 text-lg">{courseDetails.level}</h3>
+                <div className="flex flex-row justify-between">
+                    <div className="mt-2 text-gray-500 flex flex-row justify-start">
+                        <h3 className="py-2 px-4 rounded-3xl bg-blue-100 text-lg text-blue-800">{courseDetails.category}</h3>
+                        <h3 className="p-2 text-lg">{courseDetails.level}</h3>
+                    </div>
+                    
+                    <button className="mt-2 py-2 px-4 rounded-lg h-10 cursor-pointer bg-violet-400 text-white">Enroll</button>
                 </div>
                 
                 <div className="pl-2 font-medium text-3xl truncate">{courseDetails.title}</div>
